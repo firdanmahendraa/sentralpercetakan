@@ -3,6 +3,7 @@ use App\Http\Controllers\{
     LoginController,
     DashboardController,
     KategoriController,
+    UsersController,
 }; 
 
 use Illuminate\Support\Facades\Route;
@@ -29,5 +30,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('data-kategori/restore/{id?}', [KategoriController::class, 'restore'])->name('data-kategori.restore');
     Route::get('data-kategori/delete/{id?}', [KategoriController::class, 'delete'])->name('data-kategori.delete');
     Route::resource('data-kategori', KategoriController::class);
+    Route::resource('users', UsersController::class);
 });
 
