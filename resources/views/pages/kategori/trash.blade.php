@@ -15,40 +15,33 @@
           @endif
           <div class="card card-primary card-outline">            
             <div class="card-body">
-              <div class="mb-2 ">
-                <a href="{{ route('data-kategori.restore') }}" class="btn btn-info btn-sm">
-                  <i class="fa fa-undo"> Restore All</i>
-                </a>
-                <a href="{{ route('data-kategori.delete') }}" class="btn btn-danger btn-sm">
-                  <i class="fa fa-undo"> Delete All</i>
-                </a>
-                <a href="{{ route('data-kategori.index') }}" class="btn btn-secondary btn-sm float-right">
-                  <i class="fa fa-chevron-left"> Back</i>
-                </a>
-              </div>
+              <a href="{{ route('data-kategori.restore') }}" class="btn btn-info btn-sm selectedAll d-none" id="btnRestoreAll">
+                <i class="fa fa-undo"> Restore</i>
+              </a>
+              <a href="{{ route('data-kategori.delete') }}" class="btn btn-danger btn-sm selectedAll d-none" id="btnDeleteAll">
+                <i class="fa fa-undo"> Delete</i>
+              </a>
+              <a href="{{ route('data-kategori.index') }}" class="btn btn-secondary btn-sm float-right mb-2">
+                <i class="fa fa-chevron-left"> Back</i>
+              </a>
               <table class="table table-head-fixed text-nowrap data-table" style="width: 100%">
                 <thead>
                   <tr>
-                    <th style="width: 5%">No</th>
+                    <th style="width: 5%">
+                      <input type="checkbox" name="main_checkbox"><label></label>
+                    </th>
                     <th>Kode</th>
                     <th>Keterangan</th>
-                    <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
                   @forelse ($category as $ctg)
                     <tr>
-                      <td>{{ $loop->iteration }}</td>
+                      <td>
+                        <input type="checkbox" name="kategori_checkbox" value="{{ $ctg->id }}">
+                      </td>
                       <td>{{ $ctg->kode_kategori }}</td>
                       <td>{{ $ctg->nama_kategori }}</td>
-                      <td>
-                        <a href="{{ url('data-kategori/restore/'.$ctg->id) }}" class="btn btn-info btn-sm mr-1" onclick="restore('handleDismiss')">
-                          <i class="fa fa-undo"> Restore</i>
-                        </a>
-                        <a href="{{ url('data-kategori/delete/'.$ctg->id) }}" class="btn btn-danger btn-sm">
-                          <i class="fa fa-undo"> Delete Permanently</i>
-                        </a>
-                      </td>
                     </tr>
                   @empty
                       <tr>
@@ -68,3 +61,40 @@
   </section>
 @endsection
 
+@section('js')
+  <script>
+    //SELECT ALL
+    $(document).on('click','input[name="main_checkbox"]', function(){
+      if(this.checked){
+        $('input[name="kategori_checkbox"]').each(function(){
+          this.checked = true;
+        });
+      }else{
+        $('input[name="kategori_checkbox"]').each(function(){
+          this.checked = false;
+        });
+      }
+      toggleselectedAll()
+    });
+
+    //ACTIVE SELECT ALL WHEN ALL DATA CHACKED
+    $(document).on('change','input[name="kategori_checkbox"]', function(){
+      if($('input[name="kategori_checkbox"]').length == $('input[name="kategori_checkbox"]:checked').length){
+         $('input[name="main_checkbox"]').prop('checked',true);
+      }else{
+         $('input[name="main_checkbox"]').prop('checked',false);
+      }
+      toggleselectedAll()
+    });
+
+    //SHOW DELETE ALL AND RESTORE ALL WHEN PILIH EBBERAPA CLICKED
+    function toggleselectedAll(){
+      if ($('input[name="kategori_checkbox"]:checked').length > 0) {
+          $('.selectedAll').removeClass('d-none');
+      }else{
+          $('.selectedAll').addClass('d-none');
+      }
+    }
+
+  </script>
+@endsection
