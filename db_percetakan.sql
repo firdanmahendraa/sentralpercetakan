@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 13 Okt 2022 pada 15.14
--- Versi server: 10.4.21-MariaDB
--- Versi PHP: 7.3.31
+-- Generation Time: Oct 17, 2022 at 05:35 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `categories`
+-- Table structure for table `categories`
 --
 
 CREATE TABLE `categories` (
@@ -37,13 +37,13 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `categories`
+-- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`id`, `kode_kategori`, `nama_kategori`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, '100', 'KAS', NULL, '2022-10-02 22:32:47', '2022-10-12 08:38:14'),
-(2, '101', 'KSA', NULL, '2022-10-02 23:33:23', '2022-10-12 08:38:14'),
-(3, '102', 'Bank Jatim', NULL, '2022-10-02 23:46:29', '2022-10-12 08:44:30'),
+(1, '100', 'KAS', NULL, '2022-10-02 22:32:47', '2022-10-15 07:51:53'),
+(2, '101', 'KSA', NULL, '2022-10-02 23:33:23', '2022-10-15 07:14:53'),
+(3, '102', 'Bank Jatim', NULL, '2022-10-02 23:46:29', '2022-10-15 07:05:16'),
 (4, '103', 'BCA', NULL, '2022-10-03 00:14:07', '2022-10-12 08:44:36'),
 (5, '104', 'Hutang Tunai', NULL, '2022-10-03 00:16:56', '2022-10-12 08:44:44'),
 (6, '105', 'Hutang Usaha', NULL, '2022-10-03 00:17:08', '2022-10-12 08:45:02'),
@@ -76,12 +76,16 @@ INSERT INTO `categories` (`id`, `kode_kategori`, `nama_kategori`, `deleted_at`, 
 (33, '716', 'Solar Genset', NULL, '2022-10-12 19:04:46', '2022-10-12 19:04:46'),
 (34, '717', 'Pendapatan Lain-Lain', NULL, '2022-10-12 19:05:01', '2022-10-12 19:05:01'),
 (35, 'qee', 'we', NULL, '2022-10-12 21:19:19', '2022-10-12 21:19:19'),
-(36, 'q', 'q', NULL, '2022-10-12 21:20:39', '2022-10-12 21:20:39');
+(36, 'q', 'q', NULL, '2022-10-12 21:20:39', '2022-10-12 21:20:39'),
+(37, 'asd', 'asd', NULL, '2022-10-14 09:00:32', '2022-10-14 09:00:32'),
+(38, 'as', 'asd', NULL, '2022-10-14 09:14:47', '2022-10-14 22:31:19'),
+(39, 'sd', 'sd', NULL, '2022-10-14 09:15:14', '2022-10-14 22:31:19'),
+(40, 'sd', 'sddd', NULL, '2022-10-14 09:15:57', '2022-10-15 08:36:31');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `failed_jobs`
+-- Table structure for table `failed_jobs`
 --
 
 CREATE TABLE `failed_jobs` (
@@ -97,7 +101,7 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `migrations`
+-- Table structure for table `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -107,7 +111,7 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `migrations`
+-- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -120,7 +124,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `password_resets`
+-- Table structure for table `password_resets`
 --
 
 CREATE TABLE `password_resets` (
@@ -132,7 +136,7 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `personal_access_tokens`
+-- Table structure for table `personal_access_tokens`
 --
 
 CREATE TABLE `personal_access_tokens` (
@@ -150,7 +154,7 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -165,7 +169,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `levels`, `remember_token`, `created_at`, `updated_at`) VALUES
@@ -177,32 +181,32 @@ INSERT INTO `users` (`id`, `name`, `username`, `password`, `levels`, `remember_t
 --
 
 --
--- Indeks untuk tabel `categories`
+-- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `failed_jobs`
+-- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
--- Indeks untuk tabel `migrations`
+-- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `password_resets`
+-- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
--- Indeks untuk tabel `personal_access_tokens`
+-- Indexes for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
@@ -210,42 +214,42 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
--- Indeks untuk tabel `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_username_unique` (`username`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `categories`
+-- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
--- AUTO_INCREMENT untuk tabel `failed_jobs`
+-- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `migrations`
+-- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `personal_access_tokens`
+-- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
