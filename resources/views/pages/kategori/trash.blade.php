@@ -15,12 +15,8 @@
           @endif
           <div class="card card-primary card-outline">            
             <div class="card-body">
-              <a href="{{ route('data-kategori.restore') }}" class="btn btn-info btn-sm selectedAll d-none" id="btnRestoreAll">
-                <i class="fa fa-undo"> Restore</i>
-              </a>
-              <a href="{{ route('data-kategori.delete') }}" class="btn btn-danger btn-sm selectedAll d-none" id="btnDeleteAll">
-                <i class="fa fa-undo"> Delete</i>
-              </a>
+              <a href="javascript:void(0)" class="btn btn-info btn-sm selectedAll d-none" id="btnRestoreAll"></a>
+              <a href="javascript:void(0)" class="btn btn-danger btn-sm selectedAll d-none" id="btnDeleteAll"></a>
               <a href="{{ route('data-kategori.index') }}" class="btn btn-secondary btn-sm float-right mb-2">
                 <i class="fa fa-chevron-left"> Back</i>
               </a>
@@ -32,6 +28,7 @@
                     </th>
                     <th>Kode</th>
                     <th>Keterangan</th>
+                    <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -42,11 +39,19 @@
                       </td>
                       <td>{{ $ctg->kode_kategori }}</td>
                       <td>{{ $ctg->nama_kategori }}</td>
+                      <td>
+                        <a href="{{ url('data-kategori/restore/'.$ctg->id) }}" class="btn btn-info btn-sm disabled btn-aksi">
+                          <i class="fa fa-undo"> Restore</i>
+                        </a>
+                        <a href="{{ url('data-kategori/delete/'.$ctg->id) }}" class="btn btn-danger btn-sm disabled btn-aksi">
+                          <i class="fa fa-trash"> Delete</i>
+                        </a>
+                      </td>
                     </tr>
                   @empty
-                      <tr>
-                        <td colspan="5" class="text-center" style="font-weight: bold; background-color:rgb(236, 236, 236)">Data Kosong</td>
-                      </tr>
+                    <tr>
+                      <td colspan="5" class="text-center" style="font-weight: bold; background-color:rgb(236, 236, 236)">Data Kosong</td>
+                    </tr>
                   @endforelse
                 </tbody>
               </table>
@@ -87,14 +92,35 @@
       toggleselectedAll()
     });
 
-    //SHOW DELETE ALL AND RESTORE ALL WHEN PILIH EBBERAPA CLICKED
+    //SHOW DELETE AND RESTORE BUTTON WHEN CHECKBOX CHECKED
     function toggleselectedAll(){
-      if ($('input[name="kategori_checkbox"]:checked').length > 0) {
-          $('.selectedAll').removeClass('d-none');
+      if ($('input[name="kategori_checkbox"]:checked').length > 1) {
+          $('#btnDeleteAll').text('Delete ('+$('input[name="kategori_checkbox"]:checked').length+') data').removeClass('d-none');
+          $('#btnRestoreAll').text('Restore ('+$('input[name="kategori_checkbox"]:checked').length+') data').removeClass('d-none');
       }else{
           $('.selectedAll').addClass('d-none');
       }
     }
+
+    //REMOVE DISABLED CLASS BTN AKSI WHEN KATEGORI ID CHECKED
+    $(document).on('click','input[name="kategori_checkbox"]', function(){
+      if($('input[name="kategori_checkbox"]:checked').length == 1){
+        $('.btn-aksi').removeClass('disabled');
+      }else{
+        $('.btn-aksi').addClass('disabled');
+      }
+          
+    });
+
+    //
+    $(document).on('click','#btnDeleteAll, #btnRestoreAll', function(){
+      var checkedCategories = [];
+      $('input[name="kategori_checkbox"]:checked').each(function(){
+        checkedCategories.push($(this).data('id'));
+      });
+      alert(checkedCategories);
+    });
+
 
   </script>
 @endsection
