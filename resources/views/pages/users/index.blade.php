@@ -11,11 +11,8 @@
             <div class="card card-primary card-outline">            
               <div class="card-body">
                 <div class="mb-2 ">
-                  <a href="javascript:void(0)" class="btn btn-primary btn-sm" id="tambahKategori">
-                    <i class="fa fa-plus"> Tambah Kategori</i>
-                  </a>
-                  <a href="{{ route('data-kategori.trash') }}" class="btn btn-danger btn-sm float-right">
-                    <i class="fa fa-trash"> Trash</i>
+                  <a href="javascript:void(0)" class="btn btn-primary btn-sm" id="tambahUser">
+                    <i class="fa fa-plus"> Tambah User</i>
                   </a>
                 </div>
                 <table class="table table-head-fixed text-nowrap data-table" style="width: 100%" id="tabelUser">
@@ -40,7 +37,7 @@
       <!-- /.row -->
     </div><!-- /.container-fluid -->
   </section>
-  @include('pages.kategori.form-modal') 
+  @include('pages.users.form-modal') 
 @endsection
 
 @section('js')
@@ -68,11 +65,11 @@
         });
 
       // TAMBAH DATA
-      $("#tambahKategori").click(function(){
+      $("#tambahUser").click(function(){
         $('#id').val('');
         $('#addForm').trigger('reset');
-        $('#modal-heading').html("Tambah Kategori");
-        $('#modalKategori').modal('show');
+        $('#modal-heading').html("Tambah User");
+        $('#modalUsers').modal('show');
       });
       $("#saveBtn").click(function(e){
         e.preventDefault();
@@ -80,16 +77,16 @@
 
         $.ajax({
           data:$("#addForm").serialize(),
-          url:"{{ route('data-kategori.store') }}",
+          url:"{{ route('users.store') }}",
           type:"POST",
           dataType:'json',
           success:function(data){
             $('#addForm').trigger('reset');
-            $('#modalKategori').modal('hide');
+            $('#modalUsers').modal('hide');
             Swal.fire({
               position: 'center',
               icon: 'success',
-              title: 'Kategori berhasil disimpan',
+              title: 'User berhasil disimpan',
               showConfirmButton: false,
               timer: 1500
             }) 
@@ -102,19 +99,21 @@
       });
 
       //GET EDIT DATA
-      $('body').on('click', '.editCategory', function(){
+      $('body').on('click', '.editUser', function(){
         var id = $(this).data('id');
-        $.get("{{ route('data-kategori.index') }}"+"/"+id+"/edit", function(data){
-          $('#modal-heading').html("Edit Kategori");
-          $('#modalKategori').modal('show');
+        $.get("{{ route('users.index') }}"+"/"+id+"/edit", function(data){
+          $('#modal-heading').html("Edit User");
+          $('#modalUsers').modal('show');
           $('#id').val(data.id);
-          $('#kode_kategori').val(data.kode_kategori);
-          $('#nama_kategori').val(data.nama_kategori);
+          $('#kode_kanametegori').val(data.name);
+          $('#username').val(data.username);
+          $('#password').val(data.password);
+          $('#levels').val(data.levels);
         });
       });
       
       //DELETE DATA
-      $('body').on('click', '.deleteCategory', function(){
+      $('body').on('click', '.deleteUser', function(){
         const swalWithBootstrapButtons = Swal.mixin({
           customClass: {
             confirmButton: 'btn btn-success',
@@ -135,7 +134,7 @@
           if (result.isConfirmed) {
             $.ajax({
               type:"DELETE",
-              url:"{{ route('data-kategori.store') }}"+'/'+id,
+              url:"{{ route('users.store') }}"+'/'+id,
               success:function(data){
                 Swal.fire(
                   'Deleted!',

@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalKategori" aria-hidden="true">
+<div class="modal fade" id="modalUsers" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -10,16 +10,29 @@
       <div class="modal-body">
         <form id="addForm">
           <input type="hidden" name="id" id="id">
-          <div class="form-group row">
-            <label for="code" class="col-sm-2 col-form-label">Kode</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="kode_kategori" name="kode_kategori" placeholder="Kode" autofocus>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="Name">Nama Pengguna</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama">
+              </div>
+              <div class="form-group">
+                <label for="Username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username">
+              </div>
             </div>
-          </div>
-          <div class="form-group row">
-            <label for="category_name" class="col-sm-2 col-form-label">Keterangan</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="nama_kategori" name="nama_kategori" placeholder="Keterangan">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Levels</label>
+                <select class="form-control">
+                  <option value="Owner">Owner</option>
+                  <option value="Admin">Admin</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="Password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password">
+              </div>
             </div>
           </div>
       </div>

@@ -8,11 +8,7 @@ use DataTables;
 
 class UsersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request){
         $users = User::get();
         if ($request->ajax()) {
@@ -20,9 +16,9 @@ class UsersController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($row){
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.
-                $row->id.'" data-original-title="Edit" class="edit btn btn-success btn-sm mr-2 editCategory">Edit</a>';
+                $row->id.'" data-original-title="Edit" class="edit btn btn-success btn-sm mr-2 editUser">Edit</a>';
                 $btn.= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.
-                $row->id.'" data-original-title="Delete" class="delete btn btn-danger btn-sm deleteCategory">Delete</a>';
+                $row->id.'" data-original-title="Delete" class="delete btn btn-danger btn-sm deleteUser">Delete</a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -32,69 +28,39 @@ class UsersController extends Controller
         return view('pages.users.index',compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+    public function create(){
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+        User::updateOrCreate(
+            ['id' =>$request->id],
+            ['nama'=>$request->nama,
+             'username'=>$request->username,
+             'password'=>$request->password,
+             'levels'=>$request->levels]
+        );
+        return response()->json(['success' => 'User Berhasil Disimpan']);
+    }
+
+
+    public function show($id) {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+
+    public function edit($id){
+        $user = User::find($id);
+        return response()->json($user);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function update(Request $request, $id){
+        //  
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id){
+        User::find($id)->delete();
+        return response()->json(['success'=>'User berhasil dihapus!']);
     }
 }
