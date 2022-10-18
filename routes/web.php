@@ -4,6 +4,9 @@ use App\Http\Controllers\{
     DashboardController,
     KategoriController,
     UsersController,
+    MemberController,
+    SupplierController
+
 }; 
 
 use Illuminate\Support\Facades\Route;
@@ -26,10 +29,13 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    //MASTER
     Route::get('data-kategori/trash', [KategoriController::class, 'trash'])->name('data-kategori.trash');
     Route::get('data-kategori/restore/{id?}', [KategoriController::class, 'restore'])->name('data-kategori.restore');
     Route::get('data-kategori/delete/{id?}', [KategoriController::class, 'delete'])->name('data-kategori.delete');
     Route::resource('data-kategori', KategoriController::class);
     Route::resource('users', UsersController::class);
+    Route::resource('data-member', MemberController::class);
+    Route::resource('data-supplier', SupplierController::class);
 });
 
