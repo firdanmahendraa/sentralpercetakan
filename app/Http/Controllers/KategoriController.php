@@ -78,7 +78,7 @@ class KategoriController extends Controller
         }else{
             $category = Category::onlyTrashed()->restore();
         }
-        return redirect('data-kategori/trash')->with('status', 'Kategori berhasil di-restore!');
+        return redirect('data-kategori/trash');
     }
 
     public function delete($id = null){
@@ -89,6 +89,6 @@ class KategoriController extends Controller
         }else{
             $category = Category::onlyTrashed()->forceDelete();
         }
-        return redirect('data-kategori/trash')->with('status', 'Kategori berhasil di delete permanen!');
+        return redirect('data-kategori/trash');
     }
 }
