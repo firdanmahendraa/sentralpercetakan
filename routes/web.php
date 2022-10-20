@@ -3,9 +3,10 @@ use App\Http\Controllers\{
     LoginController,
     DashboardController,
     KategoriController,
-    UsersController,
+    ProdukController,
     MemberController,
-    SupplierController
+    SupplierController,
+    UsersController
 
 }; 
 
@@ -34,8 +35,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('data-kategori/restore/{id?}', [KategoriController::class, 'restore'])->name('data-kategori.restore');
     Route::get('data-kategori/delete/{id?}', [KategoriController::class, 'delete'])->name('data-kategori.delete');
     Route::resource('data-kategori', KategoriController::class);
-    Route::resource('users', UsersController::class);
+
+    Route::resource('data-produk', ProdukController::class);
+
     Route::resource('data-member', MemberController::class);
+    
     Route::resource('data-supplier', SupplierController::class);
+
+    
+    Route::resource('users', UsersController::class);
 });
 

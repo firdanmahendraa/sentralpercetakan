@@ -46,7 +46,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/data-produk" class="nav-link {{ request()->is('data-produk') ? 'active' : ''}}">
+            <a href="{{ route('data-produk.index') }}" class="nav-link {{ request()->is('data-produk') ? 'active' : ''}}">
               <i class="nav-icon fa fa-cubes"></i>
               <p>Produk</p>
             </a>

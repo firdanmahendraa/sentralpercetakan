@@ -9,3 +9,5 @@
 
 <script type="text/javascript" src="{{ asset('assets/plugins/DataTables-1.12.1/js/jquery.dataTables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/plugins/DataTables-1.12.1/js/dataTables.bootstrap4.min.js') }}"></script>
+<!-- Validator -->
+<script type="text/javascript" src="{{ asset('assets/plugins/validator.min.js') }}"></script>
