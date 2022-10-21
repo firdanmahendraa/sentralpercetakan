@@ -15,6 +15,10 @@ class CreateMstSupplierTable extends Migration
     {
         Schema::create('mst_supplier', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_supplier');
+            $table->text('alamat_supplier');
+            $table->string('telepon_supplier');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

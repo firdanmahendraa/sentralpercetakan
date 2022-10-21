@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalSupplier" aria-hidden="true">
+<div class="modal fade" id="modal-form" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,30 +8,29 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="addForm">
-          <input type="hidden" name="id" id="id">
+        <form action="" method="post">
+          @csrf
+          @method('post')
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="Name">Nama Pengguna</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama">
-              </div>
-              <div class="form-group">
-                <label for="Username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username">
+                <label for="namaProduk">Toko</label>
+                <input type="text" class="form-control" name="nama_supplier" placeholder="Masukkan nama produk" required autofocus>
+                <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label>Levels</label>
-                <select class="form-control">
-                  <option value="Owner">Owner</option>
-                  <option value="Admin">Admin</option>
-                </select>
+                <label for="hargaProduk">Telepon</label>
+                <input type="text" class="form-control" name="telepon_supplier" placeholder="Masukkan harga" required>
+                <span class="help-block with-errors text-danger"></span>
               </div>
+            </div>
+            <div class="col-sm-12">
               <div class="form-group">
-                <label for="Password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password">
+                <label for="hargaProduk">Alamat</label>
+                <textarea class="form-control" name="alamat_supplier" placeholder="Masukkan harga" name="" id="" cols="30" rows="10"></textarea>
+                <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
           </div>
