@@ -14,7 +14,8 @@ class CreateMstProdukTable extends Migration
     public function up()
     {
         Schema::create('mst_produk', function (Blueprint $table) {
-            $table->increments('kode_produk');
+            $table->increments('id_produk');
+            $table->string('kode_produk');
             $table->string('nama_produk');
             $table->integer('harga_produk');
             $table->softDeletes();

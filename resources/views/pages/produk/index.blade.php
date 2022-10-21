@@ -19,24 +19,13 @@
                   <thead>
                     <tr>
                       <th style="width: 5%">No</th>
-                      <th>Kode Produk</th>
+                      <th style="width: 10%">Kode Produk</th>
                       <th>Nama Produk</th>
                       <th>Harga</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {{-- <tr>
-                      <td>1</td>
-                      <td>2022104001</td>
-                      <td>2Ply Nota Impression 1/4</td>
-                      <td>200.000</td>
-                      <td>
-                        <a href="" class="btn btn-sm btn-success">Edit</a>
-                        <a href="" class="btn btn-sm btn-danger">Edit</a>
-                      </td>
-                    </tr> --}}
-                  </tbody>
+                  <tbody></tbody>
                 </table>
               </div>
               <!-- /.card-body -->
@@ -170,64 +159,6 @@
         }
       })
     }
-
-    
-    
-    // 
-    // $("#tambahProduk").click(function(){
-    //   $('#id').val('');
-    //   $('#addForm').trigger('reset');
-    //   $('#modal-heading').html("Tambah Produk");
-    //   $('#modalProduk').modal('show');
-    // });
-    // $("#saveBtn").click(function(e){
-    //   e.preventDefault();
-    //   $(this).html('Save');
-
-    //   $.ajax({
-    //     data:$("#addForm").serialize(),
-    //     url:"{{ route('data-kategori.store') }}",
-    //     type:"POST",
-    //     dataType:'json',
-    //     success:function(data){
-    //       $('#addForm').trigger('reset');
-    //       $('#modalProduk').modal('hide');
-    //       Swal.fire({
-    //         position: 'center',
-    //         icon: 'success',
-    //         title: 'Produk berhasil disimpan',
-    //         showConfirmButton: false,
-    //         timer: 1500
-    //       }) 
-    //       table.ajax.reload();
-    //     },
-    //     error:function(data){
-    //       console.log('Error:',data);
-    //     }
-    //   });
-    // });
-
-    // //EDIT DATA
-    // function editForm(url){
-    //   $('#modalProduk').modal('show');
-    //   $('#modal-heading').html("Edit Produk");
-
-    //   $('#addForm').trigger('reset');
-    //   $('#addForm').attr('action', url);
-    //   $('#modalProduk [name=_method]').val('PUT');
-    //   $('#modalProduk [name=nama_produk]').focus();
-
-    //   $.get(url).done((response) => {
-    //     $('#modalProduk [name=nama_produk]').val(response.nama_produk);
-    //     $('#modalProduk [name=harga_produk]').val(response.harga_produk);
-    //   }).fail((errors) => {
-    //     alert('Tidak dapat menampilkan data');
-    //     return;
-    //   });
-    // }
-
-    //DELETE DATA
-    
 
   </script>
 @endsection
