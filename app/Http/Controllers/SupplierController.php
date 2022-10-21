@@ -61,4 +61,49 @@ class SupplierController extends Controller{
         $supplier->delete();
         return response(null, 204);
     }
+
+    public function trash(Request $request){
+        $supplier = Supplier::onlyTrashed()->get();
+        if ($request->ajax()) {
+            $allData = DataTables::of($supplier)
+            ->addIndexColumn()
+            ->addColumn('selectAll', function($supplier){
+                return '
+                    <input type="checkbox" name="id[]" id="selectOne" value="'. $supplier->id .'">
+                ';
+            })
+            ->addColumn('action', function($supplier){
+                return '
+                    <a href="'. url('data-supplier/restore/'.$supplier->id) .'" class="btn btn-info btn-sm btn_restore">Restore Permanently</a>
+                    <a href="'. url('data-supplier/delete/'.$supplier->id) .'" class="btn btn-danger btn-sm btn_delete">Delete Permanantly</a>
+                ';
+            })
+            ->rawColumns(['action', 'selectAll'])
+            ->make(true);
+            return $allData;
+        }
+        return view('pages.supplier.trash');
+    }
+
+    public function restore($id = null){
+        if($id != null){
+            $supplier = Supplier::onlyTrashed()
+                ->where('id', $id)
+                ->restore();
+        }else{
+            $supplier = Supplier::onlyTrashed()->restore();
+        }
+        return redirect('data-supplier/trash');
+    }
+
+    public function delete($id = null){
+        if($id != null){
+            $supplier = Supplier::onlyTrashed()
+                ->where('id', $id)
+                ->forceDelete();
+        }else{
+            $supplier = Supplier::onlyTrashed()->forceDelete();
+        }
+        return redirect('data-supplier/trash');
+    }
 }

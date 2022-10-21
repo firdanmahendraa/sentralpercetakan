@@ -40,6 +40,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('data-member', MemberController::class);
     
+    Route::get('data-supplier/trash', [SupplierController::class, 'trash'])->name('data-supplier.trash');
+    Route::get('data-supplier/restore/{id?}', [SupplierController::class, 'restore'])->name('data-supplier.restore');
+    Route::get('data-supplier/delete/{id?}', [SupplierController::class, 'delete'])->name('data-supplier.delete');
     Route::resource('data-supplier', SupplierController::class);
 
     

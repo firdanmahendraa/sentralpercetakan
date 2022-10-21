@@ -46,19 +46,19 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('data-produk.index') }}" class="nav-link {{ request()->is('data-produk') ? 'active' : ''}}">
+            <a href="{{ route('data-produk.index') }}" class="nav-link {{ (request()->segment(1) == 'data-produk') ? 'active' : ''}}">
               <i class="nav-icon fa fa-cubes"></i>
               <p>Produk</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('data-member.index') }}" class="nav-link {{ request()->is('data-member') ? 'active' : ''}}">
+            <a href="{{ route('data-member.index') }}" class="nav-link {{ (request()->segment(1) == 'data-member') ? 'active' : ''}}">
               <i class="nav-icon fa fa-id-card"></i>
               <p>Member</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('data-supplier.index') }}" class="nav-link {{ request()->is('data-supplier') ? 'active' : ''}}">
+            <a href="{{ route('data-supplier.index') }}" class="nav-link {{ (request()->segment(1) == 'data-supplier') ? 'active' : ''}}">
               <i class="nav-icon fa fa-truck"></i>
               <p>Supplier</p>
             </a>

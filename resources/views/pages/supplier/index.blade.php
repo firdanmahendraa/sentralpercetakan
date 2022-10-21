@@ -14,6 +14,9 @@
                   <button class="btn btn-primary btn-sm" onclick="addForm('{{ route('data-supplier.store') }}')">
                     <i class="fa fa-plus"> Tambah Supplier</i>
                   </button>
+                  <a href="{{ route('data-supplier.trash') }}" class="btn btn-danger btn-sm float-right">
+                    <i class="fa fa-trash"> Trash</i>
+                  </a>
                 </div>
                 <table class="table table-head-fixed text-nowrap data-table" style="width: 100%">
                   <thead>
@@ -151,12 +154,6 @@
             }) 
             return;
           })
-        }else if (result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire(
-            'Cancelled',
-            'Your imaginary file is safe :)',
-            'error'
-          )
         }
       })
     }
