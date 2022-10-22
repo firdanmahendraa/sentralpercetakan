@@ -1,37 +1,36 @@
-<div class="modal fade" id="modalMember" aria-hidden="true">
+<div class="modal fade" id="modal-form" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="modal-heading"></h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal"s aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id="addForm">
-          <input type="hidden" name="id" id="id">
+        <form action="" method="post">
+          @csrf
+          @method('post')
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="Name">Nama Pengguna</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama">
-              </div>
-              <div class="form-group">
-                <label for="Username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username">
+                <label for="namaMember">Nama Member</label>
+                <input type="text" class="form-control" name="nama_member" placeholder="Masukkan nama member" required autofocus>
+                <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label>Levels</label>
-                <select class="form-control">
-                  <option value="Owner">Owner</option>
-                  <option value="Admin">Admin</option>
-                </select>
+                <label for="teleponMember">Telepon</label>
+                <input type="text" class="form-control" name="telepon_member" placeholder="Masukkan telepon" required>
+                <span class="help-block with-errors text-danger"></span>
               </div>
+            </div>
+            <div class="col-sm-12">
               <div class="form-group">
-                <label for="Password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password">
+                <label for="alamatMember">Alamat</label>
+                <textarea class="form-control" name="alamat_member" placeholder="Masukkan alamat" required></textarea>
+                <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
           </div>
