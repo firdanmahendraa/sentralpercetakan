@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Data Kategori Terhapus')
+@section('title', 'Data Supplier Terhapus')
 
 @section('content')
   <section class="content">
@@ -8,45 +8,34 @@
       <!-- Small boxes (Stat box) -->
       <div class="row">
         <div class="col-12">
-          @if (session('status'))
-              <div class="alert alert-success">
-                {{ session('status') }}
+          <div class="card card-primary card-outline">  
+            <div class="card-head">
+              <div class="px-3 pt-2">
+                <a href="{{ url('data-kategori/restore/') }}" class="btn btn-info btn-sm btn_restore"><i class="fa fa-undo"> Restore All</i></a>
+                <a href="{{ url('data-kategori/delete/') }}" class="btn btn-danger btn-sm btn_delete"><i class="fa fa-trash"> Delete All</i></a>
+                <a href="{{ route('data-kategori.index') }}" class="btn btn-secondary btn-sm float-right">
+                  <i class="fa fa-chevron-left"> Back</i>
+                </a>
               </div>
-          @endif
-          <div class="card card-primary card-outline">            
-            <div class="card-body">
-              <a href="{{ url('data-kategori/restore/') }}" class="btn btn-info btn-sm btn-aksi-restore"><i class="fa fa-undo"> Restore All</i></a>
-              <a href="{{ url('data-kategori/delete/') }}" class="btn btn-danger btn-sm btn-aksi-delete"><i class="fa fa-trash"> Delete All</i></a>
-              <a href="{{ route('data-kategori.index') }}" class="btn btn-secondary btn-sm float-right mb-2">
-                <i class="fa fa-chevron-left"> Back</i>
-              </a>
-              <table class="table table-head-fixed text-nowrap data-table" style="width: 100%">
-                <thead>
-                  <tr>
-                    <th style="width: 5%">No</th>
-                    <th>Kode</th>
-                    <th>Keterangan</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @forelse ($category as $ctg)
+            </div>          
+            <div class="card-body pt-2">
+              <form action="" class="kategori-trash">
+                @csrf
+                <table class="table table-head-fixed text-nowrap data-table" style="width: 100%">
+                  <thead>
                     <tr>
-                      <td>{{ $loop->iteration}}</td>
-                      <td>{{ $ctg->kode_kategori }}</td>
-                      <td>{{ $ctg->nama_kategori }}</td>
-                      <td>
-                        <a href="{{ url('data-kategori/restore/'.$ctg->id) }}" class="btn btn-info btn-sm btn-aksi-restore">Restore Permanently</a>
-                        <a href="{{ url('data-kategori/delete/'.$ctg->id) }}" class="btn btn-danger btn-sm btn-aksi-delete">Delete Permanantly</a>
-                      </td>
+                      <th style="width: 5%">
+                        <input type="checkbox" name="selectAll" id="selectAll">
+                      </th>
+                      <th style="width: 5%">No</th>
+                      <th>Kode Kategori</th>
+                      <th>Keterangan</th>
+                      <th>Aksi</th>
                     </tr>
-                  @empty
-                    <tr>
-                      <td colspan="5" class="text-center" style="font-weight: bold; background-color:rgb(236, 236, 236)">Data Kosong</td>
-                    </tr>
-                  @endforelse
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody> </tbody>
+                </table>
+              </form>
             </div>
             <!-- /.card-body -->
           </div>
@@ -60,8 +49,47 @@
 
 @section('js')
   <script>
-      //RESTORE ONE
-      $('.btn-aksi-restore').click(function(e) {
+    let table;
+    //TAMPIL DATA
+    $(function() {
+      table = $('.table').DataTable({
+        processing: true,
+        severSide: true,
+        ajax:"{{ route('data-kategori.trash') }}",
+        columns:[
+          {data:'selectAll', name:'selectAll'},
+          {data:'DT_RowIndex', name:'DT_RowIndex'},
+          {data:'kode_kategori', name:'kode_kategori'},
+          {data:'nama_kategori', name:'nama_kategori'},
+          {data:'action', name:'action'},
+        ],
+      });
+
+      //selectAll
+      $('[name=selectAll]').on('click', function(){
+        $(':checkbox').prop('checked', this.checked);
+        togglebtnAll()
+      });
+      $(document).on('change', '#selectOne', function(){
+        if ( $('input[name="id[]"]').length == $('input[name="id[]"]:checked').length) {
+          $('input[name="selectAll"]').prop('checked', true);
+        }else{
+          $('input[name="selectAll"]').prop('checked', false);
+        }
+        togglebtnAll()
+      })
+      //SHOW HIDE BUTTON ALL
+      function togglebtnAll(){
+        if ( $('input[name="id[]"]:checked').length > 1) {
+          $('button#btnAll').removeClass('d-none');
+        }else{
+          $('button#btnAll').addClass('d-none');
+        }
+      }
+    });
+
+    //RESTORE ONE
+    $('.btn_restore').click(function(e) {
         e.preventDefault();
         const href = $(this).attr('href');
 
@@ -85,7 +113,7 @@
       });
 
       //DELETE ONE
-      $('.btn-aksi-delete').click(function(e) {
+      $('.btn_delete').click(function(e) {
         e.preventDefault();
         const href = $(this).attr('href');
         Swal.fire({
@@ -106,36 +134,6 @@
           }
         })
       });
-
-      //RESTORE MANY
-      $(document).on('click', '#btnRestoreAll', function(e){
-        e.preventDefault();
-        const href = $(this).attr('href');
-        var checkedKategori = [];
-        $('input[name="kategori_checkbox"]:checked').each(function(){
-          checkedKategori.push($(this).val());
-        });
-        var url = "{{ url('data-kategori/restore') }}";
-        if(checkedKategori.length > 1){
-          Swal.fire({
-          title: 'Apakah kamu yakin?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, restore it!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            document.location.href = href;
-            Swal.fire(
-              'Restored!',
-              'Your file has been deleted.',
-              'success'
-            )
-          }
-        })
-        }
-      })
   </script>
 @endsection
 
