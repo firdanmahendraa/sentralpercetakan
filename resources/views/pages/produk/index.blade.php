@@ -14,6 +14,9 @@
                   <button class="btn btn-primary btn-sm" onclick="addForm('{{ route('data-produk.store') }}')">
                     <i class="fa fa-plus"> Tambah Produk</i>
                   </button>
+                  <a href="{{ route('data-produk.trash') }}" class="btn btn-danger btn-sm float-right">
+                    <i class="fa fa-trash"> Trash</i>
+                  </a>
                 </div>
                 <table class="table table-head-fixed text-nowrap data-table" style="width: 100%" id="tabelProduk">
                   <thead>

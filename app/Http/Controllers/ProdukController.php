@@ -69,4 +69,27 @@ class ProdukController extends Controller{
         $produk->delete();
         return response(null, 204);
     }
+
+    public function trash(Request $request){
+        $produk = Produk::onlyTrashed()->get();
+        if ($request->ajax()) {
+            $allData = DataTables::of($produk)
+            ->addIndexColumn()
+            ->addColumn('selectAll', function($produk){
+                return '
+                    <input type="checkbox" name="id[]" id="selectOne" value="'. $produk->id .'">
+                ';
+            })
+            ->addColumn('action', function($produk){
+                return '
+                    <a href="'. url('data-produk/restore/'.$produk->id) .'" class="btn btn-info btn-sm btn_restore">Restore Permanently</a>
+                    <a href="'. url('data-produk/delete/'.$produk->id) .'" class="btn btn-danger btn-sm btn_delete">Delete Permanantly</a>
+                ';
+            })
+            ->rawColumns(['action', 'selectAll'])
+            ->make(true);
+            return $allData;
+        }
+        return view('pages.produk.trash');
+    }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Data Kategori Terhapus')
+@section('title', 'Data Produk Terhapus')
 
 @section('content')
   <section class="content">
@@ -11,15 +11,15 @@
           <div class="card card-primary card-outline">  
             <div class="card-head">
               <div class="px-3 pt-2">
-                <a href="{{ url('data-kategori/restore/') }}" class="btn btn-info btn-sm btn_restore"><i class="fa fa-undo"> Restore All</i></a>
-                <a href="{{ url('data-kategori/delete/') }}" class="btn btn-danger btn-sm btn_delete"><i class="fa fa-trash"> Delete All</i></a>
-                <a href="{{ route('data-kategori.index') }}" class="btn btn-secondary btn-sm float-right">
+                <a href="{{ url('data-produk/restore/') }}" class="btn btn-info btn-sm btn_restore"><i class="fa fa-undo"> Restore All</i></a>
+                <a href="{{ url('data-produk/delete/') }}" class="btn btn-danger btn-sm btn_delete"><i class="fa fa-trash"> Delete All</i></a>
+                <a href="{{ route('data-produk.index') }}" class="btn btn-secondary btn-sm float-right">
                   <i class="fa fa-chevron-left"> Back</i>
                 </a>
               </div>
             </div>          
             <div class="card-body pt-2">
-              <form action="" class="kategori-trash">
+              <form action="" class="produk-trash">
                 @csrf
                 <table class="table table-head-fixed text-nowrap data-table" style="width: 100%">
                   <thead>
@@ -28,8 +28,9 @@
                         <input type="checkbox" name="selectAll" id="selectAll">
                       </th>
                       <th style="width: 5%">No</th>
-                      <th>Kode Kategori</th>
-                      <th>Keterangan</th>
+                      <th>Kode Produk</th>
+                      <th>Nama Produk</th>
+                      <th>Harga</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -55,12 +56,13 @@
       table = $('.table').DataTable({
         processing: true,
         severSide: true,
-        ajax:"{{ route('data-kategori.trash') }}",
+        ajax:"{{ route('data-produk.trash') }}",
         columns:[
           {data:'selectAll', name:'selectAll'},
           {data:'DT_RowIndex', name:'DT_RowIndex'},
-          {data:'kode_kategori', name:'kode_kategori'},
-          {data:'nama_kategori', name:'nama_kategori'},
+          {data:'kode_produk', name:'kode_produk'},
+          {data:'nama_produk', name:'nama_produk'},
+          {data:'harga_produk', name:'harga_produk'},
           {data:'action', name:'action'},
         ],
       });
