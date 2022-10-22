@@ -2,92 +2,106 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use DataTables;
 
-class KategoriController extends Controller
-{
+class KategoriController extends Controller{
+
     public function index(Request $request){
-        $category = Category::get();
-        if($request->ajax()){
-            $allData = DataTables::of($category)
+        $kategori = Kategori::get();
+        if ($request->ajax()) {
+            $allData = DataTables::of($kategori)
             ->addIndexColumn()
-            ->addColumn('action', function($row){
-                $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.
-                $row->id.'" data-original-title="Edit" class="edit btn btn-success btn-sm mr-2 editCategory">Edit</a>';
-                $btn.= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.
-                $row->id.'" data-original-title="Delete" class="delete btn btn-danger btn-sm deleteCategory">Delete</a>';
-                return $btn;
+            ->addColumn('action', function($kategori){
+                return '
+                    <button class="btn btn-success btn-sm" onclick="editForm(`'. route('data-kategori.update', $kategori->id) .'`)">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteData(`'. route('data-kategori.destroy', $kategori->id) .'`)">Hapus </button>
+                ';
             })
             ->rawColumns(['action'])
             ->make(true);
             return $allData;
         }
-        return view('pages.kategori.index',compact('category'));
+        return view('pages.kategori.index', compact('kategori'));
     }
 
-
-    public function create() {
-        //
+    public function create(){
+        // 
     }
-
 
     public function store(Request $request) {
-        Category::updateOrCreate(
-            ['id' =>$request->id],
-            ['kode_kategori'=>$request->kode_kategori,
-             'nama_kategori'=>$request->nama_kategori]
-        );
-        return response()->json(['success' => 'Kategori Berhasil Disimpan']);
+        $kategori = Kategori::create($request->all());
+
+        return response()->json('Data berhasil Disimpan', 200);
     }
 
+    public function show($id){
+        $kategori = Kategori::find($id);
+        return response()->json($kategori);
+    }
 
-    public function show($id) {
+    public function edit($id) {
         //
-    }
-
-
-    public function edit($id){
-        $category = Category::find($id);
-        return response()->json($category);
     }
 
     public function update(Request $request, $id){
-        //  
-    }
+        $kategori = Kategori::find($id);
+        $kategori->kode_kategori = $request->kode_kategori;
+        $kategori->nama_kategori = $request->nama_kategori;
+        $kategori->update();
 
+        return response()->json('Data berhasil Disimpan', 200);
+    }
 
     public function destroy($id){
-        Category::find($id)->delete();
-        return response()->json(['success'=>'Kategori berhasil dihapus!']);
+        $kategori = Kategori::find($id);
+        $kategori->delete();
+        return response(null, 204);
     }
 
-    public function trash(){
-        $category = Category::onlyTrashed()->get();
-        return view('pages.kategori.trash', compact('category'));
+    public function trash(Request $request){
+        $kategori = Kategori::onlyTrashed()->get();
+        if ($request->ajax()) {
+            $allData = DataTables::of($kategori)
+            ->addIndexColumn()
+            ->addColumn('selectAll', function($kategori){
+                return '
+                    <input type="checkbox" name="id[]" id="selectOne" value="'. $kategori->id .'">
+                ';
+            })
+            ->addColumn('action', function($kategori){
+                return '
+                    <a href="'. url('data-kategori/restore/'.$kategori->id) .'" class="btn btn-info btn-sm btn_restore">Restore Permanently</a>
+                    <a href="'. url('data-kategori/delete/'.$kategori->id) .'" class="btn btn-danger btn-sm btn_delete">Delete Permanantly</a>
+                ';
+            })
+            ->rawColumns(['action', 'selectAll'])
+            ->make(true);
+            return $allData;
+        }
+        return view('pages.kategori.trash');
     }
 
     public function restore($id = null){
         if($id != null){
-            $category = Category::onlyTrashed()
+            $kategori = Kategori::onlyTrashed()
                 ->where('id', $id)
                 ->restore();
         }else{
-            $category = Category::onlyTrashed()->restore();
+            $kategori = Kategori::onlyTrashed()->restore();
         }
         return redirect('data-kategori/trash');
     }
 
     public function delete($id = null){
         if($id != null){
-            $category = Category::onlyTrashed()
+            $kategori = Kategori::onlyTrashed()
                 ->where('id', $id)
                 ->forceDelete();
         }else{
-            $category = Category::onlyTrashed()->forceDelete();
+            $kategori = Kategori::onlyTrashed()->forceDelete();
         }
         return redirect('data-kategori/trash');
     }

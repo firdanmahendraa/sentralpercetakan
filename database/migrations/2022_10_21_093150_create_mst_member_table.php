@@ -15,6 +15,11 @@ class CreateMstMemberTable extends Migration
     {
         Schema::create('mst_member', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_member');
+            $table->string('nama_member');
+            $table->text('alamat_member');
+            $table->string('telepon_member');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

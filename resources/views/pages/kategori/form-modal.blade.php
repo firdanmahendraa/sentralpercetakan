@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalKategori" aria-hidden="true">
+<div class="modal fade" id="modal-form" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,18 +8,21 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="addForm">
-          <input type="hidden" name="id" id="id">
+        <form action="" method="post">
+          @csrf
+          @method('post')
           <div class="form-group row">
             <label for="code" class="col-sm-2 col-form-label">Kode</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="kode_kategori" name="kode_kategori" placeholder="Kode" autofocus>
+              <input type="text" class="form-control" id="kode_kategori" name="kode_kategori" placeholder="Kode" required autofocus>
+              <span class="help-block with-errors text-danger"></span>
             </div>
           </div>
           <div class="form-group row">
             <label for="category_name" class="col-sm-2 col-form-label">Keterangan</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="nama_kategori" name="nama_kategori" placeholder="Keterangan">
+              <input type="text" class="form-control" id="nama_kategori" name="nama_kategori" placeholder="Keterangan" required>
+              <span class="help-block with-errors text-danger"></span>
             </div>
           </div>
       </div>

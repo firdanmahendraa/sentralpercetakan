@@ -11,9 +11,9 @@
             <div class="card card-primary card-outline">            
               <div class="card-body">
                 <div class="mb-2 ">
-                  <a href="javascript:void(0)" class="btn btn-primary btn-sm" id="tambahKategori">
+                  <button class="btn btn-primary btn-sm" onclick="addForm('{{ route('data-kategori.store') }}')">
                     <i class="fa fa-plus"> Tambah Kategori</i>
-                  </a>
+                  </button>
                   <a href="{{ route('data-kategori.trash') }}" class="btn btn-danger btn-sm float-right">
                     <i class="fa fa-trash"> Trash</i>
                   </a>
@@ -43,114 +43,116 @@
 
 @section('js')
   <script type="text/javascript">
-    $(document).ready(function(){
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });   
-
+    let table;
     // TAMPIL DATA 
-    var table = $('#tabelKategori').DataTable({
-          processing: true,
-          severSide: true,
-          ajax:"{{ route('data-kategori.index') }}",
-            columns:[
-              {data:'DT_RowIndex', name:'DT_RowIndex'},
-              {data:'kode_kategori', name:'kode_kategori'},
-              {data:'nama_kategori', name:'nama_kategori'},
-              {data:'action', name:'action'},
-            ],
-        });
-
-      // TAMBAH DATA
-      $("#tambahKategori").click(function(){
-        $('#id').val('');
-        $('#addForm').trigger('reset');
-        $('#modal-heading').html("Tambah Kategori");
-        $('#modalKategori').modal('show');
+    $(function(){
+    table = $('.table').DataTable({
+        processing: true,
+        severSide: true,
+        ajax:"{{ route('data-kategori.index') }}",
+          columns:[
+            {data:'DT_RowIndex', name:'DT_RowIndex'},
+            {data:'kode_kategori', name:'kode_kategori'},
+            {data:'nama_kategori', name:'nama_kategori'},
+            {data:'action', name:'action'},
+          ],
       });
-      $("#saveBtn").click(function(e){
-        e.preventDefault();
-        $(this).html('Save');
 
-        $.ajax({
-          data:$("#addForm").serialize(),
-          url:"{{ route('data-kategori.store') }}",
-          type:"POST",
-          dataType:'json',
-          success:function(data){
-            $('#addForm').trigger('reset');
-            $('#modalKategori').modal('hide');
+      //VALIDATOR
+      $('#modal-form').validator().on('submit',function(e){
+        if (! e.preventDefault()) {
+          $.ajax({
+            url : $('#modal-form form').attr('action'),
+            type: 'post',
+            data: $('#modal-form form').serialize()
+          })
+          .done((response) => {
+            $('#modal-form').modal('hide');
             Swal.fire({
-              position: 'center',
               icon: 'success',
-              title: 'Kategori berhasil disimpan',
+              title: 'Data berhasil disimpan',
+              timer: 1500
+            })
+            table.ajax.reload();
+          })
+          .fail((errors) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Data gagal disimpan!',
+              showConfirmButton: false,
+            })
+            return;
+          });
+        }
+      })
+    });
+
+    // TAMBAH DATA
+    function addForm(url){
+      $('#modal-form').modal('show');
+      $('#modal-heading').html("Tambah Supplier");
+
+      $('#modal-form form')[0].reset();
+      $('#modal-form form').attr('action', url);
+      $('#modal-form [name=_method]').val('post');
+      $('#modal-form [name=nama_kategori]').focus();
+    }
+
+    //EDIT DATA
+    function editForm(url){
+      $('#modal-form').modal('show');
+      $('#modal-heading').html("Edit Supplier");
+
+      $('#modal-form form')[0].reset();
+      $('#modal-form form').attr('action', url);
+      $('#modal-form [name=_method]').val('put');
+      $('#modal-form [name=nama_kategori]').focus();
+
+      $.get(url)
+        .done((response) => {
+          $('#modal-form [name=kode_kategori]').val(response.kode_kategori);
+          $('#modal-form [name=nama_kategori]').val(response.nama_kategori);
+        })
+        .fail((errors) => {
+          alert('Tidak dapat menampilkan data');
+          return;
+        });
+    }
+
+    //DELETE DATA
+    function deleteData(url) {
+      Swal.fire({
+        title: 'Apakah anda yakin?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#dc3545',
+        confirmButtonText: 'Ya!',
+        cancelButtonText: 'Tidak'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.post(url,{
+            '_token': $('[name=csrf-token]').attr('content'),
+            '_method': 'delete'
+          })
+          .done((response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Data berhasil dihapus!',
               showConfirmButton: false,
               timer: 1500
             }) 
             table.ajax.reload();
-          },
-          error:function(data){
-            console.log('Error:',data);
-          }
-        });
-      });
-
-      //GET EDIT DATA
-      $('body').on('click', '.editCategory', function(){
-        var id = $(this).data('id');
-        $.get("{{ route('data-kategori.index') }}"+"/"+id+"/edit", function(data){
-          $('#modal-heading').html("Edit Kategori");
-          $('#modalKategori').modal('show');
-          $('#id').val(data.id);
-          $('#kode_kategori').val(data.kode_kategori);
-          $('#nama_kategori').val(data.nama_kategori);
-        });
-      });
-      
-      //DELETE DATA
-      $('body').on('click', '.deleteCategory', function(){
-        const swalWithBootstrapButtons = Swal.mixin({
-          customClass: {
-            confirmButton: 'btn btn-success',
-            cancelButton: 'btn btn-danger'
-          },
-          buttonsStyling: false
-        })
-        var id = $(this).data("id");
-        Swal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            $.ajax({
-              type:"DELETE",
-              url:"{{ route('data-kategori.store') }}"+'/'+id,
-              success:function(data){
-                Swal.fire(
-                  'Deleted!',
-                  'Your file has been deleted.',
-                  'success'
-                )
-                table.ajax.reload();
-              }
-            });
-          }else if (result.dismiss === Swal.DismissReason.cancel) {
-            swalWithBootstrapButtons.fire(
-              'Cancelled',
-              'Your imaginary file is safe :)',
-              'error'
-            )
-          }
-       }) 
-      });
-
-    });
+          })
+          .fail((errors) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Data tidak dapat dihapus!',
+            }) 
+            return;
+          })
+        }
+      })
+    }
   </script>
 @endsection
