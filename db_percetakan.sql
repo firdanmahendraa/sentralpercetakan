@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Okt 2022 pada 05.48
+-- Waktu pembuatan: 24 Okt 2022 pada 05.24
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 7.3.31
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -52,35 +52,48 @@ CREATE TABLE `migrations` (
 INSERT INTO `migrations` (`id`, `migration`, `batch`)
 VALUES (1, '2014_10_12_000000_create_users_table', 1),
   (
-    3,
-    '2019_08_19_000000_create_failed_jobs_table',
-    1
-  ),
-  (
-    4,
-    '2019_12_14_000001_create_personal_access_tokens_table',
-    1
-  ),
-  (
-    14,
+    2,
     '2022_10_19_093302_create_mst_produk_table',
     2
   ),
   (
-    15,
+    3,
     '2022_10_21_040114_create_mst_supplier_table',
     3
   ),
   (
-    16,
+    4,
     '2022_10_21_092807_create_mst_kategori_table',
     4
   ),
   (
-    17,
+    5,
     '2022_10_21_093150_create_mst_member_table',
-    4
+    5
+  ),
+  (
+    6,
+    '2022_10_24_021219_create_mst_data_karyawan_table',
+    6
   );
+-- --------------------------------------------------------
+--
+-- Struktur dari tabel `mst_data_karyawan`
+--
+
+CREATE TABLE `mst_data_karyawan` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nik` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jenis_kelamin` enum('Laki-Laki', 'Perempuan') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tanggal_lahir` date NOT NULL,
+  `alamat` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `telepon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jabatan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 -- --------------------------------------------------------
 --
 -- Struktur dari tabel `mst_kategori`
@@ -95,7 +108,7 @@ CREATE TABLE `mst_kategori` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 --
--- Dumping data untuk tabel `categories`
+-- Dumping data untuk tabel `mst_kategori`
 --
 
 INSERT INTO `mst_kategori` (
@@ -449,11 +462,11 @@ VALUES (
   (
     3,
     'P0003',
-    'Print a3+',
-    5000,
-    NULL,
+    'Print a3+1',
+    50001,
+    '2022-10-21 21:56:39',
     '2022-10-20 20:10:25',
-    '2022-10-20 20:34:03'
+    '2022-10-21 21:56:39'
   ),
   (
     4,
@@ -463,6 +476,24 @@ VALUES (
     '2022-10-20 20:16:45',
     '2022-10-20 20:14:08',
     '2022-10-20 20:16:45'
+  ),
+  (
+    5,
+    'P0004',
+    'Banner 80gr',
+    20000,
+    NULL,
+    '2022-10-21 21:56:11',
+    '2022-10-21 21:56:11'
+  ),
+  (
+    6,
+    'P0006',
+    'asd',
+    123,
+    NULL,
+    '2022-10-21 23:35:31',
+    '2022-10-21 23:35:31'
   );
 -- --------------------------------------------------------
 --
@@ -496,9 +527,9 @@ VALUES (
     'Setia Kawan222',
     'Lumajang222',
     '086557232322222',
-    '2022-10-21 02:16:21',
+    NULL,
     '2022-10-20 23:18:24',
-    '2022-10-21 02:16:21'
+    '2022-10-22 00:09:14'
   ),
   (
     2,
@@ -509,22 +540,6 @@ VALUES (
     '2022-10-21 00:09:50',
     '2022-10-21 02:14:25'
   );
--- --------------------------------------------------------
---
--- Struktur dari tabel `personal_access_tokens`
---
-
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_used_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 -- --------------------------------------------------------
 --
 -- Struktur dari tabel `users`
@@ -565,7 +580,7 @@ VALUES (
     '2022-10-02 20:37:44'
   ),
   (
-    10,
+    2,
     'Novitasari',
     'admin',
     '$2y$10$FwXm6xw1lphnUCIQogbNhexo/3gzcX1eRuTNnGwVDis11HMc1B90q',
@@ -579,15 +594,14 @@ VALUES (
 --
 
 --
--- Indeks untuk tabel `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
---
 -- Indeks untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
+ADD PRIMARY KEY (`id`);
+--
+-- Indeks untuk tabel `mst_data_karyawan`
+--
+ALTER TABLE `mst_data_karyawan`
 ADD PRIMARY KEY (`id`);
 --
 -- Indeks untuk tabel `mst_kategori`
@@ -610,34 +624,32 @@ ADD PRIMARY KEY (`id_produk`);
 ALTER TABLE `mst_supplier`
 ADD PRIMARY KEY (`id`);
 --
--- Indeks untuk tabel `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`, `tokenable_id`);
---
 -- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
 ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_username_unique` (`username`);
 --
--- AUTO_INCREMENT untuk tabel `failed_jobs`
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
-ALTER TABLE `failed_jobs`
-MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
 MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 18;
+  AUTO_INCREMENT = 23;
+--
+-- AUTO_INCREMENT untuk tabel `mst_data_karyawan`
+--
+ALTER TABLE `mst_data_karyawan`
+MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT untuk tabel `mst_kategori`
 --
 ALTER TABLE `mst_kategori`
-MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  AUTO_INCREMENT = 2;
 --
 -- AUTO_INCREMENT untuk tabel `mst_member`
 --
@@ -648,18 +660,13 @@ MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 ALTER TABLE `mst_produk`
 MODIFY `id_produk` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 5;
+  AUTO_INCREMENT = 7;
 --
 -- AUTO_INCREMENT untuk tabel `mst_supplier`
 --
 ALTER TABLE `mst_supplier`
 MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   AUTO_INCREMENT = 4;
---
--- AUTO_INCREMENT untuk tabel `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --

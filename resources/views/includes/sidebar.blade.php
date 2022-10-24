@@ -40,6 +40,12 @@
           </li>
           <li class="nav-header">MASTER</li>
           <li class="nav-item">
+            <a href="{{ route('data-karyawan.index') }}" class="nav-link {{ (request()->segment(1) == 'data-karyawan') ? 'active' : '' }}">
+              <i class="nav-icon fa fa-users"></i>
+              <p>Data Karyawan</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{ route('data-kategori.index') }}" class="nav-link {{ (request()->segment(1) == 'data-kategori') ? 'active' : '' }}">
               <i class="nav-icon fa fa-cube"></i>
               <p>Kategori</p>

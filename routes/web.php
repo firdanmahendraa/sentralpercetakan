@@ -2,6 +2,7 @@
 use App\Http\Controllers\{
     LoginController,
     DashboardController,
+    DataKaryawanController,
     KategoriController,
     ProdukController,
     MemberController,
@@ -31,6 +32,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     //MASTER
+    Route::get('data-karyawan/trash', [DataKaryawanController::class, 'trash'])->name('data-karyawan.trash');
+    Route::get('data-karyawan/restore/{id?}', [DataKaryawanController::class, 'restore'])->name('data-karyawan.restore');
+    Route::get('data-karyawan/delete/{id?}', [DataKaryawanController::class, 'delete'])->name('data-karyawan.delete');
+    Route::resource('data-karyawan', DataKaryawanController::class);
+
     Route::get('data-kategori/trash', [KategoriController::class, 'trash'])->name('data-kategori.trash');
     Route::get('data-kategori/restore/{id?}', [KategoriController::class, 'restore'])->name('data-kategori.restore');
     Route::get('data-kategori/delete/{id?}', [KategoriController::class, 'delete'])->name('data-kategori.delete');
