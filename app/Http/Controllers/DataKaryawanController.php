@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DataTables;
 
-class DataKaryawanController extends Controller
-{
+class DataKaryawanController extends Controller{
     public function index(Request $request){
         $karyawan = DataKaryawan::get();
         if($request->ajax()){
@@ -35,69 +34,65 @@ class DataKaryawanController extends Controller
         return view('pages.data-karyawan.index',compact('karyawan'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+    public function create(){
+        // 
+    }
+
+    public function store(Request $request) {
+        $karyawan = DataKaryawan::create($request->all());
+
+        return response()->json('Data berhasil Disimpan', 200);
+    }
+
+    public function show($id){
+        $karyawan = DataKaryawan::find($id);
+        return response()->json($karyawan);
+    }
+
+    public function edit($id) {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function update(Request $request, $id){
+        $karyawan = DataKaryawan::find($id);
+        $karyawan->nik = $request->nik;
+        $karyawan->nama = $request->nama;
+        $karyawan->jenis_kelamin = $request->jenis_kelamin;
+        $karyawan->tanggal_lahir = $request->tanggal_lahir;
+        $karyawan->alamat = $request->alamat;
+        $karyawan->telepon = $request->telepon;
+        $karyawan->jabatan = $request->jabatan;
+        $karyawan->update();
+
+        return response()->json('Data berhasil Disimpan', 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function destroy($id){
+        $karyawan = DataKaryawan::find($id);
+        $karyawan->delete();
+        return response(null, 204);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function trash(Request $request){
+        $karyawan = DataKaryawan::onlyTrashed()->get();
+        if ($request->ajax()) {
+            $allData = DataTables::of($karyawan)
+            ->addIndexColumn()
+            ->addColumn('selectAll', function($karyawan){
+                return '
+                    <input type="checkbox" name="id[]" id="selectOne" value="'. $karyawan->id .'">
+                ';
+            })
+            ->addColumn('action', function($karyawan){
+                return '
+                    <a href="'. url('data-karyawan/restore/'.$karyawan->id) .'" class="btn btn-info btn-sm btn_restore">Restore Permanently</a>
+                    <a href="'. url('data-karyawan/delete/'.$karyawan->id) .'" class="btn btn-danger btn-sm btn_delete">Delete Permanantly</a>
+                ';
+            })
+            ->rawColumns(['action', 'selectAll'])
+            ->make(true);
+            return $allData;
+        }
+        return view('pages.data-karyawan.trash');
     }
 }

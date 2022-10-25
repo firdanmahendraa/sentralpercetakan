@@ -11,6 +11,10 @@ class DataKaryawan extends Model{
 
     protected $table = 'mst_data_karyawan';
 
+    protected $casts = [
+        'tanggal_lahir' => 'datetime:d-m-Y'
+    ];
+
     protected $fillable = [
         'nik', 'nama', 'jenis_kelamin', 'tanggal_lahir', 'alamat', 'telepon', 'jabatan'
     ];

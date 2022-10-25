@@ -15,10 +15,10 @@ class CreateMstDataKaryawanTable extends Migration
     {
         Schema::create('mst_data_karyawan', function (Blueprint $table) {
             $table->id();
-            $table->string('nik');
+            $table->string('nik')->unique();
             $table->string('nama');
-            $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
-            $table->date('tanggal_lahir');
+            $table->enum('jenis_kelamin', ['L', 'P']);
+            $table->date('tanggal_lahir')->format('dd/mm/yyyy');
             $table->text('alamat');
             $table->string('telepon');
             $table->string('jabatan');

@@ -15,48 +15,54 @@
                 <input type="text" class="form-control" name="nik" id="nik" placeholder="Masukkan NIK" required autofocus>
                 <span class="help-block with-errors text-danger"></span>
               </div>
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label for="JenisKelamin">Jenis Kelamin</label>
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="jenis_kelamin" required>
-                    <label class="form-check-label">Laki - Laki</label>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="jenis_kelamin" required>
-                    <label class="form-check-label">Perempuan</label>
-                  </div>
-                </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="Nama">Nama Lengkap</label>
+                <input type="text" class="form-control" name="nama" placeholder="Masukkan nama" required>
                 <span class="help-block with-errors text-danger"></span>
               </div>
-              <div class="form-group" style="margin-top: 30px">
-                <label for="Alamat">Alamat</label>
-                <textarea class="form-control" name="nama_member" placeholder="Masukkan alamat" required autofocus></textarea>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label for="JenisKelamin">Jenis Kelamin</label>
+                <select class="form-control" name="jenis_kelamin" >
+                  <option value="">-- Pilih Jenis Kelamin --</option>
+                  <option value="L">Laki - Laki</option>
+                  <option value="P">Perempuan</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label for="TanggalLahir">Tanggal Lahir</label>
+                <div class="input-group date" id="reservationdate" data-target-input="nearest" required>
+                  <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="tanggal_lahir" placeholder="Masukkan tanggal"/>
+                  <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+                </div>
                 <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="Nama">Nama Lengkap</label>
-                <input type="text" class="form-control" name="telepon_member" placeholder="Masukkan nama lengkap" required>
+                <label for="Alamat">Alamat</label>
+                <textarea class="form-control" name="alamat" placeholder="Masukkan alamat" required autofocus></textarea>
                 <span class="help-block with-errors text-danger"></span>
               </div>
-              <div class="form-group">
-                <label for="TanggalLahir">Tanggal Lahir</label>
-                <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                  <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
-                  <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                  </div>
-                </div>
-              </div>
+            </div>
+            <div class="col-sm-6">
               <div class="form-group">
                 <label for="teleponMember">Telepon</label>
-                <input type="text" class="form-control" name="telepon_member" placeholder="Masukkan nama nomor telepon" required>
+                <input type="text" class="form-control" name="telepon" placeholder="Masukkan nomor telepon" required>
+                <span class="help-block with-errors text-danger"></span>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="Jabatan">Jabatan</label>
+                <input type="text" class="form-control" name="jabatan" placeholder="Masukkan jabatan" required>
                 <span class="help-block with-errors text-danger"></span>
               </div>
             </div>

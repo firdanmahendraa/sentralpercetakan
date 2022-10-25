@@ -11,15 +11,15 @@
           <div class="card card-primary card-outline">  
             <div class="card-head">
               <div class="px-3 pt-2">
-                <a href="{{ url('data-member/restore/') }}" class="btn btn-info btn-sm btn_restore"><i class="fa fa-undo"> Restore All</i></a>
-                <a href="{{ url('data-member/delete/') }}" class="btn btn-danger btn-sm btn_delete"><i class="fa fa-trash"> Delete All</i></a>
-                <a href="{{ route('data-member.index') }}" class="btn btn-secondary btn-sm float-right">
+                <a href="{{ url('data-karyawan/restore/') }}" class="btn btn-info btn-sm btn_restore"><i class="fa fa-undo"> Restore All</i></a>
+                <a href="{{ url('data-karyawan/delete/') }}" class="btn btn-danger btn-sm btn_delete"><i class="fa fa-trash"> Delete All</i></a>
+                <a href="{{ route('data-karyawan.index') }}" class="btn btn-secondary btn-sm float-right">
                   <i class="fa fa-chevron-left"> Back</i>
                 </a>
               </div>
             </div>          
             <div class="card-body pt-2">
-              <form action="" class="member-trash">
+              <form action="" class="karyawan-trash">
                 @csrf
                 <table class="table table-head-fixed text-nowrap data-table" style="width: 100%">
                   <thead>
@@ -28,10 +28,13 @@
                         <input type="checkbox" name="selectAll" id="selectAll">
                       </th>
                       <th style="width: 5%">No</th>
-                      <th>Kode Member</th>
-                      <th>Nama Member</th>
-                      <th>Alamt</th>
+                      <th>NIK</th>
+                      <th>Nama</th>
+                      <th>L / P</th>
+                      <th>Tanggal Lahir</th>
+                      <th>Alamat</th>
                       <th>Telepon</th>
+                      <th>Jabatan</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -57,14 +60,17 @@
       table = $('.table').DataTable({
         processing: true,
         severSide: true,
-        ajax:"{{ route('data-member.trash') }}",
+        ajax:"{{ route('data-karyawan.trash') }}",
         columns:[
           {data:'selectAll', name:'selectAll'},
           {data:'DT_RowIndex', name:'DT_RowIndex'},
-          {data:'kode_member', name:'kode_member'},
-          {data:'nama_member', name:'nama_member'},
-          {data:'alamat_member', name:'alamat_member'},
-          {data:'telepon_member', name:'telepon_member'},
+          {data:'nik', name:'nik'},
+          {data:'nama', name:'nama'},
+          {data:'jenis_kelamin', name:'jenis_kelamin'},
+          {data:'tanggal_lahir', name:'tanggal_lahir'},
+          {data:'alamat', name:'alamat'},
+          {data:'telepon', name:'telepon'},
+          {data:'jabatan', name:'jabatan'},
           {data:'action', name:'action'},
         ],
       });
@@ -92,52 +98,6 @@
       }
     });
 
-    //RESTORE ONE
-    $('.btn_restore').click(function(e) {
-        e.preventDefault();
-        const href = $(this).attr('href');
-
-        Swal.fire({
-          title: 'Apakah kamu yakin?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, restore it!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            document.location.href = href;
-            Swal.fire(
-              'Restored!',
-              'Your file has been deleted.',
-              'success'
-            )
-          }
-        })
-      });
-
-      //DELETE ONE
-      $('.btn_delete').click(function(e) {
-        e.preventDefault();
-        const href = $(this).attr('href');
-        Swal.fire({
-          title: 'Apakah kamu yakin?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            document.location.href = href;
-            Swal.fire(
-              'Deleted!',
-              'Your file has been deleted.',
-              'success'
-            )
-          }
-        })
-      });
   </script>
 @endsection
 

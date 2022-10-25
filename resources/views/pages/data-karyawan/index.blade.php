@@ -27,7 +27,7 @@
                       <th style="width: 5%">No</th>
                       <th>NIK</th>
                       <th>Nama</th>
-                      <th>Jenis Kelamin</th>
+                      <th>L / P</th>
                       <th>Tanggal Lahir</th>
                       <th>Alamat</th>
                       <th>Telepon</th>
@@ -53,13 +53,14 @@
   <script type="text/javascript">
     //DATE PICKER
     $('#reservationdate').datetimepicker({
-        format: 'L'
+        format: 'YYYY/MM/DD'
     }); 
 
     let table;
     $(function(){
       //TAMPIL DATA
       table = $('.table').DataTable({
+        "scrollX": true,
         processing: true,
         severSide: true,
         ajax:"{{ route('data-karyawan.index') }}",
@@ -129,9 +130,12 @@
 
       $.get(url)
         .done((response) => {
-          $('#modal-form [name=nama_karyawan]').val(response.nama_karyawan);
-          $('#modal-form [name=alamat_karyawan]').val(response.alamat_karyawan);
-          $('#modal-form [name=telepon_karyawan]').val(response.telepon_karyawan);
+          $('#modal-form [name=nik]').val(response.nik);
+          $('#modal-form [name=nama]').val(response.nama);
+          $('#modal-form [name=tanggal_lahir]').val(response.tanggal_lahir);
+          $('#modal-form [name=alamat]').val(response.alamat);
+          $('#modal-form [name=telepon]').val(response.telepon);
+          $('#modal-form [name=jabatan]').val(response.jabatan);
         })
         .fail((errors) => {
           alert('Tidak dapat menampilkan data');
