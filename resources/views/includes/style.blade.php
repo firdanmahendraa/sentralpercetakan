@@ -15,23 +15,3 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/plugins/DataTables-1.12.1/css/dataTables.bootstrap4.min.css') }}"/>
   <!-- Select2 -->
   <link href="{{ asset('assets/plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet" />
-
-  <style>
-    nav, .nav-link{
-      color: white;
-    }
-    .user {
-      margin-top: 10px;
-      display: flex;
-      align-items: flex-start;
-    }
-    nav, .info{
-      color: #212529;
-    }
-    .content-header{
-      padding: 15px;
-    }
-    .card-header>.card-tools {
-      padding-top: 4px;
-  }
-  </style>

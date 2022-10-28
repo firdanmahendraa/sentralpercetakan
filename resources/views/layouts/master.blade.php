@@ -11,6 +11,24 @@
 
     @include('includes.style')
     <style>
+      nav, .nav-link{
+        color: white;
+      }
+      .user {
+        margin-top: 10px;
+        display: flex;
+        align-items: flex-start;
+      }
+      nav, .info{
+        color: #212529;
+      }
+      .content-header{
+        padding: 15px;
+      }
+      .card-header>.card-tools {
+        padding-top: 4px;
+      }
+      
       .brand-link{
         padding: 0.66rem 0.5rem;
       }
