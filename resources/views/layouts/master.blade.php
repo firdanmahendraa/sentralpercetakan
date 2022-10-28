@@ -22,6 +22,16 @@
       .brand-text{
         height: 1.6rem;
       }
+      
+      /* Modal Style */
+      .btn-simpan{
+        background-color: #28A745; 
+        color: #fff;
+      }
+      .btn-back{
+        background-color: #e4bb05;
+        color: #fff;
+      }
     </style>
     @yield('css')
   </head>

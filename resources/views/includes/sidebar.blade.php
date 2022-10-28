@@ -70,30 +70,45 @@
             </a>
           </li>
           <li class="nav-header">LAPORAN</li>
-              <li class="nav-item">
-                <a href="/laporan-pendapatan" class="nav-link {{ request()->is('laporan-pendapatan') ? 'active' : ''}}">
-                  <i class="nav-icon fas fa-upload"></i>
-                  <p>Pendapatan</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/laporan-pembelian" class="nav-link {{ request()->is('laporan-pembelian') ? 'active' : ''}}">
-                  <i class="nav-icon fa fa-download"></i>
-                  <p>Pembelian</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/laporan-hutang" class="nav-link {{ request()->is('laporan-hutang') ? 'active' : ''}}">
-                  <i class="nav-icon fas fa-money-bill"></i>
-                  <p>Data Hutang</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/laporan-piutang" class="nav-link {{ request()->is('laporan-piutang') ? 'active' : ''}}">
-                  <i class="nav-icon fas fa-money-bill"></i>
-                  <p>Data Piutang</p>
-                </a>
-              </li>
+            <li class="nav-item">
+              <a href="/laporan-pendapatan" class="nav-link {{ request()->is('laporan-pendapatan') ? 'active' : ''}}">
+                <i class="nav-icon fas fa-upload"></i>
+                <p>Pendapatan</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/laporan-pembelian" class="nav-link {{ request()->is('laporan-pembelian') ? 'active' : ''}}">
+                <i class="nav-icon fa fa-download"></i>
+                <p>Pembelian</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/laporan-hutang" class="nav-link {{ request()->is('laporan-hutang') ? 'active' : ''}}">
+                <i class="nav-icon fas fa-money-bill"></i>
+                <p>Data Hutang</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link {{ request()->is('laporan-piutang') ? 'active' : ''}}">
+                <i class="nav-icon fas fa-money-bill"></i>
+                <p>Data Piutang<i class="fas fa-angle-left right"></i> </p>
+              </a>
+              <ul class="nav nav-treeview" style="display: none; padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
+                <li class="nav-item">
+                  <a href="/pengajuan-piutang" class="nav-link {{ request()->is('pengajuan-piutang') ? 'active' : ''}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Pengajuan Piutang</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="pages/tables/simple.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Piutang Usaha</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </li>
           <li class="nav-header">SYSTEM</li>
           <li class="nav-item">
             <a href="/users" class="nav-link {{ request()->is('users') ? 'active' : ''}}">

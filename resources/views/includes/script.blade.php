@@ -11,7 +11,11 @@
 <!-- AdminLTE -->
 <script src="{{ asset('AdminLTE/dist/js/adminlte.js') }}"></script>
 
+<!-- Extra Plugins -->
+<!-- Datatables -->
 <script type="text/javascript" src="{{ asset('assets/plugins/DataTables-1.12.1/js/jquery.dataTables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/plugins/DataTables-1.12.1/js/dataTables.bootstrap4.min.js') }}"></script>
 <!-- Validator -->
 <script type="text/javascript" src="{{ asset('assets/plugins/validator.min.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ asset('assets/plugins/select2/dist/js/select2.min.js') }}"></script>

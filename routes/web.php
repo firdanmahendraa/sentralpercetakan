@@ -7,7 +7,8 @@ use App\Http\Controllers\{
     ProdukController,
     MemberController,
     SupplierController,
-    UsersController
+    UsersController,
+    PengajuanController,
 
 }; 
 
@@ -56,6 +57,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('data-supplier/restore/{id?}', [SupplierController::class, 'restore'])->name('data-supplier.restore');
     Route::get('data-supplier/delete/{id?}', [SupplierController::class, 'delete'])->name('data-supplier.delete');
     Route::resource('data-supplier', SupplierController::class);
+
+    //LAPORAN
+    Route::resource('pengajuan-piutang', PengajuanController::class);
 
     
     Route::resource('users', UsersController::class);
