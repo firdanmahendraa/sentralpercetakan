@@ -88,16 +88,16 @@
                 <p>Data Hutang</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link {{ request()->is('laporan-piutang') ? 'active' : ''}}">
+            <li class="nav-item {{ request()->segment(1) == 'piutang-karyawan' && 'piutang-usaha' ? 'menu-is-opening menu-open' : '' }}">
+              <a href="#" class="nav-link {{ request()->segment(1) == 'piutang-karyawan' && 'piutang-usaha' ? 'active' : ''}}">
                 <i class="nav-icon fas fa-money-bill"></i>
                 <p>Data Piutang<i class="fas fa-angle-left right"></i> </p>
               </a>
-              <ul class="nav nav-treeview" style="display: none; padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
+              <ul class="nav nav-treeview" style="{{ request()->segment(1) == 'piutang-karyawan','piutang-usaha' ? 'display:block;' : 'display:none;' }}padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
                 <li class="nav-item">
-                  <a href="/pengajuan-piutang" class="nav-link {{ request()->is('pengajuan-piutang') ? 'active' : ''}}">
+                  <a href="{{ route('piutang-karyawan.index') }}" class="nav-link {{ request()->segment(1) == 'piutang-karyawan' ? 'active' : ''}}">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Pengajuan Piutang</p>
+                    <p>Piutang Karyawan</p>
                   </a>
                 </li>
                 <li class="nav-item">

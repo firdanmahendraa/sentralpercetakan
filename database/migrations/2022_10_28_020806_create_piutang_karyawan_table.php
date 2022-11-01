@@ -15,7 +15,6 @@ class CreatePiutangKaryawanTable extends Migration
     {
         Schema::create('piutang_karyawan', function (Blueprint $table) {
             $table->increments('id_piutang_karyawan');
-            $table->date('tgl_pengajuan');
             $table->unsignedBigInteger('id_karyawan');
             $table->foreign('id_karyawan')
                 ->references('id')
@@ -23,9 +22,9 @@ class CreatePiutangKaryawanTable extends Migration
                 ->onUpdate('restrict')
                 ->onDelete('restrict');
             $table->string('keterangan');
-            $table->integer('saldo');
+            $table->integer('jml_pengajuan');
             $table->string('status')->default('pending');
-            $table->integer('total_pitang');
+            $table->integer('total_piutang');
             $table->integer('total_terbayar');
             $table->timestamps();
         });

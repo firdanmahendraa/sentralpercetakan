@@ -59,7 +59,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('data-supplier', SupplierController::class);
 
     //LAPORAN
-    Route::resource('pengajuan-piutang', PengajuanController::class);
+    Route::get('piutang-karyawan/detail', [PengajuanController::class, 'detail'])->name('piutang-karyawan.detail');
+    Route::resource('piutang-karyawan', PengajuanController::class);
 
     
     Route::resource('users', UsersController::class);

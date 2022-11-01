@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PiutangKaryawan;
+use App\Models\PiutangKaryawanDetail;
 use App\Models\DataKaryawan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -24,8 +25,8 @@ class PengajuanController extends Controller{
                     return '<span class="badge badge-secondary">'. $row->status .'</span>';
                 }
             })
-            ->addColumn('saldo', function($produk) {
-                return format_uang($produk->saldo);
+            ->addColumn('jml_pengajuan', function($row) {
+                return 'Rp. '.  format_uang($row->jml_pengajuan);
             })
             ->addColumn('action', function($row){
                 if ($row->status == 'pending') {
@@ -33,14 +34,18 @@ class PengajuanController extends Controller{
                     <button class="btn btn-success btn-sm">Terima</button>
                     <button class="btn btn-danger btn-sm">Tolak</button>
                 ';
+                }elseif($row->status == 'diterima'){
+                    return '
+                    <a class="btn btn-success btn-sm" href="'. route('piutang-karyawan.detail', $row->id_piutang_karyawan) .'">Detail</a>
+                ';
                 }
             })
-            ->rawColumns(['action','status', 'saldo'])
+            ->rawColumns(['action','status', 'jml_pengajuan'])
             ->make(true);
             return $allData;
         }
         $pengajuan['id_karyawan'] = DataKaryawan::all();
-        return view('pages.pengajuan-piutang.index',compact('pengajuan'));
+        return view('pages.piutang-karyawan.index',compact('pengajuan'));
     }
     
     public function store(Request $request) {
@@ -49,24 +54,33 @@ class PengajuanController extends Controller{
         return response()->json('Data berhasil Disimpan', 200);
     }
 
-    public function show($id){
-        $pengajuan = PiutangKaryawan::find($id);
-        return response()->json($pengajuan);
+    public function detail(Request $request){
+        $data = PiutangKaryawanDetail::join('piutang_karyawan','piutang_karyawan.id_piutang_karyawan','piutang_karyawan_detail.id_piutang_karyawan')->get();   
+        if($request->ajax()){
+            $allData = DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('debit', function($row) {
+                return 'Rp. '.  format_uang($row->debit);
+            })
+            ->addColumn('kredit', function($row) {
+                return 'Rp. '.  format_uang($row->kredit);
+            })
+            ->addColumn('total_piutang', function($row) {
+                return 'Rp. '.  format_uang($row->total_piutang);
+            })
+            ->rawColumns(['debit','kredit','total_piutang'])
+            ->make(true);
+            return $allData;
+        }
+        $data['id_piutang_karyawan'] = PiutangKaryawan::all();
+        return view('pages.piutang-karyawan.detail',compact('data'));
     }
 
     public function update(Request $request, $id){
-        $pengajuan = PiutangKaryawan::find($id);
-        $pengajuan->nama_pengajuan = $request->nama_pengajuan;
-        $pengajuan->alamat_pengajuan = $request->alamat_pengajuan;
-        $pengajuan->telepon_pengajuan = $request->telepon_pengajuan;
-        $pengajuan->update();
-
-        return response()->json('Data berhasil Disimpan', 200);
+        // 
     }
 
     public function destroy($id){
-        $pengajuan = PiutangKaryawan::find($id);
-        $pengajuan->delete();
-        return response(null, 204);
+        // 
     }
 }

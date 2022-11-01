@@ -13,10 +13,10 @@ class PiutangKaryawan extends Model
     protected $primaryKey = 'id_piutang_karyawan';
     
     protected $casts = [
-        'tgl_pengajuan' => 'datetime:d/m/Y'
+        'tgl_pengajuan' => 'date:d/m/Y'
     ];
 
     protected $fillable = [
-        'tgl_pengajuan', 'id_karyawan', 'keterangan', 'saldo', 'status', 'total_pitang', 'total_terbayar'
+        'tgl_pengajuan', 'id_karyawan', 'keterangan', 'jml_pengajuan', 'status', 'total_pitang', 'total_terbayar'
     ];
 }
