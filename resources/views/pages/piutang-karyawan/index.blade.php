@@ -57,7 +57,7 @@
           {data:'tgl_pengajuan', name:'tgl_pengajuan'},
           {data:'nama', name:'nama'},
           {data:'jml_pengajuan', name:'jml_pengajuan'},
-          {data:'keterangan', name:'keterangan'},
+          {data:'ket_pengajuan', name:'ket_pengajuan'},
           {data:'status', name:'status'},
           {data:'action', name:'action', orderable: false, searchable: false},
         ],

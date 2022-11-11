@@ -55,7 +55,8 @@ class PengajuanController extends Controller{
     }
 
     public function detail(Request $request){
-        $data = PiutangKaryawanDetail::join('piutang_karyawan','piutang_karyawan.id_piutang_karyawan','piutang_karyawan_detail.id_piutang_karyawan')->get();   
+        $data = PiutangKaryawanDetail::get();   
+        // $data = PiutangKaryawanDetail::join('piutang_karyawan','piutang_karyawan.id_piutang_karyawan','piutang_karyawan_detail.id_piutang_karyawan')->get();   
         if($request->ajax()){
             $allData = DataTables::of($data)
             ->addIndexColumn()
@@ -68,11 +69,15 @@ class PengajuanController extends Controller{
             ->addColumn('total_piutang', function($row) {
                 return 'Rp. '.  format_uang($row->total_piutang);
             })
-            ->rawColumns(['debit','kredit','total_piutang'])
+            ->addColumn('sisa_saldo', function($row) {
+                return 'Rp. '.  format_uang($row->sisa_saldo);
+            })
+            ->rawColumns(['debit','kredit','total_piutang','sisa_saldo'])
             ->make(true);
             return $allData;
         }
-        $data['id_piutang_karyawan'] = PiutangKaryawan::all();
+        // $data['id_piutang_karyawan'] = PiutangKaryawan::all();
+        // $data['id_karyawan'] = DataKaryawan::all();
         return view('pages.piutang-karyawan.detail',compact('data'));
     }
 

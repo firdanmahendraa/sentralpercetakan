@@ -34,10 +34,16 @@
                     <label for="">Alamat</label><br>
                     <label for="">No. Telp</label>
                 </div>
-                <div class="col-md-5">                  
-                  <label for="">: Nama</label><br>
-                  <label for="">: Alamat</label><br>
-                  <label for="">: No. Telp</label>
+                <div class="col-md-5">  
+                  {{-- @forelse ($data as $item)
+                    <label for="">: {{ $item->saldo }}</label><br>
+                    <label for="">: {{ $item->saldo }}</label><br>
+                    <label for="">: {{ $item->saldo }}</label><br>
+                  @empty
+                    <label for="">: Nama</label><br>
+                    <label for="">: Alamat</label><br>
+                    <label for="">: No. Telp</label>
+                  @endforelse                 --}}
                 </div>
                 <div class="col-md-6">
                   <div class="row float-right">
@@ -93,7 +99,7 @@
           {data:'keterangan', name:'keterangan'},
           {data:'debit', name:'debit'},
           {data:'kredit', name:'kredit'},
-          {data:'total_piutang', name:'total_piutang'},
+          {data:'sisa_saldo', name:'sisa_saldo'},
         ],
       });
 
