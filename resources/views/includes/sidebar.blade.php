@@ -27,7 +27,7 @@
           </li>
           <li class="nav-header">TRANSAKSI</li>
           <li class="nav-item">
-            <a href="transaksi-baru" class="nav-link {{ request()->is('transaksi-baru') ? 'active' : ''}}">
+            <a href="{{ route('transaksi.index') }}" class="nav-link {{ request()->is('transaksi') ? 'active' : ''}}">
               <i class="nav-icon fas fa-cart-plus"></i>
               <p>Transaksi Masuk</p>
             </a>

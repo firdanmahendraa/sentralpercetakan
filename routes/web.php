@@ -2,6 +2,8 @@
 use App\Http\Controllers\{
     LoginController,
     DashboardController,
+    PenjualanController,
+    PenjualanDetailController,
     DataKaryawanController,
     KategoriController,
     ProdukController,
@@ -31,6 +33,14 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    //TRANSAKSI
+    Route::resource('transaksi', PenjualanController::class);
+
+    Route::get('transaksi-detail/{id}/data', [PenjualanDetailController::class, 'data'])->name('transaksi-detail.data');
+    Route::get('transaksi-detail/loadform/{diskon}/{total}/{diterima}', [PenjualanDetailController::class, 'loadForm'])->name('transaksi-detail.load_form');
+    Route::resource('transaksi-detail', PenjualanDetailController::class)
+        ->except('create', 'show', 'edit');
 
     //MASTER
     Route::get('data-karyawan/trash', [DataKaryawanController::class, 'trash'])->name('data-karyawan.trash');

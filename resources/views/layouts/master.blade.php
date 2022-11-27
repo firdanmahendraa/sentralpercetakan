@@ -11,8 +11,11 @@
 
     @include('includes.style')
     <style>
-      nav, .nav-link{
-        color: white;
+      .navbar-nav, .nav-link{
+        color: white;        
+      }
+      .navbar-nav, .nav-link:hover{
+        color: white;        
       }
       .user {
         margin-top: 10px;
@@ -28,7 +31,6 @@
       .card-header>.card-tools {
         padding-top: 4px;
       }
-      
       .brand-link{
         padding: 0.66rem 0.5rem;
       }
@@ -51,7 +53,8 @@
         color: #fff;
       }
     </style>
-    @yield('css')
+    
+    @stack('css')
   </head>
 
   <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
