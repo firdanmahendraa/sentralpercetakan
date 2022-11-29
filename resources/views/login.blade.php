@@ -26,7 +26,7 @@
       margin-bottom: 10px;
     }
     .bg-login-image {
-      background: url('http://127.0.0.1:8000/AdminLTE/dist/img/photo2.png');
+      background: url( {{ $setting->bg_login }} );
       background-position: center;
       background-size: cover;
     }
@@ -42,7 +42,7 @@
         <div class="col-lg-6">
           <div class="login-form">
             <div class="text-center">
-              <img class="company-logo" src="{{ asset('assets/img/logo.png') }}" alt="">
+              <img class="company-logo" src="{{ url($setting->logo_login) }}" alt="">
             </div>
             <p class="login-box-msg">Silahkan masuk terlebih dahulu</p>
             <form method="POST" action="/">

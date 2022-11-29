@@ -1,8 +1,8 @@
 <aside class="main-sidebar sidebar-light-primary">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link bg-primary">
-      <img src="{{ asset('assets/img/brand_icon.png') }}" alt="AdminLTE Logo" class="brand-image">
-      <span class="brand-text font-weight-bold">Sentral Percetakan</span>
+    <a href="#" class="brand-link bg-primary">
+      <img src="{{ url($setting->logo_aplikasi) }}" alt="ASAP Logo" class="brand-image">
+      <span class="brand-text font-weight-bold">{{ $setting->nama_perusahaan }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -114,6 +114,12 @@
             <a href="/users" class="nav-link {{ request()->is('users') ? 'active' : ''}}">
               <i class="nav-icon fas fa-users"></i>
               <p>Users</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('setting.index') }}" class="nav-link {{ (request()->segment(1) == 'setting') ? 'active' : ''}}">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>Pengaturan</p>
             </a>
           </li>
           <li class="nav-header">AdminLTE</li>

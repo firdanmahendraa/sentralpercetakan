@@ -10,7 +10,8 @@ use App\Http\Controllers\{
     MemberController,
     SupplierController,
     UsersController,
-    PengajuanController,
+    SettingController,
+    PengajuanController
 
 }; 
 
@@ -72,7 +73,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('piutang-karyawan/detail', [PengajuanController::class, 'detail'])->name('piutang-karyawan.detail');
     Route::resource('piutang-karyawan', PengajuanController::class);
 
-    
+    //SETTING
     Route::resource('users', UsersController::class);
+
+    Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
+    Route::get('setting/show', [SettingController::class, 'show'])->name('setting.show');
+    Route::post('setting', [SettingController::class, 'update'])->name('setting.update');
 });
 
