@@ -20,6 +20,7 @@ class CreateSettingTable extends Migration
             $table->string('telepon');
             $table->string('logo_aplikasi');
             $table->string('logo_login');
+            $table->string('bg_login');
             $table->string('logo_nota');
             $table->timestamps();
         });
