@@ -24,6 +24,7 @@
                       <th style="width: 5%">No</th>
                       <th style="width: 10%">Kode Produk</th>
                       <th>Nama Produk</th>
+                      <th>Satuan</th>
                       <th>Harga</th>
                       <th>Aksi</th>
                     </tr>
@@ -55,6 +56,7 @@
           {data:'DT_RowIndex', name:'DT_RowIndex'},
           {data:'kode_produk', name:'kode_produk'},
           {data:'nama_produk', name:'nama_produk'},
+          {data:'satuan_produk', name:'satuan_produk'},
           {data:'harga_produk', name:'harga_produk'},
           {data:'action', name:'action'},
         ],
@@ -113,6 +115,7 @@
       $.get(url)
         .done((response) => {
           $('#modal-form [name=nama_produk]').val(response.nama_produk);
+          $('#modal-form [name=satuan_produk]').val(response.satuan_produk);
           $('#modal-form [name=harga_produk]').val(response.harga_produk);
         })
         .fail((errors) => {

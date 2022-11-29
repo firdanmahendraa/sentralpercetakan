@@ -18,7 +18,7 @@ class ProdukController extends Controller{
                 return '<span class="badge badge-success">'. $produk->kode_produk .'</span>';
             })
             ->addColumn('harga_produk', function($produk) {
-                return format_uang($produk->harga_produk);
+                return 'Rp. ' . format_uang($produk->harga_produk);
             })
             ->addColumn('action', function($row){
                 return '
