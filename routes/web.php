@@ -58,11 +58,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('data-produk/restore/{id?}', [ProdukController::class, 'restore'])->name('data-produk.restore');
     Route::get('data-produk/delete/{id?}', [ProdukController::class, 'delete'])->name('data-produk.delete');
     Route::resource('data-produk', ProdukController::class);
-
-    Route::get('data-member/trash', [MemberController::class, 'trash'])->name('data-member.trash');
-    Route::get('data-member/restore/{id?}', [MemberController::class, 'restore'])->name('data-member.restore');
-    Route::get('data-member/delete/{id?}', [MemberController::class, 'delete'])->name('data-member.delete');
-    Route::resource('data-member', MemberController::class);
     
     Route::get('data-supplier/trash', [SupplierController::class, 'trash'])->name('data-supplier.trash');
     Route::get('data-supplier/restore/{id?}', [SupplierController::class, 'restore'])->name('data-supplier.restore');

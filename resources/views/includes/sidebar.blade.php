@@ -58,12 +58,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('data-member.index') }}" class="nav-link {{ (request()->segment(1) == 'data-member') ? 'active' : ''}}">
-              <i class="nav-icon fa fa-id-card"></i>
-              <p>Member</p>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="{{ route('data-supplier.index') }}" class="nav-link {{ (request()->segment(1) == 'data-supplier') ? 'active' : ''}}">
               <i class="nav-icon fa fa-truck"></i>
               <p>Supplier</p>
