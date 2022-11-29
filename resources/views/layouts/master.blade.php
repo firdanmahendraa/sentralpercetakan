@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/icon.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url($setting->logo_aplikasi) }}" />
     
-    <title>@yield('title') - Sentral Percetakan</title>
+    <title>{{ $setting->nama_perusahaan }} | @yield('title')</title>
 
     @include('includes.style')
     <style>
@@ -48,8 +48,16 @@
         background-color: #28A745; 
         color: #fff;
       }
+      .btn-simpan:hover{
+        background-color: #228f3b; 
+        color: #fff;
+      }
       .btn-back{
         background-color: #e4bb05;
+        color: #fff;
+      }
+      .btn-back:hover{
+        background-color: #c5a204;
         color: #fff;
       }
     </style>
@@ -77,7 +85,7 @@
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     @section('breadcrumbs')
-                      <li class="breadcrumb-item"><a href="#">Home</a></li>
+                      <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                       <li class="breadcrumb-item active">@yield('title')</li>
                     @show
                 </ol>
@@ -99,6 +107,12 @@
     <!-- ./wrapper -->
     
     @include('includes.script')
+    <script>
+      function preview(selector, temporaryFile, width = 200) {
+        $(selector).empty();
+        $(selector).append(`<img src="${window.URL.createObjectURL(temporaryFile)}" width="${width}">`);
+      }
+    </script>
     @yield('js')
   </body>
 </html>
