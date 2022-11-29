@@ -90,7 +90,7 @@
       }
     });
 
-    //RESTORE ONE
+    //RESTORE ALL
     $('.btn_restore').click(function(e) {
         e.preventDefault();
         const href = $(this).attr('href');
@@ -101,20 +101,22 @@
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, restore it!'
+          confirmButtonText: 'Yes, restore it!',
+          showConfirmButton: true,
+          timer: 3000
         }).then((result) => {
           if (result.isConfirmed) {
             document.location.href = href;
             Swal.fire(
               'Restored!',
               'Your file has been deleted.',
-              'success'
+              'success',
             )
           }
         })
       });
 
-      //DELETE ONE
+      //DELETE ALL
       $('.btn_delete').click(function(e) {
         e.preventDefault();
         const href = $(this).attr('href');
@@ -124,14 +126,17 @@
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
+          confirmButtonText: 'Yes, delete it!',
+          showConfirmButton: true,
+          timer: 3000
         }).then((result) => {
           if (result.isConfirmed) {
             document.location.href = href;
             Swal.fire(
               'Deleted!',
               'Your file has been deleted.',
-              'success'
+              'success',
+              
             )
           }
         })

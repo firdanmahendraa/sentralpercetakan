@@ -74,7 +74,7 @@ class SupplierController extends Controller{
             })
             ->addColumn('action', function($supplier){
                 return '
-                    <a href="'. url('data-supplier/restore/'.$supplier->id) .'" class="btn btn-info btn-sm btn_restore">Restore Permanently</a>
+                    <a href="'. url('data-supplier/restore/'.$supplier->id) .'" class="btn btn-info btn-sm btn_restore">Restore Data</a>
                     <a href="'. url('data-supplier/delete/'.$supplier->id) .'" class="btn btn-danger btn-sm btn_delete">Delete Permanantly</a>
                 ';
             })

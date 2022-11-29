@@ -73,7 +73,8 @@
             Swal.fire({
               icon: 'success',
               title: 'Data berhasil disimpan',
-              timer: 1500
+              showConfirmButton: true,
+              timer: 3000
             })
             table.ajax.reload();
           })
@@ -142,8 +143,8 @@
             Swal.fire({
               icon: 'success',
               title: 'Data berhasil dihapus!',
-              showConfirmButton: false,
-              timer: 1500
+              showConfirmButton: true,
+              timer: 3000
             }) 
             table.ajax.reload();
           })

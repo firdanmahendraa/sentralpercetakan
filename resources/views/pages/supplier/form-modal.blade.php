@@ -15,21 +15,21 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="namaProduk">Toko</label>
-                <input type="text" class="form-control" name="nama_supplier" placeholder="Masukkan nama produk" required autofocus>
+                <input type="text" class="form-control" name="nama_supplier" placeholder="Masukkan nama supplier" required autofocus>
                 <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="hargaProduk">Telepon</label>
-                <input type="text" class="form-control" name="telepon_supplier" placeholder="Masukkan harga" required>
+                <input type="text" class="form-control" name="telepon_supplier" placeholder="Masukkan telepon" required>
                 <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
             <div class="col-sm-12">
               <div class="form-group">
                 <label for="hargaProduk">Alamat</label>
-                <textarea class="form-control" name="alamat_supplier" placeholder="Masukkan harga" name="" id="" cols="30" rows="10"></textarea>
+                <textarea class="form-control" name="alamat_supplier" placeholder="Masukkan alamat" name="" id="" cols="30" rows="10"></textarea>
                 <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
