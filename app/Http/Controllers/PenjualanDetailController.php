@@ -99,7 +99,8 @@ class PenjualanDetailController extends Controller
             'totalrp'   => format_uang($total),
             'bayar'     => $bayar,
             'bayarrp'   => format_uang($bayar),
-            'kembalirp' => format_uang($kembali)
+            'kembalirp' => $kembali,
+            'sisa'      => format_uang($kembali)
         ];
 
         return response()->json($data);

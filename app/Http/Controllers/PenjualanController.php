@@ -47,6 +47,10 @@ class PenjualanController extends Controller
 
         session(['id_penjualan' => $penjualan->id_penjualan]);
         return redirect()->route('transaksi-detail.index');
+    }
 
+    public function store(Request $request)
+    {
+        return $request;
     }
 }

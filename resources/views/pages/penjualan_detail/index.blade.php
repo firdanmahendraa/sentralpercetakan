@@ -34,30 +34,6 @@
               <div class="card-body">
                 <div class="mb-1">
                   <div class="row">
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label>Nama</label>
-                        <input type="text" class="form-control" name="nama_pemesan" id="nama_pemesan">
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label>Telepon</label>
-                        <input type="text" class="form-control" name="alamat_pemesan" id="alamat_pemesan">
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label>Alamat</label>
-                        <input type="text" class="form-control" name="telepon_pemesan" id="telepon_pemesan">
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label>Acc Desain</label>
-                        <input type="text" class="form-control" name="acc_desain" id="acc_desain">
-                      </div>
-                    </div>
                     <div class="col-md-3 offset-3 text-right">
                       <label for="" class="col-form-label" style="text-align:right">Cari Kode Produk</label>
                     </div>
@@ -68,7 +44,7 @@
                           <input type="hidden" name="id_penjualan" id="id_penjualan" value="{{ $id_penjualan }}">
                           <input type="hidden" name="id_produk" id="id_produk">
                           <input type="text" class="form-control" name="kode_produk" id="kode_produk" disabled>
-                          <span class="input-group-append">
+                          <span class="input-group-append mb-2">
                             <button type="button" class="btn btn-info btn-flat" onclick="tampilProduk()"><i class="fa fa-plus"></i></button>
                           </span>
                         </div>
@@ -93,22 +69,53 @@
                   <tbody> </tbody>
                 </table>
 
-                <div class="row">
-                  <div class="col-lg-8">
-                    <div class="tampil-bayar bg-info"></div>
+                <form action="{{ route('transaksi.store') }}" data-toggle="validator" class="form-penjualan" method="post">
+                  @csrf
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" class="form-control" name="nama_pemesan" id="nama_pemesan" required>
+                      </div>
+                      <span class="help-block with-errors"></span>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>Telepon</label>
+                        <input type="text" class="form-control" name="telepon_pemesan" id="telepon_pemesan" required>
+                      </div>
+                      <span class="help-block with-errors"></span>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>Alamat</label>
+                        <input type="text" class="form-control" name="alamat_pemesan" id="alamat_pemesan" required>
+                      </div>
+                      <span class="help-block with-errors"></span>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>Acc Desain</label>
+                        <input type="text" class="form-control" name="acc_desain" id="acc_desain" required>
+                      </div>
+                      <span class="help-block with-errors"></span>
+                    </div>
                   </div>
-                  <div class="col-lg-4">
-                    <form action="{{ route('transaksi.store') }}" class="form-penjualan" method="post">
-                      @csrf
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="tampil-bayar bg-info"></div>
+                    </div>
+                    <div class="col-lg-4">
                       <input type="hidden" name="id_penjualan" value="{{ $id_penjualan }}">
-                      <input type="hidden" name="total" id="total">
                       <input type="hidden" name="total_item" id="total_item">
-                      <input type="hidden" name="bayar" id="bayar">
+                      <input type="hidden" name="id_akun" id="id_akun">
 
                       <div class="form-group row">
                         <label for="total" class="col-lg-3 text-right mt-2">Total</label>
                         <div class="col-lg-9">
                           <input type="text" id="totalrp" class="form-control" disabled>
+                          <input type="hidden" name="total" id="total">
                         </div>
                       </div>
                       <div class="form-group row">
@@ -123,13 +130,14 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="bayar" class="col-lg-3 text-right mt-2">Bayar</label>
+                        <label for="bayarrp" class="col-lg-3 text-right mt-2">Bayar</label>
                         <div class="col-lg-9">
                           <input type="text" id="bayarrp" class="form-control" disabled>
+                          <input type="hidden" name="bayar" id="bayar">
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="bayar" class="col-lg-3 text-right mt-2">Diterima</label>
+                        <label for="diterima" class="col-lg-3 text-right mt-2">Diterima</label>
                         <div class="col-lg-9">
                           <div class="input-group">
                             <div class="input-group-prepend">
@@ -140,20 +148,17 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="sisa" class="col-lg-3 text-right mt-2">Sisa</label>
+                        <label for="sisa " class="col-lg-3 text-right mt-2">Kembali</label>
                         <div class="col-lg-9">
                           <div class="input-group">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text">Rp</span>
-                            </div>
-                            <input type="text" name="sisa" class="form-control" disabled>
+                            <input type="text" id="sisa" class="form-control" disabled>
+                            <input type="hidden" name="kembali" id="kembali">
                           </div>
                         </div>
                       </div>
-                    </form>
+                    </div>
                   </div>
-                </div>
-                
+                </form>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
@@ -171,18 +176,6 @@
 
 @section('js')
   <script type="text/javascript">
-    $(document).ready(function() {
-        // $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
-        // $('.select').select2({
-        //   tags:true,
-        //   tokenSeparators: [',','']
-        // });
-
-        // $.('#myTab a[href="#karyawan"]').on('click', function (e) {
-        //   e.preventDefault()
-        //   $(this).tab('show')
-        // })
-    });
 
     let table, table2, table3;
     $(function(){
@@ -250,10 +243,10 @@
       // INPUT DITERIMA
       $('#diterima').on('input', function () {
         if ($(this).val() == "") {
-          $(this).val(0).select();
+            $(this).val(0).select();
         }
 
-        loadForm($('$diskon').val(), $(this).val());
+        loadForm($('#diskon').val(), $(this).val());
       }).focus(function () {
           $(this).select();
       });
@@ -289,7 +282,7 @@
       })
     }
 
-    // JAPUS PRODUK TERPILIH
+    // HAPUS PRODUK TERPILIH
     function deleteData(url) {
       Swal.fire({
         title: 'Apakah anda yakin?',
@@ -326,16 +319,30 @@
     }
     
     // LOAD TOTAL 
-    function loadForm(diskon = 0, diterima = 10) {
+    function loadForm(diskon = 0, diterima = 0) {
       $('#total').val($('.total').text());
       $('#total_item').val($('.total_item').text());
+      
 
       $.get(`{{ url('transaksi-detail/loadform') }}/${diskon}/${$('.total').text()}/${diterima}`)
         .done(response => {
           $('#totalrp').val('Rp. '+ response.totalrp);
           $('#bayarrp').val('Rp. '+ response.bayarrp);
           $('#bayar').val(response.bayar);
-          $('.tampil-bayar').text('Rp. '+ response.bayarrp);
+          $('.tampil-bayar').text('Bayar: Rp. '+ response.bayarrp);
+
+          $('#sisa').val('Rp. '+ response.sisa);
+          $('#kembali').val(response.kembalirp);
+          
+          if ($('#kembali').val() > 0) {
+            $('#id_akun').val('1');
+          }else{
+            $('#id_akun').val('9');
+          }
+
+          if ($('#diterima').val() != 0) {
+            $('.tampil-bayar').text('Kembali: Rp. '+ response.sisa);
+          }
         })
         .fail(errors => {
           alert('Tidak dapat menampilkan data');
