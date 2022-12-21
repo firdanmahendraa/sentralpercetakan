@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login - Sentral Percetakan</title>
+  
+  <link rel="icon" type="image/x-icon" href="{{ $setting->logo_aplikasi }}" />
+  <title>{{ $setting->nama_perusahaan }} | Login</title>
 
   <!-- Google Font: Source Sans Pro -->
   @include('includes.style')
