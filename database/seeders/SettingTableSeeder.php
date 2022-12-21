@@ -20,7 +20,7 @@ class SettingTableSeeder extends Seeder{
             'telepon' => '085284070404',
             'logo_aplikasi' => 'assets/img/brand_icon.png',
             'logo_login' => 'assets/img/logo.png',
-            'logo_login' => 'assets/img/bg_login.png',
+            'bg_login' => 'assets/img/bg_login.png',
             'logo_nota' => 'assets/img/nota_logo.png',
         ]);
     }

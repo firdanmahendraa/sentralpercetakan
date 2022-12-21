@@ -34,18 +34,6 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label for="logo_aplikasi" class="col-sm-2 offset-1 col-form-label">Logo Aplikasi</label>
-                  <div class="col-sm-8">
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input"name="logo_aplikasi" id="logo_aplikasi"
-                        onchange="preview('.logo-aplikasi', this.files[0])">
-                      <label class="custom-file-label" for="customFile">Choose file</label>
-                    </div>
-                    <span class="help-block with-errors"></span>
-                    <div class="logo-aplikasi mt-3"></div>
-                  </div>
-                </div>
-                <div class="form-group row">
                   <label for="logo_login" class="col-sm-2 offset-1 col-form-label">Logo Login</label>
                   <div class="col-sm-8">
                     <div class="custom-file">
@@ -137,11 +125,9 @@
       $('title').text(response.nama_perusahaan + ' | Pengaturan');
       $('.brand-text').text(response.nama_perusahaan);
       
-      $('.logo-aplikasi').html(`<img src="{{ url('/') }}/${response.logo_aplikasi}" width="200">`);
       $('.logo-login').html(`<img src="{{ url('/') }}/${response.logo_login}" width="200">`);
       $('.bg_login').html(`<img src="{{ url('/') }}/${response.bg_login}" width="400">`);
       $('.logo-nota').html(`<img src="{{ url('/') }}/${response.logo_nota}" width="500">`);
-      $('[rel=icon]').attr('href', `{{ url('/') }}/${response.logo_aplikasi}`);
     })
     .fail(response => {
       alert('Tidak dapat menampilkan data');

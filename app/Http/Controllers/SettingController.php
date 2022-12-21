@@ -21,14 +21,6 @@ class SettingController extends Controller
         $setting->alamat = $request->alamat;
         $setting->telepon = $request->telepon;
 
-        if($request->hasFile('logo_aplikasi')){
-            $file = $request->file('logo_aplikasi');
-            $nama = 'brand-icon' . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/img'), $nama);
-
-            $setting->logo_aplikasi = "assets/img/$nama";
-        }
-
         if($request->hasFile('logo_login')){
             $file = $request->file('logo_login');
             $nama = 'logo' . '.' . $file->getClientOriginalExtension();
