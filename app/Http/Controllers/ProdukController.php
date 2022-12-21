@@ -38,8 +38,6 @@ class ProdukController extends Controller{
     }
 
     public function store(Request $request) {
-        $produk = Produk::latest()->first();
-        $request['kode_produk'] = 'P'. tambah_nol_didepan((int)$produk->id_produk+1, 4);
         $produk = Produk::create($request->all());
 
         return response()->json('Data berhasil Disimpan', 200);
@@ -57,8 +55,12 @@ class ProdukController extends Controller{
 
     public function update(Request $request, $id){
         $produk = Produk::find($id);
+        $produk->kode_produk = $request->kode_produk;
         $produk->nama_produk = $request->nama_produk;
+        $produk->satuan_produk = $request->satuan_produk;
         $produk->harga_produk = $request->harga_produk;
+        $produk->ukuran_produk = $request->ukuran_produk;
+        $produk->type_produk = $request->type_produk;
         $produk->update();
 
         return response()->json('Data berhasil Disimpan', 200);

@@ -26,6 +26,8 @@
                       <th>Nama Produk</th>
                       <th>Satuan</th>
                       <th>Harga</th>
+                      <th>Ukuran</th>
+                      <th>Perhitungan</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -45,6 +47,25 @@
 
 @section('js')
   <script type="text/javascript">
+    document.querySelectorAll('input[type-currency="IDR"]').forEach((element) => {
+      element.addEventListener('keyup', function(e) {
+      let cursorPostion = this.selectionStart;
+        let value = parseInt(this.value.replace(/[^,\d]/g, ''));
+        let originalLenght = this.value.length;
+        if (isNaN(value)) {
+          this.value = "";
+        } else {    
+          this.value = value.toLocaleString('id-ID', {
+            currency: 'IDR',
+            style: 'currency',
+            minimumFractionDigits: 0
+          });
+          cursorPostion = this.value.length - originalLenght + cursorPostion;
+          this.setSelectionRange(cursorPostion, cursorPostion);
+        }
+      });
+    });
+
     let table;
     //TAMPIL DATA
     $(function(){
@@ -58,6 +79,8 @@
           {data:'nama_produk', name:'nama_produk'},
           {data:'satuan_produk', name:'satuan_produk'},
           {data:'harga_produk', name:'harga_produk'},
+          {data:'ukuran_produk', name:'ukuran_produk'},
+          {data:'type_produk', name:'type_produk'},
           {data:'action', name:'action'},
         ],
       });
@@ -75,7 +98,7 @@
             Swal.fire({
               icon: 'success',
               title: 'Data berhasil disimpan',
-              timer: 1500
+              timer: 2000
             })
             table.ajax.reload();
           })
@@ -114,9 +137,12 @@
 
       $.get(url)
         .done((response) => {
+          $('#modal-form [name=kode_produk]').val(response.kode_produk);
           $('#modal-form [name=nama_produk]').val(response.nama_produk);
           $('#modal-form [name=satuan_produk]').val(response.satuan_produk);
           $('#modal-form [name=harga_produk]').val(response.harga_produk);
+          $('#modal-form [name=ukuran_produk]').val(response.ukuran_produk);
+          $('#modal-form [name=type_produk]').val(response.type_produk);
         })
         .fail((errors) => {
           alert('Tidak dapat menampilkan data');

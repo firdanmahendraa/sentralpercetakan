@@ -1,35 +1,57 @@
 <div class="modal fade" id="modal-form" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="modal-heading"></h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="modal-header text-center">
+        <h4 class="modal-title text-bold text-center" id="modal-heading" style="margin:0 auto"></h4>
       </div>
       <form action="" method="post">
         @csrf
         @method('post')
         <div class="modal-body">
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="namaProduk">Kode Produk</label>
+                <input type="text" class="form-control" name="kode_produk" placeholder="Masukkan kode produk" required autofocus>
+                <span class="help-block with-errors text-danger"></span>
+              </div>
+            </div>
+            <div class="col-sm-12">
               <div class="form-group">
                 <label for="namaProduk">Nama Produk</label>
                 <input type="text" class="form-control" name="nama_produk" placeholder="Masukkan nama produk" required autofocus>
                 <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-8">
               <div class="form-group">
-                <label for="satuanProduk">Satuan Produk</label>
-                <input type="text" class="form-control" name="satuan_produk" placeholder="Masukkan satuan produk" required autofocus>
+                <label for="hargaProduk">Harga Dasar</label>
+                <input class="form-control input-currency" name="harga_produk" type="text" type-currency="IDR" placeholder="Rp" required>
                 <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label for="hargaProduk">Harga</label>
-                <input type="number" class="form-control" name="harga_produk" placeholder="Masukkan harga produk" required>
+                <label for="satuanProduk">Satuan Produk</label>
+                <input type="text" class="form-control" name="satuan_produk" placeholder="m/cm/lbr/dll" required autofocus>
+                <span class="help-block with-errors text-danger"></span>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="satuanProduk">Ukuran Produk</label>
+                <input type="text" class="form-control" name="ukuran_produk" placeholder="contoh: A3+ / A4" required autofocus>
+                <span class="help-block with-errors text-danger"></span>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="satuanProduk">Perhitungan Harga</label>
+                <select name="type_produk" class="form-control">
+                  <option value="">Pilih</option>
+                  <option value="qty">Qty</option>
+                  <option value="meter">Meter</option>
+                </select>
                 <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
