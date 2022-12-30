@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Okt 2022 pada 05.24
+-- Waktu pembuatan: 30 Des 2022 pada 12.44
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 7.3.31
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -23,20 +23,6 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 --
--- Struktur dari tabel `failed_jobs`
---
-
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
--- --------------------------------------------------------
---
 -- Struktur dari tabel `migrations`
 --
 
@@ -53,53 +39,37 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`)
 VALUES (1, '2014_10_12_000000_create_users_table', 1),
   (
     2,
-    '2022_10_19_093302_create_mst_produk_table',
-    2
+    '2019_12_14_000001_create_personal_access_tokens_table',
+    1
   ),
+  (3, '2022_11_27_103742_create_setting_table', 2),
   (
-    3,
-    '2022_10_21_040114_create_mst_supplier_table',
+    4,
+    '2022_12_30_102953_create_mst_kode_akun_table',
     3
   ),
   (
-    4,
-    '2022_10_21_092807_create_mst_kategori_table',
+    5,
+    '2022_10_19_093302_create_mst_produk_table',
     4
   ),
   (
-    5,
-    '2022_10_21_093150_create_mst_member_table',
+    6,
+    '2022_10_21_040114_create_mst_supplier_table',
     5
   ),
+  (7, '2022_11_11_134217_create_penjualan_table', 6),
   (
-    6,
-    '2022_10_24_021219_create_mst_data_karyawan_table',
+    8,
+    '2022_11_11_134245_create_penjualan_detail_table',
     6
   );
 -- --------------------------------------------------------
 --
--- Struktur dari tabel `mst_data_karyawan`
+-- Struktur dari tabel `mst_kode_akun`
 --
 
-CREATE TABLE `mst_data_karyawan` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `nik` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `jenis_kelamin` enum('Laki-Laki', 'Perempuan') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tanggal_lahir` date NOT NULL,
-  `alamat` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telepon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `jabatan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
--- --------------------------------------------------------
---
--- Struktur dari tabel `mst_kategori`
---
-
-CREATE TABLE `mst_kategori` (
+CREATE TABLE `mst_kode_akun` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `kode_kategori` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nama_kategori` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -108,10 +78,10 @@ CREATE TABLE `mst_kategori` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 --
--- Dumping data untuk tabel `mst_kategori`
+-- Dumping data untuk tabel `mst_kode_akun`
 --
 
-INSERT INTO `mst_kategori` (
+INSERT INTO `mst_kode_akun` (
     `id`,
     `kode_kategori`,
     `nama_kategori`,
@@ -124,296 +94,281 @@ VALUES (
     '100',
     'KAS',
     NULL,
-    '2022-10-02 23:33:23',
-    '2022-10-20 05:34:08'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     2,
     '101',
     'KSA',
     NULL,
-    '2022-10-02 23:35:23',
-    '2022-10-20 05:34:08'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     3,
     '102',
-    'Bank Jatim1',
+    'Bank Jatim',
     NULL,
-    '2022-10-02 23:46:29',
-    '2022-10-20 05:34:14'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     4,
     '103',
     'BCA',
     NULL,
-    '2022-10-03 00:14:07',
-    '2022-10-12 08:44:36'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     5,
     '104',
     'Hutang Tunai',
     NULL,
-    '2022-10-03 00:16:56',
-    '2022-10-12 08:44:44'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     6,
     '105',
     'Hutang Usaha',
     NULL,
-    '2022-10-03 00:17:08',
-    '2022-10-12 08:45:02'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     7,
     '106',
     'Hutang Lain-Lain',
     NULL,
-    '2022-10-03 00:39:22',
-    '2022-10-12 09:03:19'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     8,
     '107',
     'Hutang Saham',
     NULL,
-    '2022-10-03 00:40:15',
-    '2022-10-12 09:04:02'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     9,
-    '401/250',
+    '250',
     'Uang Muka',
     NULL,
-    '2022-10-03 00:41:59',
-    '2022-10-18 01:07:38'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     10,
     '122',
     'Piutang Usaha',
     NULL,
-    '2022-10-03 00:46:42',
-    '2022-10-12 09:05:04'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     11,
     '125',
     'Piutang Karyawan',
     NULL,
-    '2022-10-06 02:56:26',
-    '2022-10-12 09:05:32'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     12,
     '126',
     'Piutang Lain-Lain',
     NULL,
-    '2022-10-06 07:52:18',
-    '2022-10-12 09:07:14'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     13,
     '140',
     'Inventaris',
     NULL,
-    '2022-10-06 07:59:48',
-    '2022-10-12 09:32:27'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     14,
     '151',
     'Bahan Baku',
     NULL,
-    '2022-10-06 08:02:51',
-    '2022-10-12 09:32:46'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     15,
     '152',
     'Bahan Penolong',
     NULL,
-    '2022-10-06 08:20:57',
-    '2022-10-12 09:32:58'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     16,
     '153',
     'Bahan Pembersih',
     NULL,
-    '2022-10-06 08:23:29',
-    '2022-10-12 09:33:12'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     17,
     '620',
     'Biaya Komisi',
     NULL,
-    '2022-10-12 00:20:20',
-    '2022-10-12 18:49:58'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     18,
     '640',
     'Biaya Promosi',
     NULL,
-    '2022-10-12 00:21:51',
-    '2022-10-12 18:50:21'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     19,
     '700',
     'Biaya Lembur',
     NULL,
-    '2022-10-12 00:23:54',
-    '2022-10-12 18:50:48'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     20,
     '701',
     'Biaya Gaji',
     NULL,
-    '2022-10-12 00:41:02',
-    '2022-10-12 18:51:06'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     21,
     '702',
     'Biaya Konsumsi',
     NULL,
-    '2022-10-12 08:25:17',
-    '2022-10-12 18:51:38'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     22,
     '703',
     'Biaya Perbaikan Kendaraan',
     NULL,
-    '2022-10-12 08:58:19',
-    '2022-10-12 18:53:08'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     23,
     '703.1',
     'Biaya Perbaikan Mesin',
     NULL,
-    '2022-10-12 08:59:47',
-    '2022-10-12 18:52:54'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     24,
     '703.2',
     'Biaya Perbaikan Bangunan',
     NULL,
-    '2022-10-12 09:17:42',
-    '2022-10-12 18:54:11'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     25,
     '704',
     'Biaya Transportasi',
     NULL,
-    '2022-10-12 09:23:46',
-    '2022-10-12 18:53:59'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     26,
     '705',
     'Biaya L.A.T',
     NULL,
-    '2022-10-12 09:26:33',
-    '2022-10-12 18:54:35'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     27,
     '707',
     'Biaya Kantor',
     NULL,
-    '2022-10-12 09:30:18',
-    '2022-10-12 19:02:07'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     28,
     '709',
     'Biaya Produksi',
     NULL,
-    '2022-10-12 09:31:39',
-    '2022-10-12 19:02:28'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     29,
     '710',
     'Biaya Kirim',
     NULL,
-    '2022-10-12 18:58:46',
-    '2022-10-12 19:02:57'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     30,
     '712',
     'Biaya Lain-Lain',
     NULL,
-    '2022-10-12 18:59:04',
-    '2022-10-12 19:03:52'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     31,
     '713',
     'Solar Pajak',
     NULL,
-    '2022-10-12 18:59:17',
-    '2022-10-12 19:04:11'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     32,
     '715',
     'Pendapatan Peralatan',
     NULL,
-    '2022-10-12 18:59:31',
-    '2022-10-12 19:04:24'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     33,
     '716',
     'Solar Genset',
     NULL,
-    '2022-10-12 19:04:46',
-    '2022-10-12 19:04:46'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
     34,
     '717',
     'Pendapatan Lain-Lain',
     NULL,
-    '2022-10-12 19:05:01',
-    '2022-10-12 19:05:01'
+    '2022-12-30 04:07:16',
+    '2022-12-30 04:07:16'
   ),
   (
-    47,
-    '22',
-    'sdsd',
-    NULL,
-    '2022-10-20 06:01:40',
-    '2022-10-20 06:01:40'
+    35,
+    '21',
+    'sd1',
+    '2022-12-30 04:30:58',
+    '2022-12-30 04:24:26',
+    '2022-12-30 04:30:58'
   );
--- --------------------------------------------------------
---
--- Struktur dari tabel `mst_member`
---
-
-CREATE TABLE `mst_member` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `kode_member` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nama_member` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat_member` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telepon_member` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 -- --------------------------------------------------------
 --
 -- Struktur dari tabel `mst_produk`
@@ -423,7 +378,10 @@ CREATE TABLE `mst_produk` (
   `id_produk` int(10) UNSIGNED NOT NULL,
   `kode_produk` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nama_produk` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `satuan_produk` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
   `harga_produk` int(11) NOT NULL,
+  `ukuran_produk` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type_produk` enum('qty', 'meter') COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -436,52 +394,70 @@ INSERT INTO `mst_produk` (
     `id_produk`,
     `kode_produk`,
     `nama_produk`,
+    `satuan_produk`,
     `harga_produk`,
+    `ukuran_produk`,
+    `type_produk`,
     `deleted_at`,
     `created_at`,
     `updated_at`
   )
 VALUES (
     1,
-    'P0001',
-    '2Ply Nota Impression 1/4',
+    'IMPR',
+    'Nota Impression',
+    'RIM',
     250000,
+    'Folio',
+    'qty',
     NULL,
     '2022-10-20 20:03:55',
-    '2022-10-20 20:31:20'
+    '2022-12-22 11:17:44'
   ),
   (
     2,
-    'P0002',
-    'Banner 70gr',
-    17500,
+    'TOP1',
+    'Nota Top',
+    'RIM',
+    200000,
+    'Folio',
+    'qty',
     NULL,
     '2022-10-20 20:10:14',
-    '2022-10-20 20:33:50'
+    '2022-12-22 11:19:37'
   ),
   (
     3,
     'P0003',
-    'Print a3+1',
-    50001,
-    '2022-10-21 21:56:39',
+    'Banner Flexy China',
+    'LBR',
+    20000,
+    '280gr',
+    'meter',
+    NULL,
     '2022-10-20 20:10:25',
     '2022-10-21 21:56:39'
   ),
   (
     4,
     'P0004',
-    'asdasd',
-    222,
-    '2022-10-20 20:16:45',
+    'Banner 70gr 2 x 2',
+    'LBR',
+    70000,
+    '',
+    'qty',
+    NULL,
     '2022-10-20 20:14:08',
     '2022-10-20 20:16:45'
   ),
   (
     5,
-    'P0004',
-    'Banner 80gr',
-    20000,
+    'P0005',
+    'Banner 70gr 3 x 1',
+    'LBR',
+    52500,
+    '',
+    'qty',
     NULL,
     '2022-10-21 21:56:11',
     '2022-10-21 21:56:11'
@@ -489,11 +465,38 @@ VALUES (
   (
     6,
     'P0006',
-    'asd',
-    123,
+    'Banner 70gr 3 x 2',
+    'LBR',
+    105000,
+    '',
+    'qty',
     NULL,
     '2022-10-21 23:35:31',
     '2022-10-21 23:35:31'
+  ),
+  (
+    7,
+    'P0007',
+    'Print A3+ Warna',
+    'LBR',
+    5000,
+    '',
+    'qty',
+    NULL,
+    '2022-11-29 03:18:02',
+    '2022-11-29 03:18:52'
+  ),
+  (
+    8,
+    'A3BW',
+    'Print A3+ BW',
+    'LBR',
+    3500,
+    'A3+',
+    'qty',
+    NULL,
+    '2022-12-04 22:21:39',
+    '2022-12-05 00:05:07'
   );
 -- --------------------------------------------------------
 --
@@ -509,36 +512,110 @@ CREATE TABLE `mst_supplier` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+-- --------------------------------------------------------
 --
--- Dumping data untuk tabel `mst_supplier`
+-- Struktur dari tabel `penjualan`
 --
 
-INSERT INTO `mst_supplier` (
+CREATE TABLE `penjualan` (
+  `id_penjualan` int(10) UNSIGNED NOT NULL,
+  `id_akun` int(11) NOT NULL,
+  `no_nota` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_pelanggan` int(11) NOT NULL,
+  `acc_desain` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_item` int(11) NOT NULL,
+  `total_harga` int(11) NOT NULL,
+  `diskon` tinyint(4) NOT NULL DEFAULT 0,
+  `bayar` int(11) NOT NULL DEFAULT 0,
+  `diterima` int(11) NOT NULL DEFAULT 0,
+  `id_user` int(11) NOT NULL,
+  `status_penjualan` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+-- --------------------------------------------------------
+--
+-- Struktur dari tabel `penjualan_detail`
+--
+
+CREATE TABLE `penjualan_detail` (
+  `id_penjualan_detail` int(10) UNSIGNED NOT NULL,
+  `id_penjualan` int(11) NOT NULL,
+  `id_produk` int(11) NOT NULL,
+  `nama_pesanan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `satuan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ukuran` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ukuran_p` tinyint(1) DEFAULT NULL,
+  `ukuran_l` tinyint(1) DEFAULT NULL,
+  `finishing_plong_qty` int(11) DEFAULT NULL,
+  `finishing_plong_harga` int(11) DEFAULT NULL,
+  `det_pesanan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `harga` int(11) NOT NULL,
+  `sub_total` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+-- --------------------------------------------------------
+--
+-- Struktur dari tabel `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+-- --------------------------------------------------------
+--
+-- Struktur dari tabel `setting`
+--
+
+CREATE TABLE `setting` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nama_perusahaan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `telepon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logo_aplikasi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logo_login` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bg_login` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logo_nota` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+--
+-- Dumping data untuk tabel `setting`
+--
+
+INSERT INTO `setting` (
     `id`,
-    `nama_supplier`,
-    `alamat_supplier`,
-    `telepon_supplier`,
-    `deleted_at`,
+    `nama_perusahaan`,
+    `alamat`,
+    `telepon`,
+    `logo_aplikasi`,
+    `logo_login`,
+    `bg_login`,
+    `logo_nota`,
     `created_at`,
     `updated_at`
   )
 VALUES (
     1,
-    'Setia Kawan222',
-    'Lumajang222',
-    '086557232322222',
+    'ASAP',
+    'Jl. Jendral Panjaitan 72 - Lumajang',
+    '085284070404',
+    'assets/img/brand-icon.png',
+    'assets/img/logo.png',
+    'assets/img/bg_login.jpg',
+    'assets/img/nota-logo.png',
     NULL,
-    '2022-10-20 23:18:24',
-    '2022-10-22 00:09:14'
-  ),
-  (
-    2,
-    'asdasd',
-    'dsdasda',
-    '123213123',
-    NULL,
-    '2022-10-21 00:09:50',
-    '2022-10-21 02:14:25'
+    '2022-12-30 00:45:40'
   );
 -- --------------------------------------------------------
 --
@@ -581,7 +658,7 @@ VALUES (
   ),
   (
     2,
-    'Novitasari',
+    'Novi Invanti',
     'admin',
     '$2y$10$FwXm6xw1lphnUCIQogbNhexo/3gzcX1eRuTNnGwVDis11HMc1B90q',
     'Admin',
@@ -599,19 +676,9 @@ VALUES (
 ALTER TABLE `migrations`
 ADD PRIMARY KEY (`id`);
 --
--- Indeks untuk tabel `mst_data_karyawan`
+-- Indeks untuk tabel `mst_kode_akun`
 --
-ALTER TABLE `mst_data_karyawan`
-ADD PRIMARY KEY (`id`);
---
--- Indeks untuk tabel `mst_kategori`
---
-ALTER TABLE `mst_kategori`
-ADD PRIMARY KEY (`id`);
---
--- Indeks untuk tabel `mst_member`
---
-ALTER TABLE `mst_member`
+ALTER TABLE `mst_kode_akun`
 ADD PRIMARY KEY (`id`);
 --
 -- Indeks untuk tabel `mst_produk`
@@ -622,6 +689,28 @@ ADD PRIMARY KEY (`id_produk`);
 -- Indeks untuk tabel `mst_supplier`
 --
 ALTER TABLE `mst_supplier`
+ADD PRIMARY KEY (`id`);
+--
+-- Indeks untuk tabel `penjualan`
+--
+ALTER TABLE `penjualan`
+ADD PRIMARY KEY (`id_penjualan`);
+--
+-- Indeks untuk tabel `penjualan_detail`
+--
+ALTER TABLE `penjualan_detail`
+ADD PRIMARY KEY (`id_penjualan_detail`);
+--
+-- Indeks untuk tabel `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`, `tokenable_id`);
+--
+-- Indeks untuk tabel `setting`
+--
+ALTER TABLE `setting`
 ADD PRIMARY KEY (`id`);
 --
 -- Indeks untuk tabel `users`
@@ -638,41 +727,51 @@ ADD PRIMARY KEY (`id`),
 --
 ALTER TABLE `migrations`
 MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 23;
+  AUTO_INCREMENT = 58;
 --
--- AUTO_INCREMENT untuk tabel `mst_data_karyawan`
+-- AUTO_INCREMENT untuk tabel `mst_kode_akun`
 --
-ALTER TABLE `mst_data_karyawan`
-MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT untuk tabel `mst_kategori`
---
-ALTER TABLE `mst_kategori`
+ALTER TABLE `mst_kode_akun`
 MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 2;
---
--- AUTO_INCREMENT untuk tabel `mst_member`
---
-ALTER TABLE `mst_member`
-MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  AUTO_INCREMENT = 37;
 --
 -- AUTO_INCREMENT untuk tabel `mst_produk`
 --
 ALTER TABLE `mst_produk`
 MODIFY `id_produk` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 7;
+  AUTO_INCREMENT = 9;
 --
 -- AUTO_INCREMENT untuk tabel `mst_supplier`
 --
 ALTER TABLE `mst_supplier`
+MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT untuk tabel `penjualan`
+--
+ALTER TABLE `penjualan`
+MODIFY `id_penjualan` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT untuk tabel `penjualan_detail`
+--
+ALTER TABLE `penjualan_detail`
+MODIFY `id_penjualan_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT untuk tabel `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT untuk tabel `setting`
+--
+ALTER TABLE `setting`
 MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 4;
+  AUTO_INCREMENT = 2;
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
 MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 11;
+  AUTO_INCREMENT = 12;
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */
 ;
