@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Kategori')
+@section('title', 'Kode Akun')
 
 @section('content')
   <section class="content">
@@ -11,10 +11,10 @@
             <div class="card card-primary card-outline">            
               <div class="card-body">
                 <div class="mb-2 ">
-                  <button class="btn btn-primary btn-sm" onclick="addForm('{{ route('data-kategori.store') }}')">
-                    <i class="fa fa-plus"> Tambah Kategori</i>
+                  <button class="btn btn-primary btn-sm" onclick="addForm('{{ route('data-akun.store') }}')">
+                    <i class="fa fa-plus"> Tambah Kode Akun</i>
                   </button>
-                  <a href="{{ route('data-kategori.trash') }}" class="btn btn-danger btn-sm float-right">
+                  <a href="{{ route('data-akun.trash') }}" class="btn btn-danger btn-sm float-right">
                     <i class="fa fa-trash"> Trash</i>
                   </a>
                 </div>
@@ -38,7 +38,7 @@
       <!-- /.row -->
     </div><!-- /.container-fluid -->
   </section>
-  @include('pages.kategori.form-modal') 
+  @include('pages.kode-akun.form-modal') 
 @endsection
 
 @section('js')
@@ -49,7 +49,7 @@
     table = $('.table').DataTable({
         processing: true,
         severSide: true,
-        ajax:"{{ route('data-kategori.index') }}",
+        ajax:"{{ route('data-akun.index') }}",
           columns:[
             {data:'DT_RowIndex', name:'DT_RowIndex'},
             {data:'kode_kategori', name:'kode_kategori'},

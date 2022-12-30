@@ -54,7 +54,7 @@
           </li>
           <li class="nav-header">MASTER</li>
           <li class="nav-item">
-            <a href="{{ route('data-kategori.index') }}" class="nav-link {{ (request()->segment(1) == 'data-kategori') ? 'active' : '' }}">
+            <a href="{{ route('data-akun.index') }}" class="nav-link {{ (request()->segment(1) == 'data-akun') ? 'active' : '' }}">
               <i class="nav-icon fa fa-database"></i>
               <p>Kode Akun</p>
             </a>

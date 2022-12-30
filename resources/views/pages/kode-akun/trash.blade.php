@@ -11,9 +11,9 @@
           <div class="card card-primary card-outline">  
             <div class="card-head">
               <div class="px-3 pt-2">
-                <a href="{{ url('data-kategori/restore/') }}" class="btn btn-info btn-sm btn_restore"><i class="fa fa-undo"> Restore All</i></a>
-                <a href="{{ url('data-kategori/delete/') }}" class="btn btn-danger btn-sm btn_delete"><i class="fa fa-trash"> Delete All</i></a>
-                <a href="{{ route('data-kategori.index') }}" class="btn btn-secondary btn-sm float-right">
+                <a href="{{ url('data-akun/restore/') }}" class="btn btn-info btn-sm btn_restore"><i class="fa fa-undo"> Restore All</i></a>
+                <a href="{{ url('data-akun/delete/') }}" class="btn btn-danger btn-sm btn_delete"><i class="fa fa-trash"> Delete All</i></a>
+                <a href="{{ route('data-akun.index') }}" class="btn btn-secondary btn-sm float-right">
                   <i class="fa fa-chevron-left"> Back</i>
                 </a>
               </div>
@@ -55,7 +55,7 @@
       table = $('.table').DataTable({
         processing: true,
         severSide: true,
-        ajax:"{{ route('data-kategori.trash') }}",
+        ajax:"{{ route('data-akun.trash') }}",
         columns:[
           {data:'selectAll', name:'selectAll'},
           {data:'DT_RowIndex', name:'DT_RowIndex'},
