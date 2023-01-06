@@ -91,5 +91,4 @@
       <!-- /.row -->
     </div><!-- /.container-fluid -->
   </section>
-  @include('pages.kategori.form-modal')
 @endsection
