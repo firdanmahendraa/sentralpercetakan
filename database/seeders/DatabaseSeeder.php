@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             SettingTableSeeder::class,
             KodeAkunSeeder::class,
             UsersSeeder::class,
+            OpsiPembayaranSeeder::class,
         ]);
 
     }
