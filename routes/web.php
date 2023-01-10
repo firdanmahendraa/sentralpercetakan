@@ -2,6 +2,8 @@
 use App\Http\Controllers\{
     LoginController,
     DashboardController,
+    PenjualanController,
+    PenjualanDetailController,
     KodeAkunController,
     ProdukController,
     OpsiPembayaranController,
