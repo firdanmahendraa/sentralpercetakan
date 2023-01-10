@@ -18,6 +18,6 @@ class Penjualan extends Model
     ];
 
     protected $fillable = [
-        'nama_pemesan', 'alamat_pemesan', 'telepon_pemesan', 'acc_desain', 'total_item', 'total_harga', 'diskon', 'bayar', 'diterima', 'id_user'
+        'nama_pemesan', 'no_nota', 'alamat_pemesan', 'telepon_pemesan', 'acc_desain', 'total_item', 'total_harga', 'diskon', 'bayar', 'diterima', 'id_user'
     ];
 }

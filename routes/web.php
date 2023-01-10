@@ -32,6 +32,14 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    //TRANSAKSI
+    Route::resource('transaksi-penjualan', PenjualanController::class);
+
+    Route::get('transaksi-baru/{id}/data', [PenjualanDetailController::class, 'data'])->name('transaksi-baru.data');
+    Route::get('transaksi-baru/loadform/{diskon}/{total}/{diterima}', [PenjualanDetailController::class, 'loadForm'])->name('transaksi-detail.load_form');
+    Route::resource('transaksi-baru', PenjualanDetailController::class)
+        ->except('create', 'edit');
+
     //MASTER
     Route::get('data-akun/trash', [KodeAkunController::class, 'trash'])->name('data-akun.trash');
     Route::get('data-akun/restore/{id?}', [KodeAkunController::class, 'restore'])->name('data-akun.restore');

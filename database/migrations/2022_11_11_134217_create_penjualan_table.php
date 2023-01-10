@@ -15,16 +15,18 @@ class CreatePenjualanTable extends Migration
     {
         Schema::create('penjualan', function (Blueprint $table) {
             $table->increments('id_penjualan');
-            $table->string('nama_pemesan');
-            $table->text('alamat_pemesan');
-            $table->string('telepon_pemesan');
+            $table->integer('id_akun');
+            $table->integer('no_nota');
+            $table->integer('id_pelanggan');
             $table->string('acc_desain');
             $table->integer('total_item');
             $table->integer('total_harga');
             $table->tinyInteger('diskon')->default(0);
-            $table->integer('bayar')->default(0);
             $table->integer('diterima')->default(0);
+            $table->integer('kembali')->default(0);
+            $table->string('opsi_pembayaran');
             $table->integer('id_user');
+            $table->integer('status_penjualan');
             $table->timestamps();
         });
     }

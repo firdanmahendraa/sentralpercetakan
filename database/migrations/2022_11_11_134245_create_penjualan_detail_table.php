@@ -17,8 +17,16 @@ class CreatePenjualanDetailTable extends Migration
             $table->increments('id_penjualan_detail');
             $table->integer('id_penjualan');
             $table->integer('id_produk');
+            $table->string('nama_pesanan');
             $table->integer('jumlah');
-            $table->string('satuan', 50);
+            $table->string('satuan');
+            $table->string('ukuran');
+            $table->double('ukuran_p')->nullable();
+            $table->double('ukuran_l')->nullable();
+            $table->enum('is_plong', ['yes', 'no'])->nullable()->default('no');
+            $table->integer('finishing_plong_qty')->nullable();
+            $table->integer('finishing_plong_harga')->nullable();
+            $table->string('det_pesanan')->nullable();
             $table->integer('harga');
             $table->integer('sub_total');
             $table->timestamps();
