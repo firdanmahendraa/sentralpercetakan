@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Data Kategori Terhapus')
+@section('title', 'Data Kode Akun Terhapus')
 
 @section('content')
   <section class="content">

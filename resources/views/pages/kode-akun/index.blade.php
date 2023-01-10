@@ -90,7 +90,7 @@
     // TAMBAH DATA
     function addForm(url){
       $('#modal-form').modal('show');
-      $('#modal-heading').html("Tambah Supplier");
+      $('#modal-heading').html("Tambah Kode Akun");
 
       $('#modal-form form')[0].reset();
       $('#modal-form form').attr('action', url);
@@ -101,7 +101,7 @@
     //EDIT DATA
     function editForm(url){
       $('#modal-form').modal('show');
-      $('#modal-heading').html("Edit Supplier");
+      $('#modal-heading').html("Edit Kode Akun");
 
       $('#modal-form form')[0].reset();
       $('#modal-form form').attr('action', url);
