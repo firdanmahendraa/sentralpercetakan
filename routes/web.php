@@ -2,9 +2,12 @@
 use App\Http\Controllers\{
     LoginController,
     DashboardController,
+    PenjualanController,
+    PenjualanDetailController,
     KodeAkunController,
     ProdukController,
     OpsiPembayaranController,
+    CustomerController,
     SupplierController,
     UsersController,
     SettingController
@@ -31,6 +34,13 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    //TRANSAKSI
+    Route::resource('transaksi-penjualan', PenjualanController::class);
+
+    Route::get('transaksi-baru/{id}/data', [PenjualanDetailController::class, 'data'])->name('transaksi-baru.data');
+    Route::get('transaksi-baru/loadform/{diskon}/{total}/{diterima}', [PenjualanDetailController::class, 'loadForm'])->name('transaksi-detail.load_form');
+    Route::resource('transaksi-baru', PenjualanDetailController::class)
+        ->except('create', 'edit');
 
     //MASTER
     Route::get('data-akun/trash', [KodeAkunController::class, 'trash'])->name('data-akun.trash');
@@ -47,6 +57,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('opsi-pembayaran/restore/{id?}', [OpsiPembayaranController::class, 'restore'])->name('opsi-pembayaran.restore');
     Route::get('opsi-pembayaran/delete/{id?}', [OpsiPembayaranController::class, 'delete'])->name('opsi-pembayaran.delete');
     Route::resource('opsi-pembayaran', OpsiPembayaranController::class);
+    
+    Route::get('data-pelanggan/trash', [CustomerController::class, 'trash'])->name('data-pelanggan.trash');
+    Route::get('data-pelanggan/restore/{id?}', [CustomerController::class, 'restore'])->name('data-pelanggan.restore');
+    Route::get('data-pelanggan/delete/{id?}', [CustomerController::class, 'delete'])->name('data-pelanggan.delete');
+    Route::resource('data-pelanggan', CustomerController::class);
 
     Route::get('data-supplier/trash', [SupplierController::class, 'trash'])->name('data-supplier.trash');
     Route::get('data-supplier/restore/{id?}', [SupplierController::class, 'restore'])->name('data-supplier.restore');
