@@ -5,6 +5,7 @@ use App\Http\Controllers\{
     KodeAkunController,
     ProdukController,
     OpsiPembayaranController,
+    CustomerController,
     SupplierController,
     UsersController,
     SettingController
@@ -31,7 +32,6 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-
     //MASTER
     Route::get('data-akun/trash', [KodeAkunController::class, 'trash'])->name('data-akun.trash');
     Route::get('data-akun/restore/{id?}', [KodeAkunController::class, 'restore'])->name('data-akun.restore');
@@ -47,6 +47,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('opsi-pembayaran/restore/{id?}', [OpsiPembayaranController::class, 'restore'])->name('opsi-pembayaran.restore');
     Route::get('opsi-pembayaran/delete/{id?}', [OpsiPembayaranController::class, 'delete'])->name('opsi-pembayaran.delete');
     Route::resource('opsi-pembayaran', OpsiPembayaranController::class);
+    
+    Route::get('data-pelanggan/trash', [CustomerController::class, 'trash'])->name('data-pelanggan.trash');
+    Route::get('data-pelanggan/restore/{id?}', [CustomerController::class, 'restore'])->name('data-pelanggan.restore');
+    Route::get('data-pelanggan/delete/{id?}', [CustomerController::class, 'delete'])->name('data-pelanggan.delete');
+    Route::resource('data-pelanggan', CustomerController::class);
 
     Route::get('data-supplier/trash', [SupplierController::class, 'trash'])->name('data-supplier.trash');
     Route::get('data-supplier/restore/{id?}', [SupplierController::class, 'restore'])->name('data-supplier.restore');
