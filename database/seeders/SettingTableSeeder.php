@@ -18,10 +18,10 @@ class SettingTableSeeder extends Seeder{
             'nama_perusahaan' => 'ASAP',
             'alamat' => 'Jl. Jendral Panjaitan 72 - Lumajang',
             'telepon' => '085284070404',
-            'logo_aplikasi' => 'assets/img/brand-icon.png',
-            'logo_login' => 'assets/img/logo.png',
-            'bg_login' => 'assets/img/bg_login.jpg',
-            'logo_nota' => 'assets/img/nota-logo.png',
+            'logo_aplikasi' => '/assets/img/brand-icon.png',
+            'logo_login' => '/assets/img/logo.png',
+            'bg_login' => '/assets/img/bg_login.jpg',
+            'logo_nota' => '/assets/img/nota-logo.png',
         ]);
     }
 }

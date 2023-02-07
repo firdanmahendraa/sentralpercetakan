@@ -26,7 +26,7 @@ class SettingController extends Controller
             $nama = 'logo' . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('assets/img'), $nama);
 
-            $setting->logo_login = "assets/img/$nama";
+            $setting->logo_login = "/assets/img/$nama";
         }
 
         if($request->hasFile('bg_login')){
@@ -34,7 +34,7 @@ class SettingController extends Controller
             $nama = 'bg_login' . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('assets/img'), $nama);
 
-            $setting->bg_login = "assets/img/$nama";
+            $setting->bg_login = "/assets/img/$nama";
         }
 
         if($request->hasFile('logo_nota')){
@@ -42,7 +42,7 @@ class SettingController extends Controller
             $nama = 'nota-logo' . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('assets/img'), $nama);
 
-            $setting->logo_nota = "assets/img/$nama";
+            $setting->logo_nota = "/assets/img/$nama";
         }
         
         $setting->update();

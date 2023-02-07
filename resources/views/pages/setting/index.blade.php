@@ -125,9 +125,9 @@
       $('title').text(response.nama_perusahaan + ' | Pengaturan');
       $('.brand-text').text(response.nama_perusahaan);
       
-      $('.logo-login').html(`<img src="{{ url('/') }}/${response.logo_login}" width="200">`);
-      $('.bg_login').html(`<img src="{{ url('/') }}/${response.bg_login}" width="400">`);
-      $('.logo-nota').html(`<img src="{{ url('/') }}/${response.logo_nota}" width="500">`);
+      $('.logo-login').html(`<img src="{{ url('/') }}${response.logo_login}" width="200">`);
+      $('.bg_login').html(`<img src="{{ url('/') }}${response.bg_login}" width="400">`);
+      $('.logo-nota').html(`<img src="{{ url('/') }}${response.logo_nota}" width="500">`);
     })
     .fail(response => {
       alert('Tidak dapat menampilkan data');
