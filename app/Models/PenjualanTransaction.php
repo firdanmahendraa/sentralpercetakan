@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PenjualanDetail extends Model
+class PenjualanTransaction extends Model
 {
     use HasFactory;
 
-    protected $table        = 'penjualan_detail';
-    protected $primaryKey   = 'id_penjualan_detail';
+    protected $table        = 'transaction_cart';
     protected $guarded      = [];
     
     public function produk(){
@@ -21,7 +20,4 @@ class PenjualanDetail extends Model
         return $this->hasMany(Penjualan::class, 'id_penjualan', 'id_penjualan');
     }
 
-    // protected $fillable = [
-    //     'id_penjualan', 'id_produk', 'jumlah', 'satuan', 'harga', 'sub_total'
-    // ];
 }
