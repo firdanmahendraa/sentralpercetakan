@@ -48,12 +48,12 @@
     $(function(){
     table = $('.table').DataTable({
         processing: true,
-        severSide: true,
+        serverSide: true,
         ajax:"{{ route('data-akun.index') }}",
           columns:[
             {data:'DT_RowIndex', name:'DT_RowIndex'},
-            {data:'kode_kategori', name:'kode_kategori'},
-            {data:'nama_kategori', name:'nama_kategori'},
+            {data:'id', name:'id'},
+            {data:'nama_akun', name:'nama_akun'},
             {data:'action', name:'action'},
           ],
       });
@@ -70,16 +70,16 @@
             $('#modal-form').modal('hide');
             Swal.fire({
               icon: 'success',
-              title: 'Data berhasil disimpan',
+              title: response,
               timer: 1500
             })
             table.ajax.reload();
           })
-          .fail((errors) => {
+          .fail((response) => {
             Swal.fire({
               icon: 'error',
-              title: 'Data gagal disimpan!',
-              showConfirmButton: false,
+              title:  response.responseJSON.message,
+              showConfirmButton: true,
             })
             return;
           });
@@ -99,25 +99,28 @@
     }
 
     //EDIT DATA
-    function editForm(url){
+    $('body').on('click', '.editData', function () {
+      let id = $(this).data('id');
+      
       $('#modal-form').modal('show');
       $('#modal-heading').html("Edit Kode Akun");
 
-      $('#modal-form form')[0].reset();
-      $('#modal-form form').attr('action', url);
-      $('#modal-form [name=_method]').val('put');
-      $('#modal-form [name=nama_kategori]').focus();
-
-      $.get(url)
-        .done((response) => {
-          $('#modal-form [name=kode_kategori]').val(response.kode_kategori);
-          $('#modal-form [name=nama_kategori]').val(response.nama_kategori);
-        })
-        .fail((errors) => {
+      //fetch data
+      $.ajax({
+        url: `data-akun/show/${id}`,
+        type: "GET",
+        cache: false,
+        success:function(response){
+          $('#FormModal').attr('action', `data-akun/update/${id}`);
+          $('#modal-form [name=id]').val(response.id);
+          $('#modal-form [name=nama_akun]').val(response.nama_akun);
+        },
+        error:function(response){
           alert('Tidak dapat menampilkan data');
           return;
-        });
-    }
+        }
+      });
+    });
 
     //DELETE DATA
     function deleteData(url) {
@@ -139,7 +142,7 @@
             Swal.fire({
               icon: 'success',
               title: 'Data berhasil dihapus!',
-              showConfirmButton: false,
+              showConfirmButton: true,
               timer: 1500
             }) 
             table.ajax.reload();

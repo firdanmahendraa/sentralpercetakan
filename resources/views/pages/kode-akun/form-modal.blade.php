@@ -5,20 +5,20 @@
         <h4 class="modal-title text-bold text-center" id="modal-heading" style="margin:0 auto"></h4>
       </div>
       <div class="modal-body">
-        <form action="" method="post">
+        <form id="FormModal" action="" method="post">
           @csrf
           @method('post')
           <div class="form-group row">
             <label for="code" class="col-sm-2 col-form-label">Kode</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="kode_kategori" name="kode_kategori" placeholder="Kode" required autofocus>
+              <input type="text" class="form-control" id="id" name="id" placeholder="Kode" required autofocus>
               <span class="help-block with-errors text-danger"></span>
             </div>
           </div>
           <div class="form-group row">
             <label for="category_name" class="col-sm-2 col-form-label">Keterangan</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="nama_kategori" name="nama_kategori" placeholder="Keterangan" required>
+              <input type="text" class="form-control" id="nama_akun" name="nama_akun" placeholder="Keterangan" required>
               <span class="help-block with-errors text-danger"></span>
             </div>
           </div>

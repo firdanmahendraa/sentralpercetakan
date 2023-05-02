@@ -15,6 +15,7 @@ class CreateTransactionCartTable extends Migration
     {
         Schema::create('transaction_cart', function (Blueprint $table) {
             $table->id();
+            $table->string('no_nota');
             $table->integer('id_produk');
             $table->string('nama_pesanan');
             $table->integer('jumlah');

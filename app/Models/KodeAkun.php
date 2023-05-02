@@ -13,6 +13,6 @@ class KodeAkun extends Model
     protected $table = 'mst_kode_akun';
 
     protected $fillable = [
-        'kode_kategori', 'nama_kategori'
+        'id', 'nama_akun'
     ];
 }

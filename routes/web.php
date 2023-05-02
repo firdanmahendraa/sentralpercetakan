@@ -53,10 +53,14 @@ Route::middleware(['auth'])->group(function () {
 
 
     //MASTER
+    Route::get('data-akun', [KodeAkunController::class, 'index'])->name('data-akun.index');
+    Route::post('data-akun/store', [KodeAkunController::class, 'store'])->name('data-akun.store');
+    Route::get('data-akun/show/{id}', [KodeAkunController::class, 'show'])->name('data-akun.show');
+    Route::post('data-akun/update/{id}', [KodeAkunController::class, 'update'])->name('data-akun.update');
+    Route::delete('data-akun/destroy/{id}', [KodeAkunController::class, 'destroy'])->name('data-akun.destroy');
     Route::get('data-akun/trash', [KodeAkunController::class, 'trash'])->name('data-akun.trash');
-    Route::get('data-akun/restore/{id?}', [KodeAkunController::class, 'restore'])->name('data-akun.restore');
-    Route::get('data-akun/delete/{id?}', [KodeAkunController::class, 'delete'])->name('data-akun.delete');
-    Route::resource('data-akun', KodeAkunController::class);
+    Route::get('data-akun/restore/', [KodeAkunController::class, 'restore'])->name('data-akun.restore');
+    Route::delete('data-akun/delete/', [KodeAkunController::class, 'delete'])->name('data-akun.delete');
 
     Route::get('data-produk/trash', [ProdukController::class, 'trash'])->name('data-produk.trash');
     Route::get('data-produk/restore/{id?}', [ProdukController::class, 'restore'])->name('data-produk.restore');

@@ -14,9 +14,9 @@ class CreateMstKodeAkunTable extends Migration
     public function up()
     {
         Schema::create('mst_kode_akun', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_kategori');
-            $table->string('nama_kategori');
+            $table->string('id');
+            $table->string('nama_akun');
+            $table->unique('id');
             $table->softDeletes();
             $table->timestamps();
         });

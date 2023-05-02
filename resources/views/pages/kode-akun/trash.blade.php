@@ -11,8 +11,8 @@
           <div class="card card-primary card-outline">  
             <div class="card-head">
               <div class="px-3 pt-2">
-                <a href="{{ url('data-akun/restore/') }}" class="btn btn-info btn-sm btn_restore"><i class="fa fa-undo"> Restore All</i></a>
-                <a href="{{ url('data-akun/delete/') }}" class="btn btn-danger btn-sm btn_delete"><i class="fa fa-trash"> Delete All</i></a>
+                <a href="{{ url('data-akun/restore/') }}" class="btn btn-info btn-sm btn_restore disabled" id="restoreAllSelectedRecord"><i class="fa fa-undo"> Restore Selected</i></a>
+                <a href="{{ url('data-akun/delete/') }}" class="btn btn-danger btn-sm btn_delete disabled" id="deleteAllSelectedRecord"><i class="fa fa-trash"> Delete Selected</i></a>
                 <a href="{{ route('data-akun.index') }}" class="btn btn-secondary btn-sm float-right">
                   <i class="fa fa-chevron-left"> Back</i>
                 </a>
@@ -25,12 +25,11 @@
                   <thead>
                     <tr>
                       <th style="width: 5%">
-                        <input type="checkbox" name="selectAll" id="selectAll">
+                        <input type="checkbox" name="selectAll" id="select_all_ids">
                       </th>
-                      <th style="width: 5%">No</th>
                       <th>Kode Kategori</th>
                       <th>Keterangan</th>
-                      <th>Aksi</th>
+                      <th>Detail</th>
                     </tr>
                   </thead>
                   <tbody> </tbody>
@@ -54,68 +53,48 @@
     $(function() {
       table = $('.table').DataTable({
         processing: true,
-        severSide: true,
+        serverSide: true,
         ajax:"{{ route('data-akun.trash') }}",
         columns:[
-          {data:'selectAll', name:'selectAll'},
-          {data:'DT_RowIndex', name:'DT_RowIndex'},
-          {data:'kode_kategori', name:'kode_kategori'},
-          {data:'nama_kategori', name:'nama_kategori'},
-          {data:'action', name:'action'},
+          {data:'selectAll', name:'selectAll', orderable: false, searchable: false},
+          {data:'id', name:'id'},
+          {data:'nama_akun', name:'nama_akun'},
+          {data:'deleted_at', name:'deleted_at'},
         ],
       });
+    });
 
-      //selectAll
-      $('[name=selectAll]').on('click', function(){
+    $(function(e){
+      // Sellect all checkbox
+      $('[name=selectAll]').on('click', function () {
         $(':checkbox').prop('checked', this.checked);
-        togglebtnAll()
+        togglebtnAll();
       });
-      $(document).on('change', '#selectOne', function(){
-        if ( $('input[name="id[]"]').length == $('input[name="id[]"]:checked').length) {
+      $(document).on('change', '#checkbox_ids', function(){
+        if ( $('input[name="ids"]').length == $('input[name="ids"]:checked').length) {
           $('input[name="selectAll"]').prop('checked', true);
         }else{
           $('input[name="selectAll"]').prop('checked', false);
         }
-        togglebtnAll()
+        togglebtnAll();
       })
-      //SHOW HIDE BUTTON ALL
       function togglebtnAll(){
-        if ( $('input[name="id[]"]:checked').length > 1) {
-          $('button#btnAll').removeClass('d-none');
+        if ( $('input[name="ids"]:checked').length >= 1) {
+          $('#restoreAllSelectedRecord').removeClass("disabled");
+          $('#deleteAllSelectedRecord').removeClass("disabled");
         }else{
-          $('button#btnAll').addClass('d-none');
+          $('#restoreAllSelectedRecord').addClass("disabled");
+          $('#deleteAllSelectedRecord').addClass("disabled");
         }
       }
-    });
 
-    //RESTORE ONE
-    $('.btn_restore').click(function(e) {
+      // Detele selected
+      $('#deleteAllSelectedRecord').click(function(e){
         e.preventDefault();
-        const href = $(this).attr('href');
-
-        Swal.fire({
-          title: 'Apakah kamu yakin?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, restore it!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            document.location.href = href;
-            Swal.fire(
-              'Restored!',
-              'Your file has been deleted.',
-              'success'
-            )
-          }
-        })
-      });
-
-      //DELETE ONE
-      $('.btn_delete').click(function(e) {
-        e.preventDefault();
-        const href = $(this).attr('href');
+        var all_ids = [];
+        $('input:checkbox[name=ids]:checked').each(function(){
+          all_ids.push($(this).val());
+        });
         Swal.fire({
           title: 'Apakah kamu yakin?',
           icon: 'warning',
@@ -125,15 +104,87 @@
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
           if (result.isConfirmed) {
-            document.location.href = href;
-            Swal.fire(
-              'Deleted!',
-              'Your file has been deleted.',
-              'success'
-            )
+            $.ajax({
+              url: "{{ route('data-akun.delete') }}",
+              type: "DELETE",
+              data:{
+                ids:all_ids,
+                _token: '{{ csrf_token() }}'
+              },
+              success:function(response){
+                $.each(all_ids, function(key,val){
+                  $('#checkbox_ids'+val).remove();
+                })
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Data berhasil dihapus!',
+                  showConfirmButton: true,
+                  timer: 1500
+                }) 
+                $('input[name="selectAll"]').prop('checked', false);
+                table.ajax.reload();
+              },
+              error:function(jqXHR, textStatus,errorThrown){
+                Swal.fire({
+                  icon: 'error',
+                  title:  errorThrown,
+                  showConfirmButton: true,
+                })
+                return;
+              }
+            });
           }
         })
+
       });
+      
+      // Restore selected
+      $('#restoreAllSelectedRecord').click(function(e){
+        e.preventDefault();
+        var all_ids = [];
+        $('input:checkbox[name=ids]:checked').each(function(){
+          all_ids.push($(this).val());
+        });
+        Swal.fire({
+          title: 'Apakah kamu yakin?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, restore it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "{{ route('data-akun.restore') }}",
+              data:{
+                ids:all_ids,
+                _token: '{{ csrf_token() }}'
+              },
+              success:function(response){
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Data berhasil direstore!',
+                  showConfirmButton: true,
+                  timer: 1500
+                }) 
+                $('input[name="selectAll"]').prop('checked', false);
+                table.ajax.reload();
+              },
+              error:function(jqXHR, textStatus,errorThrown){
+                Swal.fire({
+                  icon: 'error',
+                  title:  errorThrown,
+                  showConfirmButton: true,
+                })
+                return;
+              }
+            });
+          }
+        })
+
+      });
+    });
+
   </script>
 @endsection
 
