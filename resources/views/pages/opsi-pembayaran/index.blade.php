@@ -49,7 +49,10 @@
     $(function() {
       table = $('.table').DataTable({
         processing: true,
-        severSide: true,
+        serverSide: true,
+        "language": {
+          "emptyTable": "Belum ada opsi pembayaran."
+        },
         ajax:"{{ route('opsi-pembayaran.index') }}",
         columns:[
           {data:'DT_RowIndex', name:'DT_RowIndex'},
@@ -72,16 +75,16 @@
             $('#modal-form').modal('hide');
             Swal.fire({
               icon: 'success',
-              title: 'Data berhasil disimpan',
+              title: response,
               showConfirmButton: true,
               timer: 3000
             })
             table.ajax.reload();
           })
-          .fail((errors) => {
+          .fail((response) => {
             Swal.fire({
               icon: 'error',
-              title: 'Data gagal disimpan!',
+              title: response.responseJSON.message,
               showConfirmButton: false,
             })
             return;
@@ -101,26 +104,29 @@
     }
 
     //EDIT DATA
-    function editForm(url){
+    $('body').on('click', '.editData', function () {
+      let id = $(this).data('id');
+      
       $('#modal-form').modal('show');
-      $('#modal-heading').html("Edit Opsi");
+      $('#modal-heading').html("Edit Supplier");
 
-      $('#modal-form form')[0].reset();
-      $('#modal-form form').attr('action', url);
-      $('#modal-form [name=_method]').val('put');
-      $('#modal-form [name=nama_supplier]').focus();
-
-      $.get(url)
-        .done((response) => {
+      //fetch data
+      $.ajax({
+        url: `opsi-pembayaran/show/${id}`,
+        type: "GET",
+        cache: false,
+        success:function(response){
+          $('#FormModal').attr('action', `opsi-pembayaran/update/${id}`);
           $('#modal-form [name=opsi_pembayaran]').val(response.opsi_pembayaran);
           $('#modal-form [name=nomor_rekening]').val(response.nomor_rekening);
           $('#modal-form [name=atas_nama]').val(response.atas_nama);
-        })
-        .fail((errors) => {
+        },
+        error:function(response){
           alert('Tidak dapat menampilkan data');
           return;
-        });
-    }
+        }
+      });
+    });
 
     //DELETE DATA
     function deleteData(url) {
@@ -143,7 +149,7 @@
               icon: 'success',
               title: 'Data berhasil dihapus!',
               showConfirmButton: true,
-              timer: 3000
+              timer: 1500
             }) 
             table.ajax.reload();
           })

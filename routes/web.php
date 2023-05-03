@@ -53,43 +53,57 @@ Route::middleware(['auth'])->group(function () {
 
 
     //MASTER
-    Route::get('data-akun', [KodeAkunController::class, 'index'])->name('data-akun.index');
-    Route::post('data-akun/store', [KodeAkunController::class, 'store'])->name('data-akun.store');
-    Route::get('data-akun/show/{id}', [KodeAkunController::class, 'show'])->name('data-akun.show');
-    Route::post('data-akun/update/{id}', [KodeAkunController::class, 'update'])->name('data-akun.update');
-    Route::delete('data-akun/destroy/{id}', [KodeAkunController::class, 'destroy'])->name('data-akun.destroy');
-    Route::get('data-akun/trash', [KodeAkunController::class, 'trash'])->name('data-akun.trash');
-    Route::get('data-akun/restore/', [KodeAkunController::class, 'restore'])->name('data-akun.restore');
-    Route::delete('data-akun/delete/', [KodeAkunController::class, 'delete'])->name('data-akun.delete');
+    Route::prefix('data-akun')->group(function () {
+        Route::get('/', [KodeAkunController::class, 'index'])->name('data-akun.index');
+        Route::post('/store', [KodeAkunController::class, 'store'])->name('data-akun.store');
+        Route::get('/show/{id}', [KodeAkunController::class, 'show'])->name('data-akun.show');
+        Route::post('/update/{id}', [KodeAkunController::class, 'update'])->name('data-akun.update');
+        Route::delete('/destroy/{id}', [KodeAkunController::class, 'destroy'])->name('data-akun.destroy');
+        Route::get('/trash', [KodeAkunController::class, 'trash'])->name('data-akun.trash');
+        Route::get('/restore', [KodeAkunController::class, 'restore'])->name('data-akun.restore');
+        Route::delete('/delete', [KodeAkunController::class, 'delete'])->name('data-akun.delete');
+    });
 
-    Route::get('data-produk', [ProdukController::class, 'index'])->name('data-produk.index');
-    Route::post('data-produk/store', [ProdukController::class, 'store'])->name('data-produk.store');
-    Route::get('data-produk/show/{id}', [ProdukController::class, 'show'])->name('data-produk.show');
-    Route::post('data-produk/update/{id}', [ProdukController::class, 'update'])->name('data-produk.update');
-    Route::delete('data-produk/destroy/{id}', [ProdukController::class, 'destroy'])->name('data-produk.destroy');
-    Route::get('data-produk/trash', [ProdukController::class, 'trash'])->name('data-produk.trash');
-    Route::get('data-produk/restore/', [ProdukController::class, 'restore'])->name('data-produk.restore');
-    Route::delete('data-produk/delete/', [ProdukController::class, 'delete'])->name('data-produk.delete');
+
+    Route::prefix('data-produk')->group(function () {
+        Route::get('/', [ProdukController::class, 'index'])->name('data-produk.index');
+        Route::post('/store', [ProdukController::class, 'store'])->name('data-produk.store');
+        Route::get('/show/{id}', [ProdukController::class, 'show'])->name('data-produk.show');
+        Route::post('/update/{id}', [ProdukController::class, 'update'])->name('data-produk.update');
+        Route::delete('/destroy/{id}', [ProdukController::class, 'destroy'])->name('data-produk.destroy');
+        Route::get('/trash', [ProdukController::class, 'trash'])->name('data-produk.trash');
+        Route::get('/restore', [ProdukController::class, 'restore'])->name('data-produk.restore');
+        Route::delete('/delete', [ProdukController::class, 'delete'])->name('data-produk.delete');
+        
+    });
     
-    Route::get('opsi-pembayaran/trash', [OpsiPembayaranController::class, 'trash'])->name('opsi-pembayaran.trash');
-    Route::get('opsi-pembayaran/restore/{id?}', [OpsiPembayaranController::class, 'restore'])->name('opsi-pembayaran.restore');
-    Route::get('opsi-pembayaran/delete/{id?}', [OpsiPembayaranController::class, 'delete'])->name('opsi-pembayaran.delete');
-    Route::resource('opsi-pembayaran', OpsiPembayaranController::class);
+    Route::prefix('opsi-pembayaran')->group(function () {
+        Route::get('/', [OpsiPembayaranController::class, 'index'])->name('opsi-pembayaran.index');
+        Route::post('/store', [OpsiPembayaranController::class, 'store'])->name('opsi-pembayaran.store');
+        Route::get('/show/{id}', [OpsiPembayaranController::class, 'show'])->name('opsi-pembayaran.show');
+        Route::post('/update/{id}', [OpsiPembayaranController::class, 'update'])->name('opsi-pembayaran.update');
+        Route::delete('/destroy/{id}', [OpsiPembayaranController::class, 'destroy'])->name('opsi-pembayaran.destroy');
+        Route::get('/trash', [OpsiPembayaranController::class, 'trash'])->name('opsi-pembayaran.trash');
+        Route::get('/restore', [OpsiPembayaranController::class, 'restore'])->name('opsi-pembayaran.restore');
+        Route::delete('/delete', [OpsiPembayaranController::class, 'delete'])->name('opsi-pembayaran.delete');
+    });
     
     Route::get('data-pelanggan/trash', [CustomerController::class, 'trash'])->name('data-pelanggan.trash');
     Route::get('data-pelanggan/restore/{id?}', [CustomerController::class, 'restore'])->name('data-pelanggan.restore');
     Route::get('data-pelanggan/delete/{id?}', [CustomerController::class, 'delete'])->name('data-pelanggan.delete');
     Route::resource('data-pelanggan', CustomerController::class);
 
-    Route::get('data-supplier', [SupplierController::class, 'index'])->name('data-supplier.index');
-    Route::post('data-supplier/store', [SupplierController::class, 'store'])->name('data-supplier.store');
-    Route::get('data-supplier/show/{id}', [SupplierController::class, 'show'])->name('data-supplier.show');
-    Route::post('data-supplier/update/{id}', [SupplierController::class, 'update'])->name('data-supplier.update');
-    Route::delete('data-supplier/destroy/{id}', [SupplierController::class, 'destroy'])->name('data-supplier.destroy');
-    Route::get('data-supplier/trash', [SupplierController::class, 'trash'])->name('data-supplier.trash');
-    Route::get('data-supplier/restore/', [SupplierController::class, 'restore'])->name('data-supplier.restore');
-    Route::delete('data-supplier/delete/', [SupplierController::class, 'delete'])->name('data-supplier.delete');
-    
+    Route::prefix('data-supplier')->group(function () {
+        Route::get('/', [SupplierController::class, 'index'])->name('data-supplier.index');
+        Route::post('/store', [SupplierController::class, 'store'])->name('data-supplier.store');
+        Route::get('/show/{id}', [SupplierController::class, 'show'])->name('data-supplier.show');
+        Route::post('/update/{id}', [SupplierController::class, 'update'])->name('data-supplier.update');
+        Route::delete('/destroy/{id}', [SupplierController::class, 'destroy'])->name('data-supplier.destroy');
+        Route::get('/trash', [SupplierController::class, 'trash'])->name('data-supplier.trash');
+        Route::get('/restore', [SupplierController::class, 'restore'])->name('data-supplier.restore');
+        Route::delete('/delete', [SupplierController::class, 'delete'])->name('data-supplier.delete');        
+    });
+
     //LAPORAN
     Route::get('pendapatan', [PendapatanController::class, 'index'])->name('pendapatan.index');
     Route::get('pendapatan/data', [PendapatanController::class, 'data'])->name('pendapatan.data');

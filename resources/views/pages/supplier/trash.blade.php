@@ -57,7 +57,7 @@
         severSide: true,
         ajax:"{{ route('data-supplier.trash') }}",
         columns:[
-          {data:'selectAll', name:'selectAll'},
+          {data:'selectAll', name:'selectAll', orderable: false, searchable: false},
           {data:'nama_supplier', name:'nama_supplier'},
           {data:'alamat_supplier', name:'alamat_supplier'},
           {data:'telepon_supplier', name:'telepon_supplier'},

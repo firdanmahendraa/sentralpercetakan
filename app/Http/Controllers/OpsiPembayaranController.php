@@ -14,10 +14,10 @@ class OpsiPembayaranController extends Controller{
         if($request->ajax()){
             $allData = DataTables::of($opsi_bayar)
             ->addIndexColumn()
-            ->addColumn('action', function($row){
+            ->addColumn('action', function($data){
                 return '
-                    <button class="btn btn-success btn-sm" onclick="editForm(`'. route('opsi-pembayaran.update', $row->id) .'`)">Edit</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteData(`'. route('opsi-pembayaran.destroy', $row->id) .'`)">Hapus </button>
+                    <button class="btn btn-success btn-sm editData" data-id="'.$data->id.'">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteData(`'. route('opsi-pembayaran.destroy', $data->id) .'`)">Hapus </button>
                 ';
             })
             ->rawColumns(['action'])
@@ -25,10 +25,6 @@ class OpsiPembayaranController extends Controller{
             return $allData;
         }
         return view('pages.opsi-pembayaran.index',compact('opsi_bayar'));
-    }
-
-    public function create() {
-        //
     }
 
     public function store(Request $request) {
@@ -40,11 +36,6 @@ class OpsiPembayaranController extends Controller{
     public function show($id) {
         $opsi_bayar = OpsiPembayaran::find($id);
         return response()->json($opsi_bayar);
-    }
-
-
-    public function edit($id){
-        //
     }
 
     public function update(Request $request, $id){
@@ -68,21 +59,34 @@ class OpsiPembayaranController extends Controller{
         if ($request->ajax()) {
             $allData = DataTables::of($opsi_bayar)
             ->addIndexColumn()
-            ->addColumn('selectAll', function($opsi_bayar){
+            ->addColumn('selectAll', function($data){
                 return '
-                    <input type="checkbox" name="id[]" id="selectOne" value="'. $opsi_bayar->id .'">
+                    <input type="checkbox" name="ids" class="selectOne" id="checkbox_ids'. $data->id .'" value="'. $data->id .'">
                 ';
             })
-            ->addColumn('action', function($opsi_bayar){
+            ->addColumn('deleted_at', function($data){
                 return '
-                    <a href="'. url('opsi-pembayaran/restore/'.$opsi_bayar->id) .'" class="btn btn-info btn-sm btn_restore">Restore Permanently</a>
-                    <a href="'. url('opsi-pembayaran/delete/'.$opsi_bayar->id) .'" class="btn btn-danger btn-sm btn_delete">Delete Permanantly</a>
+                    Dihapus pada '. $data->deleted_at->translatedFormat('d F Y') .'
                 ';
             })
-            ->rawColumns(['action', 'selectAll'])
+            ->rawColumns(['selectAll', 'deleted_at'])
             ->make(true);
             return $allData;
         }
         return view('pages.opsi-pembayaran.trash');
+    }
+
+    public function restore(Request $request){
+        $ids = $request->ids;
+        OpsiPembayaran::onlyTrashed()->whereIn('id', $ids)->restore();
+        
+        return response()->json(["success" => "Data berhasil di restore!"]);
+    }
+
+    public function delete(Request $request){
+        $ids = $request->ids;
+        OpsiPembayaran::onlyTrashed()->whereIn('id', $ids)->forceDelete();
+        
+        return response()->json(["success" => "Data berhasil di hapus!"]);
     }
 }
