@@ -68,13 +68,19 @@
       // Sellect all checkbox
       $('[name=selectAll]').on('click', function () {
         $(':checkbox').prop('checked', this.checked);
+        $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore All</i>');
+        $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete All</i>');
         togglebtnAll();
       });
       $(document).on('change', '.selectOne', function(){
         if ( $('input[name="ids"]').length == $('input[name="ids"]:checked').length) {
           $('input[name="selectAll"]').prop('checked', true);
+          $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore All</i>');
+          $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete All</i>');
         }else{
           $('input[name="selectAll"]').prop('checked', false);
+          $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore Selected</i>');
+          $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete Selected</i>');
         }
         togglebtnAll();
       })
@@ -85,6 +91,8 @@
         }else{
           $('#restoreAllSelectedRecord').addClass("disabled");
           $('#deleteAllSelectedRecord').addClass("disabled");
+          $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore Selected</i>');
+          $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete Selected</i>');
         }
       }
 
@@ -124,6 +132,8 @@
                 $('input[name="selectAll"]').prop('checked', false);
                 $('#restoreAllSelectedRecord').addClass("disabled");
                 $('#deleteAllSelectedRecord').addClass("disabled");
+                $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore Selected</i>');
+                $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete Selected</i>');
                 table.ajax.reload();
               },
               error:function(jqXHR, textStatus,errorThrown){
@@ -172,6 +182,8 @@
                 $('input[name="selectAll"]').prop('checked', false);
                 $('#restoreAllSelectedRecord').addClass("disabled");
                 $('#deleteAllSelectedRecord').addClass("disabled");
+                $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore Selected</i>');
+                $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete Selected</i>');
                 table.ajax.reload();
               },
               error:function(jqXHR, textStatus,errorThrown){
