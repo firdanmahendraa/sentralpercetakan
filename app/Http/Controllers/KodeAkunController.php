@@ -62,7 +62,7 @@ class KodeAkunController extends Controller{
             ->addIndexColumn()
             ->addColumn('selectAll', function($data){
                 return '
-                    <input type="checkbox" name="ids" id="checkbox_ids'. $data->id .'" value="'. $data->id .'">
+                    <input type="checkbox" name="ids" class="selectOne" id="checkbox_ids'. $data->id .'" value="'. $data->id .'">
                 ';
             })
             ->addColumn('deleted_at', function($data){

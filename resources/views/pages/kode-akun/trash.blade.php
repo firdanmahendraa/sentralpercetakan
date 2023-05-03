@@ -70,7 +70,7 @@
         $(':checkbox').prop('checked', this.checked);
         togglebtnAll();
       });
-      $(document).on('change', '#checkbox_ids', function(){
+      $(document).on('change', '.selectOne', function(){
         if ( $('input[name="ids"]').length == $('input[name="ids"]:checked').length) {
           $('input[name="selectAll"]').prop('checked', true);
         }else{

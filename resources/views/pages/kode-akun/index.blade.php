@@ -46,7 +46,7 @@
     let table;
     // TAMPIL DATA 
     $(function(){
-    table = $('.table').DataTable({
+      table = $('.table').DataTable({
         processing: true,
         serverSide: true,
         ajax:"{{ route('data-akun.index') }}",
@@ -95,7 +95,6 @@
       $('#modal-form form')[0].reset();
       $('#modal-form form').attr('action', url);
       $('#modal-form [name=_method]').val('post');
-      $('#modal-form [name=nama_kategori]').focus();
     }
 
     //EDIT DATA
