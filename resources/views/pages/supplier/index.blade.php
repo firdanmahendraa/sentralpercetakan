@@ -51,6 +51,9 @@
         processing: true,
         severSide: true,
         ajax:"{{ route('data-supplier.index') }}",
+        "language": {
+          "emptyTable": "Belum ada supplier."
+        },
         columns:[
           {data:'DT_RowIndex', name:'DT_RowIndex'},
           {data:'nama_supplier', name:'nama_supplier'},
@@ -72,16 +75,16 @@
             $('#modal-form').modal('hide');
             Swal.fire({
               icon: 'success',
-              title: 'Data berhasil disimpan',
+              title: response,
               showConfirmButton: true,
-              timer: 3000
+              timer: 1500
             })
             table.ajax.reload();
           })
-          .fail((errors) => {
+          .fail((response) => {
             Swal.fire({
               icon: 'error',
-              title: 'Data gagal disimpan!',
+              title: response.responseJSON.message,
               showConfirmButton: false,
             })
             return;
@@ -102,26 +105,29 @@
     }
 
     //EDIT DATA
-    function editForm(url){
+    $('body').on('click', '.editData', function () {
+      let id = $(this).data('id');
+      
       $('#modal-form').modal('show');
       $('#modal-heading').html("Edit Supplier");
 
-      $('#modal-form form')[0].reset();
-      $('#modal-form form').attr('action', url);
-      $('#modal-form [name=_method]').val('put');
-      $('#modal-form [name=nama_supplier]').focus();
-
-      $.get(url)
-        .done((response) => {
+      //fetch data
+      $.ajax({
+        url: `data-supplier/show/${id}`,
+        type: "GET",
+        cache: false,
+        success:function(response){
+          $('#FormModal').attr('action', `data-supplier/update/${id}`);
           $('#modal-form [name=nama_supplier]').val(response.nama_supplier);
           $('#modal-form [name=alamat_supplier]').val(response.alamat_supplier);
           $('#modal-form [name=telepon_supplier]').val(response.telepon_supplier);
-        })
-        .fail((errors) => {
+        },
+        error:function(response){
           alert('Tidak dapat menampilkan data');
           return;
-        });
-    }
+        }
+      });
+    });
 
     //DELETE DATA
     function deleteData(url) {
@@ -144,7 +150,7 @@
               icon: 'success',
               title: 'Data berhasil dihapus!',
               showConfirmButton: true,
-              timer: 3000
+              timer: 1500
             }) 
             table.ajax.reload();
           })

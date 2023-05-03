@@ -5,7 +5,7 @@
         <h4 class="modal-title text-bold text-center" id="modal-heading" style="margin:0 auto"></h4>
       </div>
       <div class="modal-body">
-        <form action="" method="post">
+        <form id="FormModal" method="post">
           @csrf
           @method('post')
           <div class="row">

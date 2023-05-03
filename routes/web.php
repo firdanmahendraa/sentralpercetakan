@@ -81,11 +81,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('data-pelanggan/delete/{id?}', [CustomerController::class, 'delete'])->name('data-pelanggan.delete');
     Route::resource('data-pelanggan', CustomerController::class);
 
+    Route::get('data-supplier', [SupplierController::class, 'index'])->name('data-supplier.index');
+    Route::post('data-supplier/store', [SupplierController::class, 'store'])->name('data-supplier.store');
+    Route::get('data-supplier/show/{id}', [SupplierController::class, 'show'])->name('data-supplier.show');
+    Route::post('data-supplier/update/{id}', [SupplierController::class, 'update'])->name('data-supplier.update');
+    Route::delete('data-supplier/destroy/{id}', [SupplierController::class, 'destroy'])->name('data-supplier.destroy');
     Route::get('data-supplier/trash', [SupplierController::class, 'trash'])->name('data-supplier.trash');
-    Route::get('data-supplier/restore/{id?}', [SupplierController::class, 'restore'])->name('data-supplier.restore');
-    Route::get('data-supplier/delete/{id?}', [SupplierController::class, 'delete'])->name('data-supplier.delete');
-    Route::resource('data-supplier', SupplierController::class);
-
+    Route::get('data-supplier/restore/', [SupplierController::class, 'restore'])->name('data-supplier.restore');
+    Route::delete('data-supplier/delete/', [SupplierController::class, 'delete'])->name('data-supplier.delete');
+    
     //LAPORAN
     Route::get('pendapatan', [PendapatanController::class, 'index'])->name('pendapatan.index');
     Route::get('pendapatan/data', [PendapatanController::class, 'data'])->name('pendapatan.data');

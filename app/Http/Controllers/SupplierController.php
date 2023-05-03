@@ -14,10 +14,10 @@ class SupplierController extends Controller{
         if ($request->ajax()) {
             $allData = DataTables::of($supplier)
             ->addIndexColumn()
-            ->addColumn('action', function($supplier){
+            ->addColumn('action', function($data){
                 return '
-                    <button class="btn btn-success btn-sm" onclick="editForm(`'. route('data-supplier.update', $supplier->id) .'`)">Edit</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteData(`'. route('data-supplier.destroy', $supplier->id) .'`)">Hapus </button>
+                    <button class="btn btn-success btn-sm editData" data-id="'.$data->id.'">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteData(`'. route('data-supplier.destroy', $data->id) .'`)">Hapus </button>
                 ';
             })
             ->rawColumns(['action'])
@@ -25,10 +25,6 @@ class SupplierController extends Controller{
             return $allData;
         }
         return view('pages.supplier.index', compact('supplier'));
-    }
-
-    public function create(){
-        // 
     }
 
     public function store(Request $request) {
@@ -40,10 +36,6 @@ class SupplierController extends Controller{
     public function show($id){
         $supplier = Supplier::find($id);
         return response()->json($supplier);
-    }
-
-    public function edit($id) {
-        //
     }
 
     public function update(Request $request, $id){
@@ -67,15 +59,14 @@ class SupplierController extends Controller{
         if ($request->ajax()) {
             $allData = DataTables::of($supplier)
             ->addIndexColumn()
-            ->addColumn('selectAll', function($supplier){
+            ->addColumn('selectAll', function($data){
                 return '
-                    <input type="checkbox" name="id[]" id="selectOne" value="'. $supplier->id .'">
+                    <input type="checkbox" name="ids" class="selectOne" id="checkbox_ids'. $data->id .'" value="'. $data->id .'">
                 ';
             })
-            ->addColumn('action', function($supplier){
+            ->addColumn('deleted_at', function($data){
                 return '
-                    <a href="'. url('data-supplier/restore/'.$supplier->id) .'" class="btn btn-info btn-sm btn_restore">Restore Data</a>
-                    <a href="'. url('data-supplier/delete/'.$supplier->id) .'" class="btn btn-danger btn-sm btn_delete">Delete Permanantly</a>
+                    Dihapus pada '. $data->deleted_at->translatedFormat('d F Y') .'
                 ';
             })
             ->rawColumns(['action', 'selectAll'])
@@ -85,25 +76,17 @@ class SupplierController extends Controller{
         return view('pages.supplier.trash');
     }
 
-    public function restore($id = null){
-        if($id != null){
-            $supplier = Supplier::onlyTrashed()
-                ->where('id', $id)
-                ->restore();
-        }else{
-            $supplier = Supplier::onlyTrashed()->restore();
-        }
-        return redirect('data-supplier/trash');
+    public function restore(Request $request){
+        $ids = $request->ids;
+        Supplier::onlyTrashed()->whereIn('id', $ids)->restore();
+        
+        return response()->json(["success" => "Data berhasil di restore!"]);
     }
 
-    public function delete($id = null){
-        if($id != null){
-            $supplier = Supplier::onlyTrashed()
-                ->where('id', $id)
-                ->forceDelete();
-        }else{
-            $supplier = Supplier::onlyTrashed()->forceDelete();
-        }
-        return redirect('data-supplier/trash');
+    public function delete(Request $request){
+        $ids = $request->ids;
+        Supplier::onlyTrashed()->whereIn('id', $ids)->forceDelete();
+        
+        return response()->json(["success" => "Data berhasil di hapus!"]);
     }
 }
