@@ -11,8 +11,8 @@
           <div class="card card-primary card-outline">  
             <div class="card-head">
               <div class="px-3 pt-2">
-                <a href="{{ url('data-produk/restore/') }}" class="btn btn-info btn-sm btn_restore disabled" id="restoreAllSelectedRecord"><i class="fa fa-undo"> Restore</i></a>
-                <a href="{{ url('data-produk/delete/') }}" class="btn btn-danger btn-sm btn_delete disabled" id="deleteAllSelectedRecord"><i class="fa fa-trash"> Delete</i></a>
+                <a href="{{ url('data-produk/restore/') }}" class="btn btn-info btn-sm btn_restore disabled" id="restoreAllSelectedRecord"><i class="fa fa-undo"> Restore Selected</i></a>
+                <a href="{{ url('data-produk/delete/') }}" class="btn btn-danger btn-sm btn_delete disabled" id="deleteAllSelectedRecord"><i class="fa fa-trash"> Delete Selected</i></a>
                 <a href="{{ route('data-produk.index') }}" class="btn btn-secondary btn-sm float-right">
                   <i class="fa fa-chevron-left"> Back</i>
                 </a>
@@ -85,8 +85,8 @@
           $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete All</i>');
         }else{
           $('input[name="selectAll"]').prop('checked', false);
-          $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore</i>');
-          $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete</i>');
+          $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore Selected</i>');
+          $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete Selected</i>');
         }
         togglebtnAll();
       })
@@ -97,8 +97,8 @@
         }else{
           $('#restoreAllSelectedRecord').addClass("disabled");
           $('#deleteAllSelectedRecord').addClass("disabled");
-          $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore</i>');
-          $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete</i>');
+          $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore Selected</i>');
+          $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete Selected</i>');
         }
       }
 
@@ -138,8 +138,8 @@
                 $('input[name="selectAll"]').prop('checked', false);
                 $('#restoreAllSelectedRecord').addClass("disabled");
                 $('#deleteAllSelectedRecord').addClass("disabled");
-                $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore</i>');
-                $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete</i>');
+                $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore Selected</i>');
+                $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete Selected</i>');
                 table.ajax.reload();
               },
               error:function(jqXHR, textStatus,errorThrown){
@@ -188,8 +188,8 @@
                 $('input[name="selectAll"]').prop('checked', false);
                 $('#restoreAllSelectedRecord').addClass("disabled");
                 $('#deleteAllSelectedRecord').addClass("disabled");
-                $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore</i>');
-                $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete</i>');
+                $('#restoreAllSelectedRecord').html('<i class="fa fa-undo"> Restore Selected</i>');
+                $('#deleteAllSelectedRecord').html('<i class="fa fa-trash"> Delete Selected</i>');
                 table.ajax.reload();
               },
               error:function(jqXHR, textStatus,errorThrown){
