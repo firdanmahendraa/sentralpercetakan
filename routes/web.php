@@ -88,10 +88,16 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/delete', [OpsiPembayaranController::class, 'delete'])->name('opsi-pembayaran.delete');
     });
     
-    Route::get('data-pelanggan/trash', [CustomerController::class, 'trash'])->name('data-pelanggan.trash');
-    Route::get('data-pelanggan/restore/{id?}', [CustomerController::class, 'restore'])->name('data-pelanggan.restore');
-    Route::get('data-pelanggan/delete/{id?}', [CustomerController::class, 'delete'])->name('data-pelanggan.delete');
-    Route::resource('data-pelanggan', CustomerController::class);
+    Route::prefix('data-pelanggan')->group(function () {
+        Route::get('/', [CustomerController::class, 'index'])->name('data-pelanggan.index');
+        Route::post('/store', [CustomerController::class, 'store'])->name('data-pelanggan.store');
+        Route::get('/show/{id}', [CustomerController::class, 'show'])->name('data-pelanggan.show');
+        Route::post('/update/{id}', [CustomerController::class, 'update'])->name('data-pelanggan.update');
+        Route::delete('/destroy/{id}', [CustomerController::class, 'destroy'])->name('data-pelanggan.destroy');
+        Route::get('/trash', [CustomerController::class, 'trash'])->name('data-pelanggan.trash');
+        Route::get('/restore', [CustomerController::class, 'restore'])->name('data-pelanggan.restore');
+        Route::delete('/delete', [CustomerController::class, 'delete'])->name('data-pelanggan.delete');        
+    });
 
     Route::prefix('data-supplier')->group(function () {
         Route::get('/', [SupplierController::class, 'index'])->name('data-supplier.index');

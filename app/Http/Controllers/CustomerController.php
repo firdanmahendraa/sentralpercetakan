@@ -14,10 +14,10 @@ class CustomerController extends Controller{
         if ($request->ajax()) {
             $allData = DataTables::of($customer)
             ->addIndexColumn()
-            ->addColumn('action', function($customer){
+            ->addColumn('action', function($data){
                 return '
-                    <button class="btn btn-success btn-sm" onclick="editForm(`'. route('data-pelanggan.update', $customer->id) .'`)">Edit</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteData(`'. route('data-pelanggan.destroy', $customer->id) .'`)">Hapus </button>
+                    <button class="btn btn-success btn-sm editData" data-id="'.$data->id.'">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteData(`'. route('data-pelanggan.destroy', $data->id) .'`)">Hapus </button>
                 ';
             })
             ->rawColumns(['action'])
@@ -25,10 +25,6 @@ class CustomerController extends Controller{
             return $allData;
         }
         return view('pages.customer.index', compact('customer'));
-    }
-
-    public function create(){
-        // 
     }
 
     public function store(Request $request) {
@@ -40,10 +36,6 @@ class CustomerController extends Controller{
     public function show($id){
         $customer = Customer::find($id);
         return response()->json($customer);
-    }
-
-    public function edit($id) {
-        //
     }
 
     public function update(Request $request, $id){
@@ -67,43 +59,34 @@ class CustomerController extends Controller{
         if ($request->ajax()) {
             $allData = DataTables::of($customer)
             ->addIndexColumn()
-            ->addColumn('selectAll', function($customer){
+            ->addColumn('selectAll', function($data){
                 return '
-                    <input type="checkbox" name="id[]" id="selectOne" value="'. $customer->id .'">
+                    <input type="checkbox" name="ids" class="selectOne" id="checkbox_ids'. $data->id .'" value="'. $data->id .'">
                 ';
             })
-            ->addColumn('action', function($customer){
+            ->addColumn('deleted_at', function($data){
                 return '
-                    <a href="'. url('data-pelanggan/restore/'.$customer->id) .'" class="btn btn-info btn-sm btn_restore">Restore Data</a>
-                    <a href="'. url('data-pelanggan/delete/'.$customer->id) .'" class="btn btn-danger btn-sm btn_delete">Delete Permanantly</a>
+                    Dihapus pada '. $data->deleted_at->translatedFormat('d F Y') .'
                 ';
             })
-            ->rawColumns(['action', 'selectAll'])
+            ->rawColumns(['deleted_at', 'selectAll'])
             ->make(true);
             return $allData;
         }
         return view('pages.customer.trash');
     }
 
-    public function restore($id = null){
-        if($id != null){
-            $customer = Customer::onlyTrashed()
-                ->where('id', $id)
-                ->restore();
-        }else{
-            $customer = Customer::onlyTrashed()->restore();
-        }
-        return redirect('data-pelanggan/trash');
+    public function restore(Request $request){
+        $ids = $request->ids;
+        Customer::onlyTrashed()->whereIn('id', $ids)->restore();
+        
+        return response()->json(["success" => "Data berhasil di restore!"]);
     }
 
-    public function delete($id = null){
-        if($id != null){
-            $customer = Customer::onlyTrashed()
-                ->where('id', $id)
-                ->forceDelete();
-        }else{
-            $customer = Customer::onlyTrashed()->forceDelete();
-        }
-        return redirect('data-customer/trash');
+    public function delete(Request $request){
+        $ids = $request->ids;
+        Customer::onlyTrashed()->whereIn('id', $ids)->forceDelete();
+        
+        return response()->json(["success" => "Data berhasil di hapus!"]);
     }
 }

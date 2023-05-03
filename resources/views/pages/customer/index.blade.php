@@ -49,8 +49,11 @@
     $(function() {
       table = $('.table').DataTable({
         processing: true,
-        severSide: true,
+        serverSide: true,
         ajax:"{{ route('data-pelanggan.index') }}",
+        "language": {
+          "emptyTable": "Belum ada supplier."
+        },
         columns:[
           {data:'DT_RowIndex', name:'DT_RowIndex'},
           {data:'nama_pelanggan', name:'nama_pelanggan'},
@@ -72,16 +75,16 @@
             $('#modal-form').modal('hide');
             Swal.fire({
               icon: 'success',
-              title: 'Data berhasil disimpan',
+              title: response,
               showConfirmButton: true,
               timer: 3000
             })
             table.ajax.reload();
           })
-          .fail((errors) => {
+          .fail((response) => {
             Swal.fire({
               icon: 'error',
-              title: 'Data gagal disimpan!',
+              title: response.responseJSON.message,
               showConfirmButton: false,
             })
             return;
@@ -101,25 +104,29 @@
     }
 
     //EDIT DATA
-    function editForm(url){
+    $('body').on('click', '.editData', function () {
+      let id = $(this).data('id');
+      
       $('#modal-form').modal('show');
       $('#modal-heading').html("Edit Pelanggan");
 
-      $('#modal-form form')[0].reset();
-      $('#modal-form form').attr('action', url);
-      $('#modal-form [name=_method]').val('put');
-
-      $.get(url)
-        .done((response) => {
+      //fetch data
+      $.ajax({
+        url: `data-pelanggan/show/${id}`,
+        type: "GET",
+        cache: false,
+        success:function(response){
+          $('#FormModal').attr('action', `data-pelanggan/update/${id}`);
           $('#modal-form [name=nama_pelanggan]').val(response.nama_pelanggan);
           $('#modal-form [name=alamat_pelanggan]').val(response.alamat_pelanggan);
           $('#modal-form [name=telepon_pelanggan]').val(response.telepon_pelanggan);
-        })
-        .fail((errors) => {
+        },
+        error:function(response){
           alert('Tidak dapat menampilkan data');
           return;
-        });
-    }
+        }
+      });
+    });
 
     //DELETE DATA
     function deleteData(url) {
@@ -142,7 +149,7 @@
               icon: 'success',
               title: 'Data berhasil dihapus!',
               showConfirmButton: true,
-              timer: 3000
+              timer: 1500
             }) 
             table.ajax.reload();
           })
@@ -156,7 +163,6 @@
         }
       })
     }
-
 
   </script>
 @endsection

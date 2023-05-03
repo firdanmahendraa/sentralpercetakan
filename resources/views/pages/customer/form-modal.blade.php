@@ -4,19 +4,19 @@
       <div class="modal-header text-center">
         <h4 class="modal-title text-bold text-center" id="modal-heading" style="margin:0 auto"></h4>
       </div>
-      <form action="" method="post">
+      <form id="FormModal" method="post">
         @csrf
         @method('post')
         <div class="modal-body">
           <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-6">
               <div class="form-group">
                 <label for="namaCustomer">Nama</label>
                 <input type="text" class="form-control" name="nama_pelanggan" placeholder="Masukkan nama" required>
                 <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
-            <div class="col-sm-12">
+            <div class="col-sm-6">
               <div class="form-group">
                 <label for="teleponCustomer">Telepon</label>
                 <input type="text" class="form-control" name="telepon_pelanggan" placeholder="Masukkan telepon" required>
@@ -26,7 +26,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <label for="alamatCustomer">Alamat</label>
-                <textarea class="form-control" name="alamat_pelanggan" placeholder="Masukkan alamat"></textarea>
+                <textarea class="form-control" name="alamat_pelanggan" placeholder="Masukkan alamat" rows="5"></textarea>
                 <span class="help-block with-errors text-danger"></span>
               </div>
             </div>
