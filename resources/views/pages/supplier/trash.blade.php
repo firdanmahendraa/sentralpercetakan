@@ -30,7 +30,7 @@
                       <th>Toko</th>
                       <th>Alamat</th>
                       <th>Telepon</th>
-                      <th>Aksi</th>
+                      <th>Detail</th>
                     </tr>
                   </thead>
                   <tbody> </tbody>
