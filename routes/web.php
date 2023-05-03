@@ -62,10 +62,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('data-akun/restore/', [KodeAkunController::class, 'restore'])->name('data-akun.restore');
     Route::delete('data-akun/delete/', [KodeAkunController::class, 'delete'])->name('data-akun.delete');
 
+    Route::get('data-produk', [ProdukController::class, 'index'])->name('data-produk.index');
+    Route::post('data-produk/store', [ProdukController::class, 'store'])->name('data-produk.store');
+    Route::get('data-produk/show/{id}', [ProdukController::class, 'show'])->name('data-produk.show');
+    Route::post('data-produk/update/{id}', [ProdukController::class, 'update'])->name('data-produk.update');
+    Route::delete('data-produk/destroy/{id}', [ProdukController::class, 'destroy'])->name('data-produk.destroy');
     Route::get('data-produk/trash', [ProdukController::class, 'trash'])->name('data-produk.trash');
-    Route::get('data-produk/restore/{id?}', [ProdukController::class, 'restore'])->name('data-produk.restore');
-    Route::get('data-produk/delete/{id?}', [ProdukController::class, 'delete'])->name('data-produk.delete');
-    Route::resource('data-produk', ProdukController::class);
+    Route::get('data-produk/restore/', [ProdukController::class, 'restore'])->name('data-produk.restore');
+    Route::delete('data-produk/delete/', [ProdukController::class, 'delete'])->name('data-produk.delete');
     
     Route::get('opsi-pembayaran/trash', [OpsiPembayaranController::class, 'trash'])->name('opsi-pembayaran.trash');
     Route::get('opsi-pembayaran/restore/{id?}', [OpsiPembayaranController::class, 'restore'])->name('opsi-pembayaran.restore');

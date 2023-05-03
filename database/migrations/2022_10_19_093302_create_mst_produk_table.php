@@ -17,7 +17,7 @@ class CreateMstProdukTable extends Migration
             $table->increments('id_produk');
             $table->string('kode_produk');
             $table->string('nama_produk');
-            $table->integer('satuan_produk');
+            $table->string('ukuran_produk');
             $table->integer('harga_produk');
             $table->softDeletes();
             $table->timestamps();

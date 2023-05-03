@@ -122,6 +122,8 @@
                   timer: 1500
                 }) 
                 $('input[name="selectAll"]').prop('checked', false);
+                $('#restoreAllSelectedRecord').addClass("disabled");
+                $('#deleteAllSelectedRecord').addClass("disabled");
                 table.ajax.reload();
               },
               error:function(jqXHR, textStatus,errorThrown){
@@ -168,6 +170,8 @@
                   timer: 1500
                 }) 
                 $('input[name="selectAll"]').prop('checked', false);
+                $('#restoreAllSelectedRecord').addClass("disabled");
+                $('#deleteAllSelectedRecord').addClass("disabled");
                 table.ajax.reload();
               },
               error:function(jqXHR, textStatus,errorThrown){

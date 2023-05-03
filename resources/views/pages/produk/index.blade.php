@@ -24,7 +24,6 @@
                       <th style="width: 5%">No</th>
                       <th style="width: 10%">Kode Produk</th>
                       <th>Nama Produk</th>
-                      <th>Satuan</th>
                       <th>Harga</th>
                       <th>Ukuran</th>
                       <th>Perhitungan</th>
@@ -47,37 +46,18 @@
 
 @section('js')
   <script type="text/javascript">
-    document.querySelectorAll('input[type-currency="IDR"]').forEach((element) => {
-      element.addEventListener('keyup', function(e) {
-      let cursorPostion = this.selectionStart;
-        let value = parseInt(this.value.replace(/[^,\d]/g, ''));
-        let originalLenght = this.value.length;
-        if (isNaN(value)) {
-          this.value = "";
-        } else {    
-          this.value = value.toLocaleString('id-ID', {
-            currency: 'IDR',
-            style: 'currency',
-            minimumFractionDigits: 0
-          });
-          cursorPostion = this.value.length - originalLenght + cursorPostion;
-          this.setSelectionRange(cursorPostion, cursorPostion);
-        }
-      });
-    });
 
     let table;
     //TAMPIL DATA
     $(function(){
       table = $('.table').DataTable({
         processing: true,
-        severSide: true,
+        serverSide: true,
         ajax:"{{ route('data-produk.index') }}",
         columns:[
           {data:'DT_RowIndex', name:'DT_RowIndex'},
           {data:'kode_produk', name:'kode_produk'},
           {data:'nama_produk', name:'nama_produk'},
-          {data:'satuan_produk', name:'satuan_produk'},
           {data:'harga_produk', name:'harga_produk'},
           {data:'ukuran_produk', name:'ukuran_produk'},
           {data:'type_produk', name:'type_produk'},
@@ -97,15 +77,15 @@
             $('#modal-form').modal('hide');
             Swal.fire({
               icon: 'success',
-              title: 'Data berhasil disimpan',
+              title: response,
               timer: 2000
             })
             table.ajax.reload();
           })
-          .fail((errors) => {
+          .fail((response) => {
             Swal.fire({
               icon: 'error',
-              title: 'Data gagal disimpan!',
+              title: response.responseJSON.message,
               showConfirmButton: false,
             })
             return;
@@ -122,33 +102,34 @@
       $('#modal-form form')[0].reset();
       $('#modal-form form').attr('action', url);
       $('#modal-form [name=_method]').val('post');
-      $('#modal-form [name=nama_produk]').focus();
     }
 
     //EDIT DATA
-    function editForm(url){
+    $('body').on('click', '.editData', function () {
+      let id = $(this).data('id');
+      
       $('#modal-form').modal('show');
       $('#modal-heading').html("Edit Produk");
 
-      $('#modal-form form')[0].reset();
-      $('#modal-form form').attr('action', url);
-      $('#modal-form [name=_method]').val('put');
-      $('#modal-form [name=nama_produk]').focus();
-
-      $.get(url)
-        .done((response) => {
+      //fetch data
+      $.ajax({
+        url: `data-produk/show/${id}`,
+        type: "GET",
+        cache: false,
+        success:function(response){
+          $('#FormModal').attr('action', `data-produk/update/${id}`);
           $('#modal-form [name=kode_produk]').val(response.kode_produk);
           $('#modal-form [name=nama_produk]').val(response.nama_produk);
-          $('#modal-form [name=satuan_produk]').val(response.satuan_produk);
           $('#modal-form [name=harga_produk]').val(response.harga_produk);
           $('#modal-form [name=ukuran_produk]').val(response.ukuran_produk);
           $('#modal-form [name=type_produk]').val(response.type_produk);
-        })
-        .fail((errors) => {
+        },
+        error:function(response){
           alert('Tidak dapat menampilkan data');
           return;
-        });
-    }
+        }
+      });
+    });
 
     //DELETE DATA
     function deleteData(url) {
@@ -182,12 +163,6 @@
             }) 
             return;
           })
-        }else if (result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire(
-            'Cancelled',
-            'Your imaginary file is safe :)',
-            'error'
-          )
         }
       })
     }
