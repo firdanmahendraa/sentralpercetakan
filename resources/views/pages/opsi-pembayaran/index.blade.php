@@ -108,7 +108,7 @@
       let id = $(this).data('id');
       
       $('#modal-form').modal('show');
-      $('#modal-heading').html("Edit Supplier");
+      $('#modal-heading').html("Edit Opsi Pembayaran");
 
       //fetch data
       $.ajax({
