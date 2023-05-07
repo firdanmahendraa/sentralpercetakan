@@ -18,7 +18,7 @@ class PenjualanDetail extends Model
     }
 
     public function penjualan(){
-        return $this->hasMany(Penjualan::class, 'id_penjualan', 'id_penjualan');
+        return $this->hasMany(Penjualan::class, 'no_nota', 'no_nota');
     }
 
     // protected $fillable = [

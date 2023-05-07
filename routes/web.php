@@ -37,19 +37,28 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     //TRANSAKSI
-    Route::get('transaksi-penjualan/invoice/{id}', [PenjualanController::class, 'cetakInvoice'])->name('transaksi-penjualan.invoice');
-    Route::get('transaksi-penjualan/pelunasan/{id}', [PenjualanController::class, 'pelunasan'])->name('transaksi-penjualan.pelunasan');
-    Route::get('transaksi-penjualan/data', [PenjualanController::class, 'data'])->name('transaksi-penjualan.data');
-    Route::resource('transaksi-penjualan', PenjualanController::class);
+    Route::prefix('transaksi-penjualan')->group(function () {
+        Route::get('/', [PenjualanController::class, 'index'])->name('transaksi-penjualan.index');
+        Route::get('/data', [PenjualanController::class, 'data'])->name('transaksi-penjualan.data');
+        Route::post('/store', [PenjualanController::class, 'store'])->name('transaksi-penjualan.store');
+        Route::get('/show/{id}/{no_nota}', [PenjualanController::class, 'show'])->name('transaksi-penjualan.show');
+        Route::get('/invoice/{id}/{no_nota}', [PenjualanController::class, 'cetakInvoice'])->name('transaksi-penjualan.invoice');
+        Route::get('/kwitansi/{id}/{no_nota}', [PenjualanController::class, 'cetakKwitansi'])->name('transaksi-penjualan.kwitansi');
+        Route::get('/edit/{id}', [PenjualanController::class, 'edit'])->name('transaksi-penjualan.edit');
+        Route::get('/pelunasan/{id}', [PenjualanController::class, 'pelunasan'])->name('transaksi-penjualan.pelunasan');
+        
+    });
 
-    Route::get('transaksi-baru', [PenjualanTransaksi::class, 'index'])->name('transaksi-baru.index');
-    Route::post('transaksi-baru/store', [PenjualanTransaksi::class, 'store'])->name('transaksi-baru.store');
-    Route::get('transaksi-baru/show/{id}', [PenjualanTransaksi::class, 'show'])->name('transaksi-baru.show');
-    Route::post('transaksi-baru/update/{id}', [PenjualanTransaksi::class, 'update'])->name('transaksi-baru.update');
-    Route::delete('transaksi-baru/destroy/{id}', [PenjualanTransaksi::class, 'destroy'])->name('transaksi-baru.destroy');
-    Route::get('transaksi-baru/loadform/{diskon}/{total}/{diterima}', [PenjualanTransaksi::class, 'loadForm'])->name('transaksi-detail.load_form');
-    Route::get('transaksi-baru/getcustomer', [PenjualanTransaksi::class, 'getCustomer'])->name('transaksi-detail.get_customer');
-    Route::get('transaksi-baru/cart', [PenjualanTransaksi::class, 'transactionCart'])->name('transaksi-baru.cart');
+    Route::prefix('transaksi-baru')->group(function () {
+        Route::get('/', [PenjualanTransaksi::class, 'index'])->name('transaksi-baru.index');
+        Route::post('/store', [PenjualanTransaksi::class, 'store'])->name('transaksi-baru.store');
+        Route::get('/show/{id}', [PenjualanTransaksi::class, 'show'])->name('transaksi-baru.show');
+        Route::post('/update/{id}', [PenjualanTransaksi::class, 'update'])->name('transaksi-baru.update');
+        Route::delete('/destroy/{id}', [PenjualanTransaksi::class, 'destroy'])->name('transaksi-baru.destroy');
+        Route::get('/loadform/{diskon}/{total}/{diterima}', [PenjualanTransaksi::class, 'loadForm'])->name('transaksi-detail.load_form');
+        Route::get('/getcustomer', [PenjualanTransaksi::class, 'getCustomer'])->name('transaksi-detail.get_customer');
+        Route::get('/cart', [PenjualanTransaksi::class, 'transactionCart'])->name('transaksi-baru.cart');        
+    });
 
 
     //MASTER

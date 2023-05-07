@@ -28,7 +28,7 @@
                     <tbody>
                       <tr>
                         <td width="100">Invoice</td>
-                        <td>: <b>NT-{{ $detail->no_nota }}</b></td>
+                        <td>: <b>{{ $detail->no_nota }}</b></td>
                       </tr>
                       <tr>
                         <td>Kasir</td>
@@ -96,7 +96,7 @@
                         <td colspan="2">
                           <small class="text-muted">Rincihan Pembayaran:</small><br>
                           @foreach ($det_history as $item)
-                            Rp. {{ format_uang($item->diterima) }} ({{ $item->opsi_pembayaran }}) // {{ $item->created_at->translatedFormat('d F Y') }}    <br>                           
+                            Rp. {{ format_uang($item->debet) }} ({{ $item->opsi_pembayaran }}) // {{ $item->created_at->translatedFormat('d F Y') }}    <br>                           
                           @endforeach
                         </td>
                         <td colspan="3" class="text-right">
@@ -141,7 +141,11 @@
                       @if ($detail->kembali < 0)
                         <a href="" class="btn btn-default"><i class="fas fa-check"></i>&nbsp;&nbsp;Lunasi</a>&nbsp;&nbsp;
                       @endif
-                      <button onclick="cetakInvoice('{{ url('transaksi-penjualan/invoice', $detail->id_penjualan) }}')" class="btn btn-default"><i class="fas fa-print"></i>&nbsp;&nbsp;Cetak Invoice</button>&nbsp;&nbsp;
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-print"></i>&nbsp;&nbsp;Cetak</button>
+                      <div class="dropdown-menu dropdown-menu-right" style="">
+                        <button class="dropdown-item" onclick="cetakInvoice('{{ url('transaksi-penjualan/invoice/'. $detail->id_penjualan, $detail->no_nota) }}')">Nota</button>
+                        <button class="dropdown-item" onclick="cetakKwitansi('{{ url('transaksi-penjualan/kwitansi/'. $detail->id_penjualan, $detail->no_nota) }}')">Kwitansi</button>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -156,6 +160,11 @@
 
 @section('js')
   <script>
+    
+    function cetakKwitansi(url, title) {
+      popupCenter(url, title, 1080, 675)
+    }
+
     function cetakInvoice(url, title) {
       popupCenter(url, title, 720, 675)
     }

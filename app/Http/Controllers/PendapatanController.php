@@ -14,9 +14,10 @@ class PendapatanController extends Controller{
     }
     
     public function data(Request $request){
+      // Merubah string to array
       $date = explode('-', $request->date);
-      $penjualan = Penjualan::with('customer','det_pembayaran')
-        ->where('status_penjualan', '>', 0)->orderBy('updated_at', 'asc');
+      
+      $penjualan = Penjualan::with('customer','det_pembayaran')->orderBy('updated_at', 'asc');
         if (count($date) == 2) {
           if ($date[0] != '') {
               $penjualan = $penjualan->whereDate('updated_at', '>=', date('Y-m-d', strtotime($date[0])));

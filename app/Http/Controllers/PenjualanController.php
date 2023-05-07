@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Penjualan;
 use App\Models\PenjualanDetail;
+use App\Models\PenjualanTransaction;
 use App\Models\KasMasuk;
 use App\Models\User;
 use App\Models\Produk;
@@ -20,8 +21,7 @@ class PenjualanController extends Controller{
 
     public function data(Request $request){
         $date = explode('-', $request->date);
-        $penjualan = Penjualan::with('customer','det_pembayaran')
-          ->where('status_penjualan', '>', 0)->orderBy('created_at', 'desc')->get();
+        $penjualan = Penjualan::with('customer','det_pembayaran')->orderBy('created_at', 'desc')->get();
   
         $data   = array();
         $total_harga    = 0;
@@ -31,7 +31,7 @@ class PenjualanController extends Controller{
         foreach ($penjualan as $item) {
           $row = array();
           $row['created_at']      = $item['created_at']->translatedFormat('d F Y');
-          $row['no_nota']         = 'NT-'.$item['no_nota'];
+          $row['no_nota']         = $item['no_nota'];
           $row['nama_pelanggan']  = $item->customer['nama_pelanggan'];
           $row['total_harga']     = 'Rp. '.format_uang($item->total_harga);
           $row['diterima']        = 'Rp. '.format_uang($item->diterima);
@@ -41,11 +41,11 @@ class PenjualanController extends Controller{
           if ($item->kembali < 0) {
             $row['action']        = '
               <div class="btn-group">
-                <a href="'.route('transaksi-penjualan.show', $item->id_penjualan).'" class="btn btn-sm btn-default"><i class="fas fa-eye"></i> &nbsp; Detail</a>
+                <a href="'.url('transaksi-penjualan/show/'. $item->id_penjualan, $item->no_nota).'" class="btn btn-sm btn-default"><i class="fas fa-eye"></i> &nbsp; Detail</a>
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown"></button>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <button onclick="cetakInvoice(`'. route('transaksi-penjualan.invoice', $item->id_penjualan) .'`)" class="dropdown-item" href="#"><i class="fas fa-barcode"></i> &nbsp;Cetak</button>
+                    <button onclick="cetakInvoice(`'. url('transaksi-penjualan/invoice/'. $item->id_penjualan, $item->no_nota) .'`)" class="dropdown-item" href="#"><i class="fas fa-barcode"></i> &nbsp;Cetak</button>
                     <a class="dropdown-item" href="'. route('transaksi-penjualan.pelunasan', $item->id_penjualan).'"><i class="fas fa-check"></i> &nbsp;Pelunasan</a>
                     <a class="dropdown-item" href="'. route('transaksi-penjualan.edit', $item->id_penjualan) .'"><i class="fas fa-pencil-alt"></i> &nbsp;Edit</a>
                   </div>
@@ -56,11 +56,11 @@ class PenjualanController extends Controller{
           }else {
             $row['action']        = '
               <div class="btn-group">
-                <a href="'.route('transaksi-penjualan.show', $item->id_penjualan).'" class="btn btn-sm btn-default"><i class="fas fa-eye"></i> &nbsp; Detail</a>
+                <a href="'.url('transaksi-penjualan/show/'. $item->id_penjualan, $item->no_nota).'" class="btn btn-sm btn-default"><i class="fas fa-eye"></i> &nbsp; Detail</a>
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown"></button>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <button onclick="cetakInvoice(`'. route('transaksi-penjualan.invoice', $item->id_penjualan) .'`)" class="dropdown-item" href="#"><i class="fas fa-barcode"></i> &nbsp;Cetak</button>
+                    <button onclick="cetakInvoice(`'. url('transaksi-penjualan/invoice/'. $item->id_penjualan, $item->no_nota) .'`)" class="dropdown-item" href="#"><i class="fas fa-barcode"></i> &nbsp;Cetak</button>
                     <a class="dropdown-item" href="'. route('transaksi-penjualan.edit', $item->id_penjualan) .'"><i class="fas fa-pencil-alt"></i> &nbsp;Edit</a>
                   </div>
                 </div>
@@ -94,13 +94,10 @@ class PenjualanController extends Controller{
           ->make(true);
     }
 
-    public function create(){
-
-    }
-
     public function store(Request $request){
         DB::beginTransaction();
         try {
+            // Proses simpan transaksi
             $penjualan = new Penjualan;
             $penjualan->no_nota = $request->no_nota;
             if ($request->id_pelanggan == null) {
@@ -136,37 +133,38 @@ class PenjualanController extends Controller{
 
             $penjualan->id_user = auth()->id();
             $penjualan->id_akun = $request->id_akun;
-            
             if ($request->id_bkm == NULL) {
-              $history = new KasMasuk;
-              
-              $last = Penjualan::latest()->first();
-              $history->id_penjualan = $last->id_penjualan ;
-              if ($request->debet >= $request->total_harga) {
-                  $history->debet = $request->total_harga;
-              }else {
-                  $history->debet = $request->diterima;
+                $history = new KasMasuk;
+                
+                if ($request->debet >= $request->total_harga) {
+                    $history->debet = $request->total_harga;
+                }else {
+                    $history->debet = $request->diterima;
+                }
+                $history->opsi_pembayaran = $request->opsi_pembayaran;
+                $history->save();
+  
+                $penjualan->id_bkm = $insertedId = $history->id;
               }
-              $history->opsi_pembayaran = $request->opsi_pembayaran;
-              $history->save();
-
-              $penjualan->id_bkm = $insertedId = $history->id;
-            }
-
             $penjualan->save();
+            
+            // Update id_penjualan field on tb_bkm table
+            $history = KasMasuk::find($insertedId = $history->id);
+            $last = Penjualan::latest()->first();
+            $history->id_penjualan = $last->id_penjualan ;
+            $history->update();
+
+            // Move data on transaction_cart to transaksi_detail table
+            PenjualanTransaction::get()->each(function ($cart){
+                $trans_det = $cart->replicate();
+                $trans_det->setTable('penjualan_detail');
+                $trans_det->save();
+
+                $cart->delete();
+            });
+
             DB::commit(); 
-            // dd($penjualan);
-            // $id = $insertedId = $penjualan->id_penjualan;
-            // $detail = Penjualan::with('users')->find($id);
-            // $total  = PenjualanDetail::where('id_penjualan' , $id)->sum('sub_total');
-            // $det_history      = PenjualanHistori::with(['history'])->where('id_penjualan' , $id)->get();
-            // $penjualan_detail = PenjualanDetail::with(['produk','penjualan'])->where('id_penjualan' , $id)->get();
-            // $response   = json_encode([
-            //     'success' => true
-            // ]);
-            // return $penjualan;
-            // return view('pages.penjualan.detail', compact('response'));
-            return response()->json('Data berhasil Disimpan', 200);
+            return response()->json('Transaksi Berhasil', 200);
         } catch (Exception $e) {
             DB::rollback();
             $response =array(
@@ -175,25 +173,34 @@ class PenjualanController extends Controller{
             );
             return view('pages.penjualan.detail', compact('response'));
         }
-        
     }
 
-    public function show($id){
+    public function show($id, $no_nota){
         $detail = Penjualan::with('users')->find($id);
-        $total  = PenjualanDetail::where('id_penjualan' , $id)->sum('sub_total');
-        $det_history      = PenjualanHistori::with(['history'])->where('id_penjualan' , $id)->get();
-        $penjualan_detail = PenjualanDetail::with(['produk','penjualan'])->where('id_penjualan' , $id)->get();
-        
+        $total  = PenjualanDetail::where('no_nota' , $no_nota)->sum('sub_total');
+        $det_history      = KasMasuk::with(['history'])->where('id_penjualan' , $id)->get();
+        $penjualan_detail = PenjualanDetail::with(['produk','penjualan'])->where('no_nota' , $no_nota)->get();
+
         return view('pages.penjualan.detail', compact('penjualan_detail','total','det_history'))->with('detail', $detail);
     }
 
-    public function cetakInvoice($id){
+    public function cetakInvoice($id, $no_nota){
         $setting   = Setting::first();
         $penjualan = Penjualan::with('users')->find($id);
-        $total  = PenjualanDetail::where('id_penjualan' , $id)->sum('sub_total');
-        $det_penjualan = PenjualanDetail::with(['produk','penjualan'])->where('id_penjualan' , $id)->get();
+        $total  = PenjualanDetail::where('no_nota' , $no_nota)->sum('sub_total');
+        $det_penjualan = PenjualanDetail::with(['produk','penjualan'])->where('no_nota' , $no_nota)->get();
         return view('pages.penjualan.invoice', compact('setting', 'det_penjualan', 'total'))->with('penjualan', $penjualan);
     }
+
+    public function cetakKwitansi($id, $no_nota){
+      $setting      = Setting::first();
+      $penjualan    = Penjualan::with('users')->find($id);
+      $det_angsuran = KasMasuk::where('id_penjualan',  $id)->get();
+      $total        = $det_angsuran->sum('debet');
+      $sisa_tagihan = $penjualan->total_harga - $total;
+      // dd($sisa_tagihan);
+      return view('pages.penjualan.kwitansi', compact('setting','det_angsuran', 'total', 'sisa_tagihan'))->with('penjualan', $penjualan);
+  }
 
     public function edit(Request $request, $id){
         $id_penjualan = Penjualan::with('users')->find($id);

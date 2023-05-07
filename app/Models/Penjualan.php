@@ -26,10 +26,10 @@ class Penjualan extends Model
     }
 
     public function det_pembayaran(){
-        return $this->hasOne(PenjualanHistori::class, 'id', 'id_histori');
+        return $this->hasOne(KasMasuk::class, 'id', 'id_bkm');
     }
 
     protected $fillable = [
-        'no_nota', 'id_pelanggan', 'acc_desain', 'total_item', 'total_harga', 'diskon', 'diterima', 'piutang', 'opsi_pembayaran', 'id_user', 'id_akun', 'id_bkm'
+        'no_nota', 'id_pelanggan', 'acc_desain', 'total_item', 'total_harga', 'diskon', 'diterima', 'piutang', 'opsi_pembayaran', 'id_user', 'id_akun'
     ];
 }

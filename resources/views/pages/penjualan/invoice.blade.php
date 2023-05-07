@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=  , initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Invoice Nt-</title>
+  <title>Invoice {{ $penjualan->no_nota }}</title>
   <style>
     * {
       box-sizing: border-box;
@@ -49,7 +49,7 @@
       <table>
         <tr>
           <td><b>No Nota</b></td>
-          <td><b>:</b> NT-{{ $penjualan->no_nota }}</td>
+          <td><b>:</b> {{ $penjualan->no_nota }}</td>
         </tr>
         <tr>
           <td><b>Nama</b></td>
@@ -87,7 +87,7 @@
         </td>
         <td class="text-center va-mid">{{ $item->ukuran }}</td>
         <td class="text-right va-mid">Rp. {{ format_uang($item->harga) }}</td>
-        <td class="text-right va-mid">{{ $item->jumlah }} {{ $item->satuan }}</td>
+        <td class="text-center va-mid">{{ $item->jumlah }} {{ $item->satuan }}</td>
         <td class="text-right va-mid">Rp. {{ format_uang($item->sub_total) }}</td>
       </tr>
     @endforeach

@@ -45,9 +45,27 @@ class PenjualanTransaksi extends Controller{
         if(! $produk){
             return response()->json('Data gagal disimpan', 400);
         }
+        //Generate nomor nota
+        $year = Carbon::now()->format('Y');
+        $month = Carbon::now()->format('m');
+        $yearNow = substr($year, 2);
+        $data = Penjualan::count();        
+        if ($data == null) {
+            $numb = '0001';
+            $transcation_code = 'NT' . $yearNow . $month . $numb;
+        }else {
+            $last = Penjualan::orderBy('id_penjualan', 'desc')->first();
+            $lastNumb = substr($last->no_nota, 6);
+            $transcation_code = 'NT' . $yearNow . $month . str_pad($lastNumb + 1, 4, 0, STR_PAD_LEFT);
+
+            if ($last->created_at->format('m') != $month) {
+                $numb = '0001';
+                $transcation_code = 'NT' . $yearNow . $month . $numb;
+            }
+        }
 
         $detail = new PenjualanTransaction();
-        // $detail->id_penjualan = $request->id_penjualan;
+        $detail->no_nota      = $transcation_code;
         $detail->id_produk    = $produk->id_produk;
         $detail->nama_pesanan = $request->nama_pesanan;
         $detail->jumlah       = $request->jumlah;

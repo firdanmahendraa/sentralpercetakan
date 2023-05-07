@@ -456,15 +456,15 @@
             $('#select2-id_produk-container').html('-- Jasa / Custom --');
             Swal.fire({
               icon: 'success',
-              title: 'Data berhasil disimpan',
-              timer: 2000
+              title: response,
+              timer: 1500
             })
             table.ajax.reload();
           })
-          .fail((errors) => {
+          .fail((response) => {
             Swal.fire({
               icon: 'error',
-              title: 'Data gagal disimpan!',
+              title: response.responseJSON.message,
               showConfirmButton: true,
             })
             return;
