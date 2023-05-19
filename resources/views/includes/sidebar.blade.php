@@ -26,12 +26,16 @@
             </a>
           </li>
           <li class="nav-header">TRANSAKSI</li>
-          <li class="nav-item {{ request()->segment(1) == 'transaksi-baru' || request()->segment(1) == 'transaksi-penjualan' ? 'menu-is-opening menu-open' : '' }}">
-            <a href="#" class="nav-link {{ request()->segment(1) == 'transaksi-baru' || request()->segment(1) == 'transaksi-penjualan' ? 'active' : ''}}">
+          <li class="nav-item {{request()->segment(1) == 'transaksi-baru' || 
+                                request()->segment(1) == 'transaksi-penjualan' || 
+                                request()->segment(1) == 'transaksi-pembelian' ? 'menu-is-opening menu-open' : '' }}">
+            <a href="#" class="nav-link {{request()->segment(1) == 'transaksi-baru' || 
+                                          request()->segment(1) == 'transaksi-penjualan' ||
+                                          request()->segment(1) == 'transaksi-pembelian' ? 'active' : ''}}">
               <i class="nav-icon fa fa-shopping-cart"></i>
               <p>Transaksi<i class="fas fa-angle-left right"></i> </p>
             </a>
-            <ul class="nav nav-treeview" style="{{ request()->segment(1) == 'transaksi-baru','transaksi-penjualan' ? 'display:block;' : 'display:none;' }}padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
+            <ul class="nav nav-treeview" style="{{ request()->segment(1) == 'transaksi-baru','transaksi-penjualan','transaksi-pembelian' ? 'display:block;' : 'display:none;' }}padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
               <li class="nav-item">
                 <a href="{{ route('transaksi-baru.index') }}" class="nav-link {{ request()->segment(1) == 'transaksi-baru' ? 'active' : ''}}">
                   <i class="fas fa-cart-plus nav-icon"></i>
@@ -44,12 +48,12 @@
                   <p>Transaksi Penjualan</p>
                 </a>
               </li>
-              {{-- <li class="nav-item">
-                <a href="{{ route('transaksi-pembelian.index') }}" class="nav-link {{ request()->segment(1) == 'transaksi-pembelian' ? 'active' : ''}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Transaksi Pengeluaran</p>
+              <li class="nav-item">
+                <a href="{{ route('transaksi_pembelian.index') }}" class="nav-link {{ request()->segment(1) == 'transaksi-pembelian' ? 'active' : ''}}">
+                  <i class="fas fa-download nav-icon"></i>
+                  <p>Transaksi Pembelian</p>
                 </a>
-              </li> --}}
+              </li>
             </ul>
           </li>
           <li class="nav-header">MASTER</li>
@@ -84,38 +88,18 @@
             </a>
           </li>
           <li class="nav-header">LAPORAN</li>
-            <li class="nav-item">
-              <a href="{{ route('pendapatan.index') }}" class="nav-link {{ request()->is('pendapatan') ? 'active' : ''}}">
-                <i class="nav-icon fas fa-upload"></i>
-                <p>Pendapatan</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/laporan-pembelian" class="nav-link {{ request()->is('laporan-pembelian') ? 'active' : ''}}">
-                <i class="nav-icon fa fa-download"></i>
-                <p>Pembelian</p>
-              </a>
-            </li>
-            {{-- <li class="nav-item {{ request()->segment(1) == 'piutang-karyawan' && 'piutang-usaha' ? 'menu-is-opening menu-open' : '' }}">
-              <a href="#" class="nav-link {{ request()->segment(1) == 'piutang-karyawan' && 'piutang-usaha' ? 'active' : ''}}">
-                <i class="nav-icon fa fa-balance-scale"></i>
-                <p>Hutang Piutang<i class="fas fa-angle-left right"></i> </p>
-              </a>
-              <ul class="nav nav-treeview" style="{{ request()->segment(1) == 'piutang-karyawan','piutang-usaha' ? 'display:block;' : 'display:none;' }}padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
-                <li class="nav-item">
-                  <a href="{{ route('piutang-karyawan.index') }}" class="nav-link {{ request()->segment(1) == 'piutang-karyawan' ? 'active' : ''}}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Hutang Usaha</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/tables/simple.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Piutang Usaha</p>
-                  </a>
-                </li>
-              </ul>
-            </li> --}}
+          <li class="nav-item">
+            <a href="{{ route('pendapatan.index') }}" class="nav-link {{ request()->is('pendapatan') ? 'active' : ''}}">
+              <i class="nav-icon fas fa-upload"></i>
+              <p>Pendapatan</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/laporan-pembelian" class="nav-link {{ request()->is('laporan-pembelian') ? 'active' : ''}}">
+              <i class="nav-icon fa fa-download"></i>
+              <p>Pembelian</p>
+            </a>
+          </li>
           </li>
           <li class="nav-header">SYSTEM</li>
           <li class="nav-item">

@@ -5,6 +5,7 @@ use App\Http\Controllers\{
     PenjualanController,
     PenjualanTransaksi,
     PenjualanDetailController,
+    PembelianController,
     KodeAkunController,
     ProdukController,
     OpsiPembayaranController,
@@ -46,7 +47,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kwitansi/{id}/{no_nota}', [PenjualanController::class, 'cetakKwitansi'])->name('transaksi-penjualan.kwitansi');
         Route::get('/edit/{id}', [PenjualanController::class, 'edit'])->name('transaksi-penjualan.edit');
         Route::get('/pelunasan/{id}', [PenjualanController::class, 'pelunasan'])->name('transaksi-penjualan.pelunasan');
-        
     });
 
     Route::prefix('transaksi-baru')->group(function () {
@@ -59,7 +59,22 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/getcustomer', [PenjualanTransaksi::class, 'getCustomer'])->name('transaksi-detail.get_customer');
         Route::get('/cart', [PenjualanTransaksi::class, 'transactionCart'])->name('transaksi-baru.cart');        
     });
-
+    
+    Route::prefix('transaksi-pembelian')->group(function () {
+        Route::get('/', [PembelianController::class, 'index'])->name('transaksi_pembelian.index');  
+        Route::get('/getsupplier', [PembelianController::class, 'getSupplier'])->name('transaksi_pembelian.getsupplier');   
+        Route::get('/getakun', [PembelianController::class, 'getAkun'])->name('transaksi_pembelian.getakun');
+        Route::post('/generate-pembelian-form', [PembelianController::class, 'generatePembelianForm'])->name('transaksi_pembelian.generatepembelianform');       
+        Route::get('/input/{id}', [PembelianController::class, 'inputPembelianForm'])->name('transaksi_pembelian.inputpembelianform');   
+        Route::post('/addproduct', [PembelianController::class, 'addProduct'])->name('transaksi_pembelian.addproduct');  
+        Route::get('/cart', [PembelianController::class, 'transactionCart'])->name('transaksi_pembelian.cart');
+        Route::get('/loadform/{total}/{diterima}', [PembelianController::class, 'loadForm'])->name('transaksi_pembelian.load_form');  
+        Route::get('/show/{id}', [PembelianController::class, 'show'])->name('transaksi_pembelian.show');
+        Route::post('/update/{id}', [PembelianController::class, 'update'])->name('transaksi_pembelian.update');       
+        Route::delete('/destroy/{id}', [PembelianController::class, 'destroy'])->name('transaksi_pembelian.destroy');    
+        Route::post('/store', [PembelianController::class, 'store'])->name('transaksi_pembelian.store');    
+        Route::get('/detail/{id}', [PembelianController::class, 'detailPembelian'])->name('transaksi_pembelian.detail');
+    });
 
     //MASTER
     Route::prefix('data-akun')->group(function () {
@@ -73,7 +88,6 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/delete', [KodeAkunController::class, 'delete'])->name('data-akun.delete');
     });
 
-
     Route::prefix('data-produk')->group(function () {
         Route::get('/', [ProdukController::class, 'index'])->name('data-produk.index');
         Route::post('/store', [ProdukController::class, 'store'])->name('data-produk.store');
@@ -83,7 +97,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/trash', [ProdukController::class, 'trash'])->name('data-produk.trash');
         Route::get('/restore', [ProdukController::class, 'restore'])->name('data-produk.restore');
         Route::delete('/delete', [ProdukController::class, 'delete'])->name('data-produk.delete');
-        
     });
     
     Route::prefix('opsi-pembayaran')->group(function () {
