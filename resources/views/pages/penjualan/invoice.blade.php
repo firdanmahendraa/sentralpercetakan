@@ -108,8 +108,8 @@
           Subtotal Rp<br>
         @if ($penjualan->diskon > 0)
           Diskon Rp<br>
+          <b>Grand Total Rp</b> <br>
         @endif
-        <b>Grand Total Rp</b> <br>
         @if ($penjualan->kembali >= 0)
           Bayar Rp<br>
           Kembali Rp<br>
@@ -118,16 +118,16 @@
           Kurang Rp 
         @endif
       </td>
-      <td class="text-right" id="totalrp">
-           {{ format_uang($total) }} <br>
+      <td class="text-right">
+           {{ format_uang($penjualan->total_harga) }} <br>
         @if ($penjualan->diskon > 0)
            {{ format_uang($penjualan->diskon) }} <br>
+           <b>{{ format_uang($penjualan->harga_akhir) }}</b> <br>
         @endif
-        <b>{{ format_uang($penjualan->total_harga) }}</b> <br>
         @if ($penjualan->kembali >= 0)
-          {{ format_uang($penjualan->diterima + $penjualan->kembali) }} <br>
-        @else
-          {{ format_uang($penjualan->diterima) }} <br>
+        {{ format_uang($penjualan->diterima + $penjualan->kembali) }} <br> 
+        @else        
+        {{ format_uang($bayar_awal) }}    <br> 
         @endif
            {{ format_uang($penjualan->kembali) }}
       </td>

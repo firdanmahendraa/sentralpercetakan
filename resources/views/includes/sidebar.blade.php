@@ -37,14 +37,8 @@
             </a>
             <ul class="nav nav-treeview" style="{{ request()->segment(1) == 'transaksi-baru','transaksi-penjualan','transaksi-pembelian' ? 'display:block;' : 'display:none;' }}padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
               <li class="nav-item">
-                <a href="{{ route('transaksi-baru.index') }}" class="nav-link {{ request()->segment(1) == 'transaksi-baru' ? 'active' : ''}}">
+                <a href="{{ route('transaksi-penjualan.index') }}" class="nav-link {{ request()->segment(1) == 'transaksi-baru' || request()->segment(1) ==  'transaksi-penjualan' ? 'active' : ''}}">
                   <i class="fas fa-cart-plus nav-icon"></i>
-                  <p>Transaksi Baru</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('transaksi-penjualan.index') }}" class="nav-link {{ request()->segment(1) == 'transaksi-penjualan' ? 'active' : ''}}">
-                  <i class="far fa-circle nav-icon"></i>
                   <p>Transaksi Penjualan</p>
                 </a>
               </li>

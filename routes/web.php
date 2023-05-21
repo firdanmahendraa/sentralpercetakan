@@ -40,13 +40,14 @@ Route::middleware(['auth'])->group(function () {
     //TRANSAKSI
     Route::prefix('transaksi-penjualan')->group(function () {
         Route::get('/', [PenjualanController::class, 'index'])->name('transaksi-penjualan.index');
-        Route::get('/data', [PenjualanController::class, 'data'])->name('transaksi-penjualan.data');
         Route::post('/store', [PenjualanController::class, 'store'])->name('transaksi-penjualan.store');
-        Route::get('/show/{id}/{no_nota}', [PenjualanController::class, 'show'])->name('transaksi-penjualan.show');
+        Route::post('/process', [PenjualanController::class, 'transactionProcess'])->name('transaksi-penjualan.process');
+        Route::get('/detail/{id}/{no_nota}', [PenjualanController::class, 'show'])->name('transaksi-penjualan.show');
         Route::get('/invoice/{id}/{no_nota}', [PenjualanController::class, 'cetakInvoice'])->name('transaksi-penjualan.invoice');
         Route::get('/kwitansi/{id}/{no_nota}', [PenjualanController::class, 'cetakKwitansi'])->name('transaksi-penjualan.kwitansi');
-        Route::get('/edit/{id}', [PenjualanController::class, 'edit'])->name('transaksi-penjualan.edit');
-        Route::get('/pelunasan/{id}', [PenjualanController::class, 'pelunasan'])->name('transaksi-penjualan.pelunasan');
+        Route::get('/pelunasan/{id}/{no_nota}', [PenjualanController::class, 'pelunasan'])->name('transaksi-penjualan.pelunasan');
+        Route::post('/repayment', [PenjualanController::class, 'repayment'])->name('transaksi-penjualan.repayment');
+        Route::post('/processing', [PenjualanController::class, 'processRepayment'])->name('transaksi-penjualan.process_repayment');
     });
 
     Route::prefix('transaksi-baru')->group(function () {

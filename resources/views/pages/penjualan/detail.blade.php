@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Transaksi Penjualan')
+@section('title', 'Detail Transaksi')
 
 @push('css')
 <style>
@@ -14,11 +14,12 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
-        {{-- @if(isset($response))
-        {{ $response['message'] }}
-        @endif --}}
-        {{-- detail transaksi --}}
-        @if(isset($detail))
+        @if (session('success'))
+        <div class="col-lg-12">
+          <div class="alert alert-info">{{ session('success') }}</div>
+        </div>
+        @endif
+        @if(isset($penjualan))
         <div class="col-md-12">
           <div class="card card-info card-outline">
             <div class="card-header">
@@ -28,15 +29,15 @@
                     <tbody>
                       <tr>
                         <td width="100">Invoice</td>
-                        <td>: <b>{{ $detail->no_nota }}</b></td>
+                        <td>: <b>{{ $penjualan->no_nota }}</b></td>
                       </tr>
                       <tr>
                         <td>Kasir</td>
-                        <td>: <b>{{ $detail->users['name'] }}</b></td>
+                        <td>: <b>{{ $penjualan->users['name'] }}</b></td>
                       </tr>
                       <tr>
                         <td>Tanggal</td>
-                        <td>: <b>{{ $detail->created_at->translatedFormat('d F Y') }}</b></td>
+                        <td>: <b>{{ $penjualan->created_at->translatedFormat('d F Y') }}</b></td>
                       </tr>
                     </tbody>
                   </table>
@@ -47,15 +48,15 @@
                     <tbody>
                       <tr>
                         <td width="100">Pelanggan</td>
-                        <td>: <b>{{ $detail->customer['nama_pelanggan'] }}</b></td>
+                        <td>: <b>{{ $penjualan->customer['nama_pelanggan'] }}</b></td>
                       </tr>
                       <tr>
                         <td>No Telp</td>
-                        <td>:  <b>{{ $detail->customer['telepon_pelanggan'] }}</b></td>
+                        <td>:  <b>{{ $penjualan->customer['telepon_pelanggan'] }}</b></td>
                       </tr>
                       <tr>
                         <td>Alamat</td>
-                        <td>: <b>{{ $detail->customer['alamat_pelanggan'] }}</b></td>
+                        <td>: <b>{{ $penjualan->customer['alamat_pelanggan'] }}</b></td>
                       </tr>
                     </tbody>
                   </table>
@@ -94,37 +95,36 @@
                     <tfoot>
                       <tr class="">
                         <td colspan="2">
-                          <small class="text-muted">Rincihan Pembayaran:</small><br>
-                          @foreach ($det_history as $item)
+                          @if ($penjualan->diterima > 0)
+                          <small class="text-muted">Rincian Pembayaran:</small><br>
+                          @foreach ($det_pembayaran as $item)
                             Rp. {{ format_uang($item->debet) }} ({{ $item->opsi_pembayaran }}) // {{ $item->created_at->translatedFormat('d F Y') }}    <br>                           
                           @endforeach
+                          @endif
                         </td>
                         <td colspan="3" class="text-right">
-                            Subtotal <br>
-                          @if ($detail->diskon > 0)
-                            Diskon <br>
+                          Subtotal <br>
+                          @if ($penjualan->diskon > 0)
+                          Diskon <br>
                           @endif
                           <b>Grand Total</b> <br>
-                          @if ($detail->kembali >= 0)
-                            Bayar<br>
-                            Kembali<br>
-                          @else
-                            DP<br>
-                            Kurang 
+                          @if ($total_bayar < $penjualan->harga_akhir)
+                          DP<br>
+                          Kurang 
                           @endif                          
                         </td>
                         <td class="text-right" id="totalrp">
-                             Rp. {{ format_uang($total) }} <br>
-                          @if ($detail->diskon > 0)
-                             Rp. {{ format_uang($detail->diskon) }} <br>
+                          Rp. {{ format_uang($penjualan->total_harga) }} <br>
+                          @if ($penjualan->diskon > 0)
+                          Rp. {{ format_uang($penjualan->diskon) }} <br>
                           @endif
-                          <b>Rp. {{ format_uang($detail->total_harga) }}</b> <br>
-                          @if ($detail->kembali >= 0)
-                             Rp. {{ format_uang($detail->diterima + $detail->kembali) }} <br>
+                          <b>Rp. {{ format_uang($penjualan->harga_akhir) }}</b> <br>
+                          @if ($total_bayar < $penjualan->harga_akhir)
+                          Rp. {{ format_uang($bayar_awal) }} <br>
+                          Rp. {{ format_uang($penjualan->kembali) }}
                           @else
-                             Rp. {{ format_uang($detail->diterima) }} <br>
+                          <h2><b>LUNAS</b></h2>
                           @endif
-                             Rp. {{ format_uang($detail->kembali) }}
                         </td>
                       </tr>
                     </tfoot>
@@ -135,16 +135,22 @@
 
             <div class="card-footer">
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-lg-6">
+                  <a href="{{ route('transaksi-penjualan.index') }}" class="btn btn-back">
+                    <i class="fa fa-chevron-left"> Back</i>
+                  </a>
+                </div>
+                <div class="col-lg-6">
                     <div class="text-right">
-                      <a href="{{ route('transaksi-penjualan.edit', $detail->id_penjualan) }}" class="btn btn-default"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit</a>&nbsp;&nbsp;
-                      @if ($detail->kembali < 0)
-                        <a href="" class="btn btn-default"><i class="fas fa-check"></i>&nbsp;&nbsp;Lunasi</a>&nbsp;&nbsp;
+                      @if ($penjualan->piutang < 0)
+                      <a href="{{url('/transaksi-penjualan/pelunasan/'. $penjualan->id_penjualan, $penjualan->no_nota)}}" class="btn btn-default"><i class="fas fa-check"></i>&nbsp;&nbsp;Lunasi</a>&nbsp;&nbsp;
                       @endif
                       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-print"></i>&nbsp;&nbsp;Cetak</button>
                       <div class="dropdown-menu dropdown-menu-right" style="">
-                        <button class="dropdown-item" onclick="cetakInvoice('{{ url('transaksi-penjualan/invoice/'. $detail->id_penjualan, $detail->no_nota) }}')">Nota</button>
-                        <button class="dropdown-item" onclick="cetakKwitansi('{{ url('transaksi-penjualan/kwitansi/'. $detail->id_penjualan, $detail->no_nota) }}')">Kwitansi</button>
+                        <button class="dropdown-item" onclick="cetakInvoice('{{ url('transaksi-penjualan/invoice/'. $penjualan->id_penjualan, $penjualan->no_nota) }}')">Nota</button>
+                        @if ($penjualan->diterima > 0)
+                        <button class="dropdown-item" onclick="cetakKwitansi('{{ url('transaksi-penjualan/kwitansi/'. $penjualan->id_penjualan, $penjualan->no_nota) }}')">Kwitansi</button>
+                        @endif
                       </div>
                     </div>
                 </div>

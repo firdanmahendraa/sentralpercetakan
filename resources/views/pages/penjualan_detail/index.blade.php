@@ -111,7 +111,7 @@
                         <label for="" class="col-form-label" style="text-align:right">Bahan *</label>
                       </div>
                       <div class="col-md-9">
-                        <select class="produk" name="id_produk" id="id_produk" style="text-align:right">
+                        <select class="produk" name="id_produk" id="id_produk" style="text-align:right" required>
                           <option value="">-- Jasa/Custom --</option>
                           @foreach ($produk as $p)
                             <option value="{{ $p->id_produk }}" name="id_produk" ukuran="{{ $p->ukuran_produk }}" type="{{ $p->type_produk }}" harga="{{ $p->harga_produk }}">{{ $p->kode_produk }} - {{ $p->nama_produk }}</option>
@@ -168,7 +168,6 @@
                   </div>
                 </div>
               </div>
-              {{-- <input type="hidden" name="id_penjualan" class="form-control" style="border-radius: 0" value="{{ $id_penjualan }}"> --}}
               
               <div class="card-footer text-right" style="background-color: #fff">
                 <button type="reset" class="btn btn-sm mr-2 btn-default reset"><i class="fa fa-times"></i> Batal</button>
@@ -227,9 +226,8 @@
             </div>
 
             <div class="card-body">
-              <form action="{{ route('transaksi-penjualan.store') }}" class="form-transaksi" method="POST">
+              <form id="saveTransaction" action="{{ route('transaksi-penjualan.process') }}" class="form-transaksi" method="POST">
                 @csrf
-                <input type="hidden" name="total_item" id="total_item">
                 <input type="hidden" name="kembali" id="kembali">
                 <input type="hidden" name="id_akun" id="id_akun">
               <div class="row">
@@ -245,7 +243,13 @@
                       <label for="" class="col-form-label" style="text-align:right">Pelanggan *</label>
                     </div>
                     <div class="col-md-8">
-                      <select class="cariPelanggan" name="id_pelanggan" id="id_pelanggan" required></select>
+                      <input type="hidden" name="uraian" id="nama">
+                      <select class="cariPelanggan" name="id_pelanggan" id="id_pelanggan" required>
+                          <option value="">Pilih</option>
+                        @foreach ($customer as $item)
+                          <option nama="{{ $item->nama_pelanggan }}" value="{{ $item->id }}">{{ $item->nama_pelanggan }} ( {{ $item->alamat_pelanggan }} ) </option>
+                        @endforeach
+                      </select>
                     </div>
                     <div class="col-md-1 text-right" style="">
                       <input type="hidden" id="customer_opsi" name="customer_opsi" value="old">
@@ -354,30 +358,12 @@
       })
       
       //get pelanggan lama 
-      $('.cariPelanggan').select2({
-        placeholder: 'Cari nama - alamat pelanggan',
-        ajax: {
-          url: "{{ route('transaksi-detail.get_customer') }}",
-          dataType: 'json',
-          delay: 250,
-          processResults: function(data) {
-            return {
-              results: $.map(data, function(item) {
-                  return {
-                    text: item.nama_pelanggan + ' ( ' + item.alamat_pelanggan + ' )',
-                    id: item.id
-                  }
-                })
-              };
-            },
-            cache: true
-          }
-        });
+      $('.cariPelanggan').select2({ placeholder: 'Cari nama - alamat pelanggan'});
 
-        //Simpan Transaksi
-        $('.btn-simpan').on('click', function(){
-          $('.form-transaksi').submit();
-        })
+      //Simpan Transaksi
+      $('.btn-simpan').on('click', function(){
+        $('.form-transaksi').submit();
+      })
     });
     
     //GET VALUE KETIKA PRODUK DIPILIH
@@ -604,13 +590,6 @@
           $('#total_item').val(response.tot_item)
           $('#bayarTagihan').val(response.bayar_tagih);
           $('#kembali').val(response.kembalirp);
-
-          if ($('#kembali').val() >= 0) {
-            $('#id_akun').val(9);
-          }else{
-            $('#id_akun').val(10);
-          }
-
         })
         .fail(errors => {
           alert('Tidak dapat menampilkan data');
@@ -635,6 +614,12 @@
       loadForm($('#diskon').val(), $(this).val());
     })
 
+    //GET VALUE KETIKA PRODUK DIPILIH
+    $('#id_pelanggan').change(function() {
+      var nama_pelanggan = $(this).find("option:selected").attr('nama');
+      $('#nama').val(nama_pelanggan);
+    });
+
     //OPSI PELANGGAN BARU
     $('#addCustomer').click(function() {
       var type = $('#customer_opsi').val();
@@ -643,12 +628,14 @@
           $('#id_pelanggan').attr('disabled', 'true');
           $('#form-customer').show('fade');
           $('#customer_opsi').val('new');
+          $('#nama').attr("disabled", "disabled");
           $('#nama_pelanggan').attr('required', 'true');
           $('#nama_pelanggan').removeAttr('disabled');
           $('#telepon_pelanggan').removeAttr('disabled');
           $('#alamat_pelanggan').removeAttr('disabled');
       } else {
           $(this).html('<i class="fa fa-plus"></i>');
+          $('#nama').removeAttr('disabled');
           $('#id_pelanggan').removeAttr('disabled');
           $('#nama_pelanggan').removeAttr('required');
           $('#nama_pelanggan').attr("disabled", "disabled");
@@ -659,8 +646,7 @@
           $('#nama_customer').removeAttr('required');
       }
     })
-    
-    //=========================== Edit Transaksi ============================
+
     
   </script>
 @endsection

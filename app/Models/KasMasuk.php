@@ -11,13 +11,10 @@ class KasMasuk extends Model
     
     protected $table        = 'tb_bkm';
 
-    public function history(){
+    public function penjualan(){
         return $this->hasMany(Penjualan::class, 'id_penjualan', 'id_penjualan');
     }
 
-    public function penjualan(){
-        return $this->hasOne(Penjualan::class, 'id_penjualan', 'id_penjualan');
-    }
     public function customer(){
         return $this->hasOne(Customer::class, 'id', 'id_pelanggan');
     }

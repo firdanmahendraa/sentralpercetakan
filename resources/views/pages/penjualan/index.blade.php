@@ -7,6 +7,11 @@
     <div class="container-fluid">
       <!-- Small boxes (Stat box) -->
       <div class="row">
+        @if (session('success'))
+        <div class="col-lg-12">
+          <div class="alert alert-primary">{{ session('success') }}</div>
+        </div>
+        @endif
         <div class="col-12">
             <div class="card card-primary card-outline">       
               <div class="card-header">
@@ -16,7 +21,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="text-right">
-                      <button class="btn btn-sm btn-success">Tambah Transaksi</button>
+                      <a href="{{ route('transaksi-baru.index') }}" class="btn btn-sm btn-success">Tambah Transaksi</a>
                     </div>
                   </div>
                 </div>
@@ -37,6 +42,15 @@
                     </tr>
                   </thead>
                   <tbody> </tbody>
+                  <tfoot>
+                    <tr>
+                      <th class="text-right" colspan="4">Rp. {{ format_uang($harga_akhir) }}</th>
+                      <th class="text-right">Rp. {{ format_uang($diterima) }}</th>
+                      <th class="text-right">Rp. {{ format_uang($diskon) }}</th>
+                      <th class="text-right">Rp. {{ format_uang($piutang) }}</th>
+                      <th colspan="2"></th>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
               <!-- /.card-body -->
@@ -55,19 +69,19 @@
     $(function(){
       table = $('.tablePenjualan').DataTable({
         processing: true, serverSide: true, ordering: false,info: false,
-        ajax: "{{ route('transaksi-penjualan.data') }}",
+        ajax: "{{ route('transaksi-penjualan.index') }}",
         "language": {
-          "infoEmpty": "No entries to show"
+          "emptyTable": "Belum ada transaksi."
         },
         columnDefs: [
           {
-            "targets": [0,2,3,4,5,6],
+            "targets": [0,2,3,4,5,6,7,8],
             "className": "dt-head-center"
           },{
             "targets": [3,4,5,6],
             "className": "dt-body-right"
           },{
-            "targets": [0,6],
+            "targets": [0,6,7,8],
             "className": "dt-body-center"
           }
         ],
@@ -79,7 +93,7 @@
           {data:'diterima', name:'diterima'},
           {data:'diskon', name:'diskon'},
           {data:'piutang', name:'piutang'},
-          {data:'opsi_pembayaran', name:'opsi_pembayaran'},
+          {data:'keterangan', name:'keterangan'},
           {data:'action', name:'action'},
         ],
       });

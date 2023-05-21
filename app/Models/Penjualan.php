@@ -25,11 +25,7 @@ class Penjualan extends Model
         return $this->hasOne(User::class, 'id', 'id_user');
     }
 
-    public function det_pembayaran(){
-        return $this->hasOne(KasMasuk::class, 'id', 'id_bkm');
-    }
-
     protected $fillable = [
-        'no_nota', 'id_pelanggan', 'acc_desain', 'total_item', 'total_harga', 'diskon', 'diterima', 'piutang', 'opsi_pembayaran', 'id_user', 'id_akun'
+        'no_nota', 'id_pelanggan', 'acc_desain', 'total_item', 'total_harga', 'diskon', 'diterima', 'piutang', 'opsi_pembayaran', 'id_user', 'id_akun', 'keterangan'
     ];
 }

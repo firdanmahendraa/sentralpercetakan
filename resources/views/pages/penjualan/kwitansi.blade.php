@@ -118,7 +118,7 @@
     </tr>
     <tr>
       <td class="text-right" colspan="5"><b>Total : </b></td>
-      <td class="text-right" style="padding-right:10px"><b>Rp. {{ format_uang($total) }}</b></td>
+      <td class="text-right" style="padding-right:10px"><b>Rp. {{ format_uang($total_bayar) }}</b></td>
     </tr>
   </table>
   <div class="row">
@@ -126,16 +126,22 @@
       <table>
         <tr>
           <td>Total Tagihan</td>
-          <td>: Rp. {{ format_uang($penjualan->total_harga)}}</td>
+          <td>: Rp. {{ format_uang($penjualan->harga_akhir)}}</td>
         </tr>
         <tr>
           <td>Total Angsuran</td>
-          <td>: Rp. {{ format_uang($total) }}</td>
+          <td>: Rp. {{ format_uang($total_bayar) }}</td>
         </tr>
+        @if ($penjualan->harga_akhir - $total_bayar > 0)
         <tr>
           <td>Sisa Tagihan</td>
-          <td>: Rp. {{ format_uang($sisa_tagihan) }}</td>
+          <td>: Rp. {{ format_uang($penjualan->harga_akhir - $total_bayar ) }}</td>
         </tr>
+        @else
+        <tr>
+          <td class="text-center" colspan="2" style="position: relative; transform:rotate(-15deg); color:rgba(0, 0, 0, 0.3); top:-60px"><h1><b>LUNAS</b></h1></td>
+        </tr>
+        @endif
       </table>
     </div>
     <div class="column">
