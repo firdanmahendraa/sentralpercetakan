@@ -136,9 +136,15 @@
             <div class="card-footer">
               <div class="row">
                 <div class="col-lg-6">
-                  <a href="{{ route('transaksi-penjualan.index') }}" class="btn btn-back">
+                  @if (session('success'))
+                  <a href="{{ route('transaksi-penjualan.index') }}" class="btn btn-success">
+                    <i class="fa fa-chevron-left"> Done</i>
+                  </a>
+                  @else
+                  <a href="{{ url()->previous() }}" class="btn btn-back">
                     <i class="fa fa-chevron-left"> Back</i>
                   </a>
+                  @endif
                 </div>
                 <div class="col-lg-6">
                     <div class="text-right">

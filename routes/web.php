@@ -2,16 +2,19 @@
 use App\Http\Controllers\{
     LoginController,
     DashboardController,
-    PenjualanController,
-    PenjualanTransaksi,
-    PenjualanDetailController,
-    PembelianController,
     KodeAkunController,
     ProdukController,
     OpsiPembayaranController,
     CustomerController,
     SupplierController,
+    PenjualanController,
+    PenjualanTransaksi,
+    PenjualanDetailController,
+    PembelianController,
     PendapatanController,
+    LapPendapatanController,
+    LapHutangController,
+    LapPiutangController,
     UsersController,
     SettingController
 
@@ -135,9 +138,18 @@ Route::middleware(['auth'])->group(function () {
     });
 
     //LAPORAN
-    Route::get('pendapatan', [PendapatanController::class, 'index'])->name('pendapatan.index');
-    Route::get('pendapatan/data', [PendapatanController::class, 'data'])->name('pendapatan.data');
-    Route::get('pendapatan/detail/{id}', [PendapatanController::class, 'detail'])->name('pendapatan.detail');
+    Route::prefix('laporan-pendapatan')->group(function () {
+        Route::get('/', [LapPendapatanController::class, 'index'])->name('laporan_pendapatan.index');
+        Route::get('/data', [LapPendapatanController::class, 'data'])->name('laporan_pendapatan.data');
+    });
+
+    Route::prefix('laporan-hutang')->group(function () {
+        Route::get('/', [LapHutangController::class, 'index'])->name('laporan_hutang.index');
+    });
+
+    Route::prefix('laporan-piutang')->group(function () {
+        Route::get('/', [LapPiutangController::class, 'index'])->name('laporan_piutang.index');
+    });
 
     //SETTING
     Route::resource('users', UsersController::class);
