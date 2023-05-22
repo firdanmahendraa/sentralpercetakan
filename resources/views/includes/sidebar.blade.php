@@ -83,7 +83,7 @@
           </li>
           <li class="nav-header">LAPORAN</li>
           <li class="nav-item">
-            <a href="{{ route('pendapatan.index') }}" class="nav-link {{ request()->is('pendapatan') ? 'active' : ''}}">
+            <a href="{{ route('laporan_pendapatan.index') }}" class="nav-link {{ request()->is('laporan-pendapatan') ? 'active' : ''}}">
               <i class="nav-icon fas fa-upload"></i>
               <p>Pendapatan</p>
             </a>
@@ -93,6 +93,28 @@
               <i class="nav-icon fa fa-download"></i>
               <p>Pembelian</p>
             </a>
+          </li>
+          <li class="nav-item {{request()->segment(1) == 'laporan-hutang' || 
+                                request()->segment(1) == 'laporan-piutang' ? 'menu-is-opening menu-open' : '' }}">
+            <a href="#" class="nav-link {{request()->segment(1) == 'laporan-hutang' || 
+                                          request()->segment(1) == 'laporan-piutang' ? 'active' : ''}}">
+              <i class="nav-icon fa fa-balance-scale"></i>
+              <p>Hutang & Piutang<i class="fas fa-angle-left right"></i> </p>
+            </a>
+            <ul class="nav nav-treeview" style="{{ request()->segment(1) == 'laporan-hutang','laporan-piutang' ? 'display:block;' : 'display:none;' }}padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
+              <li class="nav-item">
+                <a href="{{ route('laporan_hutang.index') }}" class="nav-link {{ request()->segment(1) == 'laporan-hutang' ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Hutang Usaha</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('laporan_piutang.index') }}" class="nav-link {{ request()->segment(1) == 'laporan-piutang' ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Piutang Usaha</p>
+                </a>
+              </li>
+            </ul>
           </li>
           </li>
           <li class="nav-header">SYSTEM</li>
