@@ -16,10 +16,12 @@ class CreatePembelianTable extends Migration
         Schema::create('pembelian', function (Blueprint $table) {
             $table->id();
             $table->integer('id_supplier');
-            $table->integer('no_nota');
+            $table->string('no_nota');
             $table->integer('sub_total');
             $table->integer('bayar');
-            $table->enum('status', ['Hutang', 'Lunas']);
+            $table->integer('hutang');
+            $table->string('keterangan');
+            $table->enum('status', ['pend', 'ok']);
             $table->timestamps();
         });
     }

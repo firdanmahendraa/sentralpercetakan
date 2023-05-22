@@ -73,7 +73,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/show/{id}', [PembelianController::class, 'show'])->name('transaksi_pembelian.show');
         Route::post('/update/{id}', [PembelianController::class, 'update'])->name('transaksi_pembelian.update');       
         Route::delete('/destroy/{id}', [PembelianController::class, 'destroy'])->name('transaksi_pembelian.destroy');    
-        Route::post('/store', [PembelianController::class, 'store'])->name('transaksi_pembelian.store');    
+        Route::post('/store', [PembelianController::class, 'store'])->name('transaksi_pembelian.store');
+        Route::post('/processing', [PembelianController::class, 'transactionProcess'])->name('transaksi_pembelian.process_repayment');    
         Route::get('/detail/{id}', [PembelianController::class, 'detailPembelian'])->name('transaksi_pembelian.detail');
     });
 

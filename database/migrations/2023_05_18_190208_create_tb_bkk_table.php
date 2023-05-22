@@ -16,7 +16,9 @@ class CreateTbBkkTable extends Migration
         Schema::create('tb_bkk', function (Blueprint $table) {
             $table->id();
             $table->integer('id_pembelian');
-            $table->integer('kredit');
+            $table->integer('id_akun');
+            $table->string('uraian');
+            $table->integer('sub_total');
             $table->timestamps();
         });
     }

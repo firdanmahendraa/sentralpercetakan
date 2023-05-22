@@ -122,7 +122,7 @@
                           <label for="" class="col-form-label" style="text-align:right">Nama Barang *</label>
                         </div>
                         <div class="col-lg-8 col-md-8">
-                          <input type="text" name="nama_barang" id="nama_barang" class="form-control mb-2" placeholder="Masukan nama barang" required autofocus="">
+                          <input type="text" name="uraian" id="uraian" class="form-control mb-2" placeholder="Masukan nama barang" required autofocus="">
                           <span class="help-block with-errors text-danger"></span>
                         </div>
                         <div class="col-lg-4 col-md-4 text-right">
@@ -198,10 +198,11 @@
             </div>
 
             <div class="card-body">
-              <form action="{{ route('transaksi_pembelian.store') }}" class="form-transaksi" method="POST">
+              <form action="{{ route('transaksi_pembelian.process_repayment') }}" class="form-transaksi" method="POST">
                 @csrf
                 <input type="hidden" name="id_pembelian" value="{{$id_pembelian->id}}">
                 <input type="hidden" name="id_supplier" value="{{$supplier->id}}">
+                <input type="hidden" name="bayar" id="diterima" disabled>
               <div class="row">
                 <div class="col-md-6 pr-3"></div>
                 <div class="col-md-6">
@@ -223,23 +224,16 @@
                   </div>
                   <div class="row">
                     <div class="col-md-3 text-right mb-2">
-                      <label for="" class="col-form-label" style="text-align:right">Jumlah Bayar *</label>
+                      <label for="" class="col-form-label" style="text-align:right">Status Pembayaran *</label>
                     </div>
                     <div class="col-md-9">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">Rp</span>
-                        </div>
-                        <input type="number" name="bayar" id="diterima" class="form-control" placeholder="0" required>
+                      <select class="form-control" name="keterangan" id="keterangan">
+                        <option name="Hutang" value="Hutang" selected>Hutang</option>
+                        <option name="Lunas" value="Lunas">Bayar</option>
+                      </select>
+                      <div class="d-none mt-2" id="status_bayar">
+                        <input type="text" id="sisa" class="form-control form-payment2" disabled>
                       </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-3 text-right">
-                      <label for="" class="col-form-label" style="text-align:right">Sisa</label>
-                    </div>
-                    <div class="col-md-9">
-                      <input type="text" id="sisa" class="form-control form-payment2" readonly>
                     </div>
                   </div>
                 </div>
@@ -281,6 +275,16 @@
               };
             },
             cache: true
+          }
+      });
+
+      $("#keterangan").change(function(){
+          if($(this).val() == "Lunas") {
+            $('#status_bayar').removeClass("d-none");
+            $("#diterima").removeAttr("disabled");
+          } else {
+            $('#status_bayar').addClass("d-none");
+            $("#diterima").attr("disabled", "disabled");
           }
       });
     })
@@ -360,7 +364,7 @@
         columns:[
           {data:'DT_RowIndex', name:'DT_RowIndex'},
           {data:'id_akun', name:'id_akun'},
-          {data:'nama_barang', name:'nama_barang'},
+          {data:'uraian', name:'uraian'},
           {data:'jumlah', name:'jumlah'},
           {data:'sub_total', name:'sub_total'},
           {data:'action', name:'action'},
@@ -377,11 +381,11 @@
       $.get(`{{ url('transaksi-pembelian/loadform') }}/${total}/${diterima}`)
         .done(response => {
           $('#totalrp').text('Rp. '+ response.subtotal);
-          $('#totalTagihan').val('Rp. '+ response.tot_tagih);
-          $('#sisa').val('Rp. '+ response.sisa);
-
+          $('#totalTagihan').val('Rp. '+ response.subtotal);
+          $('#sisa').val('Rp. '+ response.subtotal);
+          
+          $('#diterima').val(response.bayar_tagih);
           $('#bayarTagihan').val(response.bayar_tagih);
-          $('#hutang').val(response.kembalirp);
         })
         .fail(errors => {
           alert('Tidak dapat menampilkan data');
@@ -404,7 +408,7 @@
           $('#no_nota').val(response.no_nota);
           $('#id_akun').val(response.id_akun);
           $('#id_akun').select2().trigger('change');
-          $('#nama_barang').val(response.nama_barang);
+          $('#uraian').val(response.uraian);
           $('#jumlah').val(response.jumlah);
           $('#satuan').val(response.satuan);
           $('#harga').val(response.harga);
@@ -416,7 +420,6 @@
       });
     });
 
-
     //HAPUS PRODUK TERPILIH
     function deleteData(url) {
       Swal.fire({
@@ -451,253 +454,6 @@
         }
       })
     }
-
-    //SET VALUE KEMBALI
-    $('#diterima').on('input', function(){
-      if($(this).val() == ""){
-         $(this).val(0).select();
-      }
-      loadForm($(this).val());
-    })
 
   </script>
-  {{-- <script>
-
-    let table;
-    $(function(){
-      //VALIDATOR
-      $('#addForm').on('submit',function(e){
-        if (! e.preventDefault()) {
-        $('#tambahProduk').html('<i class="fa fa-spinner fa-spin"></i> Proses');
-        $('#tambahProduk').attr('type', 'button');
-        var request = new FormData(this);
-          $.ajax({
-            url : $('#addForm').attr('action'),
-            type: 'post',
-            data: request,
-            data: $('#addForm').serialize()
-          })
-          .done((response) => {
-            table.ajax.reload();
-            $('#tambahProduk').html('<i class="fa fa-check"></i> Tambahkan');
-            $('#tambahProduk').attr('type', 'submit');
-            $('#addForm').attr('action', `{{ route('transaksi-baru.store') }}`);
-            $('#addForm [name=_method]').val('post');
-            $('#addForm')[0].reset();
-            $('#ukuran-form-qty').removeClass("d-none");
-            $('#ukuran-form-meter').addClass("d-none");
-            $("#checkPlong").val("no");
-            $("#plongQty").attr("disabled", "disabled");
-            $("#plongPrice").attr("disabled", "disabled");
-            $('#id_produk').val('0');
-            $('#select2-id_produk-container').html('-- Jasa / Custom --');
-            Swal.fire({
-              icon: 'success',
-              title: response,
-              timer: 1500
-            })
-            table.ajax.reload();
-          })
-          .fail((response) => {
-            Swal.fire({
-              icon: 'error',
-              title: response.responseJSON.message,
-              showConfirmButton: true,
-            })
-            return;
-          });
-        }
-      })
-
-      //TABEL DETAIL PENJUALAN
-      table = $('#tableDetail').DataTable({
-        processing: true, 
-        serverSide: true,  
-        paging: false, 
-        searching: false, 
-        ordering: false, 
-        info: false,
-        ajax:"{{ route('transaksi-baru.cart') }}",
-        "language": {
-          "emptyTable": "Belum ada detail transaksi."
-        },
-        columnDefs: [
-          {
-            "targets": [0,2,3,4,5,6],
-            "className": "dt-head-center"
-          },{
-            "targets": [0,2,3,4,5],
-            "className": "va-mid"
-          },{
-            "targets": [3,4,5],
-            "className": "dt-body-right"
-          },{
-            "targets": [0,2,6],
-            "className": "dt-body-center"
-          }
-        ],
-        columns:[
-          {data:'DT_RowIndex', name:'DT_RowIndex'},
-          {data:'nama_pesanan', name:'nama_pesanan'},
-          {data:'ukuran', name:'ukuran'},
-          {data:'harga', name:'harga'},
-          {data:'jumlah', name:'jumlah'},
-          {data:'sub_total', name:'sub_total'},
-          {data:'action', name:'action', orderable: false, searchable: false},
-        ],
-      }).on('draw.dt', function(){ //Load Total Harga setelah dikasih diskon
-        loadForm($('#diskon').val());
-      });
-
-    });
-    
-    //EDIT PRODUK TERPILIH
-    $('body').on('click', '.editData', function () {
-      let cart_id = $(this).data('id');
-
-      //fetch data
-      $.ajax({
-        url: `transaksi-baru/show/${cart_id}`,
-        type: "GET",
-        cache: false,
-        success:function(response){
-          $('#addForm').attr('action', `transaksi-baru/update/${cart_id}`);
-          $('#tambahProduk').html('<i class="fa fa-save"></i> Simpan');
-          $('#id_produk').val(response.id_produk);
-          $('#id_produk').select2().trigger('change');
-          $('#nama_pesanan').val(response.nama_pesanan);
-          $('#jumlah').val(response.jumlah);
-          $('#satuan').val(response.satuan);
-          $('#ukuran').val(response.ukuran);
-          $('#ukuran_p').val(response.ukuran_p);
-          $('#ukuran_l').val(response.ukuran_l);
-          $('#addForm [name=is_plong]').val(response.is_plong);
-          if ($('#checkPlong').val() == "yes") {
-            $('#addForm [name=is_plong]').val(response.is_plong).prop('checked', true);
-            $("#plongQty").removeAttr("disabled");
-            $("#plongPrice").removeAttr("disabled");
-          }else{
-            $('#addForm [name=is_plong]').val(response.is_plong).prop('checked', false);
-            $("#plongQty").attr("disabled", "disabled");
-            $("#plongPrice").attr("disabled", "disabled");
-          }
-          $('#addForm [name=finishing_plong_qty]').val(response.finishing_plong_qty);
-          $('#addForm [name=finishing_plong_harga]').val(response.finishing_plong_harga);
-          $('#addForm [name=det_pesanan]').val(response.det_pesanan);
-          $('#addForm [name=harga]').val(response.harga);
-        },
-        error:function(response){
-          alert('Tidak dapat menampilkan data');
-          return;
-        }
-      });
-    });
-
-    //HAPUS PRODUK TERPILIH
-    function deleteData(url) {
-      Swal.fire({
-        title: 'Apakah anda yakin?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#28a745',
-        cancelButtonColor: '#dc3545',
-        confirmButtonText: 'Ya!',
-        cancelButtonText: 'Tidak'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          $.post(url,{
-            '_token': $('[name=csrf-token]').attr('content'),
-            '_method': 'delete'
-          })
-          .done((response) => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Data berhasil dihapus!',
-              timer: 2000
-            }) 
-            table.ajax.reload();
-          })
-          .fail((errors) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Data tidak dapat dihapus!',
-            }) 
-            return;
-          })
-        }
-      })
-    }
-
-    //LOAD TOTAL 
-    function loadForm(diskon = 0, diterima = 0, total = 0) {
-      $('#total_item').val($('.total_item').text());
-
-      $.get(`{{ url('transaksi-baru/loadform') }}/${diskon}/${total}/${diterima}`)
-        .done(response => {
-          $('#totalrp').text('Rp. '+ response.subtotal);
-          $('#totalTagihan').val('Rp. '+ response.tot_tagih);
-          $('#sisa').val('Rp. '+ response.kembalirp);
-
-          $('#total_item').val(response.tot_item)
-          $('#bayarTagihan').val(response.bayar_tagih);
-          $('#kembali').val(response.kembalirp);
-
-          if ($('#kembali').val() >= 0) {
-            $('#id_akun').val(9);
-          }else{
-            $('#id_akun').val(10);
-          }
-
-        })
-        .fail(errors => {
-          alert('Tidak dapat menampilkan data');
-          return;
-        })
-    }
-    //SET VALUE DISKON
-    $(document).on('input', '#diskon', function(){
-      if ($(this).val() == "") {
-        $(this).val(0).select();
-      }
-      $('#diterima').val('0');
-
-      loadForm($(this).val());
-    });
-
-    //SET VALUE KEMBALI
-    $('#diterima').on('input', function(){
-      if($(this).val() == ""){
-         $(this).val(0).select();
-      }
-      loadForm($('#diskon').val(), $(this).val());
-    })
-
-    //OPSI PELANGGAN BARU
-    $('#addCustomer').click(function() {
-      var type = $('#customer_opsi').val();
-      if (type == 'old') {
-          $(this).html('<i class="fa fa-minus"></i>');
-          $('#id_pelanggan').attr('disabled', 'true');
-          $('#form-customer').show('fade');
-          $('#customer_opsi').val('new');
-          $('#nama_pelanggan').attr('required', 'true');
-          $('#nama_pelanggan').removeAttr('disabled');
-          $('#telepon_pelanggan').removeAttr('disabled');
-          $('#alamat_pelanggan').removeAttr('disabled');
-      } else {
-          $(this).html('<i class="fa fa-plus"></i>');
-          $('#id_pelanggan').removeAttr('disabled');
-          $('#nama_pelanggan').removeAttr('required');
-          $('#nama_pelanggan').attr("disabled", "disabled");
-          $('#telepon_pelanggan').attr("disabled", "disabled");
-          $('#alamat_pelanggan').attr("disabled", "disabled");
-          $('#form-customer').hide('fade');
-          $('#customer_opsi').val('old');
-          $('#nama_customer').removeAttr('required');
-      }
-    })
-    
-    //=========================== Edit Transaksi ============================
-    
-  </script> --}}
 @endsection

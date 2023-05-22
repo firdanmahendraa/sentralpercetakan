@@ -15,13 +15,15 @@ class CreatePembelianDetailTable extends Migration
     {
         Schema::create('pembelian_detail', function (Blueprint $table) {
             $table->id();
-            $table->string('no_nota');
+            $table->integer('id_pembelian');
             $table->integer('id_akun');
-            $table->string('nama_barang');
+            $table->string('uraian');
+            $table->integer('jumlah');
             $table->string('satuan');
-            $table->integer('unit');
             $table->integer('harga');
-            $table->integer('total');
+            $table->integer('sub_total');
+            $table->string('keterangan');
+            $table->enum('status', ['pend','ok'])->default('pend');
             $table->timestamps();
         });
     }

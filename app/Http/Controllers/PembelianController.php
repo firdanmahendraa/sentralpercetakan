@@ -36,15 +36,7 @@ class PembelianController extends Controller{
             ->addColumn('action', function($item){
                 return '
                     <div class="btn-group">
-                    <button data-id="'.$item->id.'" onclick="detailPembelian('.$item->id.')" class="btn btn-sm btn-default"><i class="fas fa-eye"></i> &nbsp; Detail</button>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown"></button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                        <button onclick="cetakInvoice(`'. url('transaksi-penjualan/invoice/'. $item->id) .'`)" class="dropdown-item" href="#"><i class="fas fa-barcode"></i> &nbsp;Cetak</button>
-                        <a class="dropdown-item" href="'. route('transaksi-penjualan.pelunasan', $item->id).'"><i class="fas fa-check"></i> &nbsp;Pelunasan</a>
-                        <a class="dropdown-item" href="'. route('transaksi-penjualan.edit', $item->id) .'"><i class="fas fa-pencil-alt"></i> &nbsp;Edit</a>
-                        </div>
-                    </div>
+                        <button data-id="'.$item->id.'" onclick="detailPembelian('.$item->id.')" class="btn btn-sm btn-default"><i class="fas fa-eye"></i> &nbsp; Detail</button>
                     </div>
                 ';
             })
@@ -90,6 +82,7 @@ class PembelianController extends Controller{
         $supplier = Supplier::find(base64_decode($id));
             if (!$supplier) return abort(404);
         $kode_akun = KodeAkun::get();
+        
         return view('pages.pembelian.form', compact('id_pembelian', 'supplier', 'kode_akun'));
     }
 
@@ -99,22 +92,28 @@ class PembelianController extends Controller{
     }
 
     public function addProduct(Request $request){
-        $detail = new PembelianDetail;
-        $detail->id_pembelian = $request->id_pembelian;
-        $detail->id_akun = $request->id_akun;
-        $detail->nama_barang = $request->nama_barang;
-        $detail->jumlah = $request->jumlah;
-        $detail->satuan = $request->satuan;
-        $detail->harga = $request->harga;
-        $detail->sub_total = $request->jumlah * $request->harga;
-        $detail->save();
+        DB::beginTransaction();
+        try {
+            $detail = new PembelianDetail;
+            $detail->id_pembelian = $request->id_pembelian;
+            $detail->id_akun = $request->id_akun;
+            $detail->uraian = $request->uraian;
+            $detail->jumlah = $request->jumlah;
+            $detail->satuan = $request->satuan;
+            $detail->harga = $request->harga;
+            $detail->sub_total = $request->jumlah * $request->harga;
+            $detail->save();
 
-        // $bkk = new KasKeluar;
-        // $bkk->id_pembelian = $request->id_pembelian;
-        // $bkk->kredit       = $request->sub_total;
-        // $bkk->save();
-
-        return response()->json('Data berhasil disimpan', 200);
+            DB::commit(); 
+            return response()->json('Transaksi Berhasil', 200); 
+        } catch (Exception $e) {
+            DB::rollback();
+            $response =array(
+                'success' => false,
+                'message' => $e->getMessage()
+            );
+            return response()->json($response); 
+        }
     }
 
     public function transactionCart(Request $request){
@@ -144,13 +143,12 @@ class PembelianController extends Controller{
     public function loadForm($total, $diterima){
         $total      = PembelianDetail::where('status', 'pend')->sum('sub_total');
         $bayar      = $total;
-        $kembali    = $diterima - $bayar;
+        $hutang    = $diterima - $bayar;
         $data       = [
             'subtotal'    => format_uang($total),  //set value subtotal dengan format IDR
-            'tot_tagih'   => format_uang($bayar),  //set value pembayaran dengan format IDR
-            'sisa'        => format_uang($kembali),//set value sisa pembayaran dengan format IDR
+            'sisa'        => format_uang($hutang),//set value sisa pembayaran dengan format IDR
             'bayar_tagih' => $bayar,              //Set value pembayaran
-            'kembalirp'   => $kembali,
+            'hutang'   => $hutang,
         ];
 
         return response()->json($data);
@@ -188,26 +186,55 @@ class PembelianController extends Controller{
     }
 
     public function store(Request $request){
-        $pembelian = Pembelian::findOrFail($request->id_pembelian);
-        $pembelian->id_supplier   = $request->id_supplier;
-        $pembelian->no_nota   = $request->no_nota;
-        $pembelian->sub_total = $request->sub_total;
+        DB::beginTransaction();
+        try {
+            $pembelian = Pembelian::findOrFail($request->id_pembelian);
+            $pembelian->id_supplier   = $request->id_supplier;
+            $pembelian->no_nota   = $request->no_nota;
+            $pembelian->sub_total = $request->sub_total;
+    
+            if ($request->bayar == null) {
+                $pembelian->bayar = 0;
+                $pembelian->hutang = 0 - $request->sub_total;
+                $pembelian->keterangan  = "Hutang";
+            }else {
+                $pembelian->bayar   = $request->bayar;
+                $pembelian->hutang = $request->bayar - $request->sub_total;
+                $pembelian->keterangan  = "Lunas";
+            }
+            $pembelian->status = "ok";
+            $pembelian->update();
+            
+            $update_transaksi = Pembelian::latest()->first();
+            if ($update_transaksi->keterangan == "Lunas") {
+                PembelianDetail::where(['status'=>'pend','keterangan'=>'hutang'])->update(['keterangan'=>'lunas']);
+                
+                // Tambah data => table kas keluar jika pembelian telah dibayar
+                PembelianDetail::where(['status'=>'pend'])->get([ 'id_pembelian', 'id_akun', 'uraian', 'sub_total' ])->each(function ($cart = [ 'id_pembelian', 'id_akun', 'uraian', 'sub_total' ]){
+                    $trans_det = $cart->replicate();
+                    $trans_det->setTable('tb_bkk');
+                    $trans_det->save();
+                });
+            }
+            
+            PembelianDetail::where(['status'=>'pend'])->update(['status'=>'ok']);
 
-        if ($request->bayar >= $request->sub_total) {
-            $pembelian->bayar = $request->sub_total;
-            $pembelian->hutang = 0;
-
-        }else {
-            $pembelian->hutang = $request->bayar - $request->sub_total;
+            DB::commit(); 
+            return response()->json('Transaksi Berhasil', 200); 
+        } catch (Exception $e) {
+            DB::rollback();
+            $response =array(
+                'success' => false,
+                'message' => $e->getMessage()
+            );
+            return view('pages.pembelian.detail', compact('response'));
         }
+    }
 
-        $pembelian->status = "ok";
-        $pembelian->update();
+    public function transactionProcess(Request $request){
+        $this->store($request);
 
-        $pemDetail = PembelianDetail::where(['status'=>'pend'])->update(['status'=>'ok']);
-        $bkk = KasKeluar::where(['status'=>'pend'])->update(['status'=>'ok']);
-
-        return response()->json('Transaksi Berhasil', 200);
+        return redirect()->route('transaksi_pembelian.index')->with(['success' => 'Transaksi berhasil disimpan']);
     }
 
     // Pembelian Detail
@@ -216,18 +243,18 @@ class PembelianController extends Controller{
         $data   = array();
         foreach ($detail as $item) {
             $row = array();
-            $row['id_akun']     = $item['id_akun'] ;
-            $row['nama_barang'] = $item['nama_barang'];
-            $row['jumlah']      = $item['jumlah'] .' '. $item['satuan'];
-            $row['harga']       = 'Rp. '.  format_uang($item->harga);
-            $row['sub_total']   = 'Rp. '.  format_uang($item->sub_total);
+            $row['id_akun']   = $item['id_akun'] ;
+            $row['uraian']    = $item['uraian'];
+            $row['jumlah']    = $item['jumlah'] .' '. $item['satuan'];
+            $row['harga']     = 'Rp. '.  format_uang($item->harga);
+            $row['sub_total'] = 'Rp. '.  format_uang($item->sub_total);
             $data[] = $row;
         }
 
         return datatables()
             ->of($data)
             ->addIndexColumn()
-            ->rawColumns(['id_akun','nama_barang', 'jumlah', 'harga', 'sub_total'])
+            ->rawColumns(['id_akun','uraian', 'jumlah', 'harga', 'sub_total'])
             ->make(true);
     }
 }

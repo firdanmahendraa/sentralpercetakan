@@ -20,6 +20,11 @@
     <div class="container-fluid">
       <!-- Small boxes (Stat box) -->
       <div class="row">
+        @if (session('success'))
+        <div class="col-lg-12">
+          <div class="alert alert-primary">{{ session('success') }}</div>
+        </div>
+        @endif
         <div class="col-lg-12">
           <div class="card card-primary card-outline">       
             <div class="card-header">
@@ -42,6 +47,7 @@
                     <th class="text-center">TOTAL</th>
                     <th class="text-center">BAYAR</th>
                     <th class="text-center">Hutang</th>
+                    <th class="text-center">Keterangan</th>
                     <th class="text-center"><i class="fa fa-cog"></i></th>
                   </tr>
                 </thead>
@@ -98,7 +104,7 @@
         },
         columnDefs: [
           {
-            "targets": [0,1,2,3,4,5,6],
+            "targets": [0,1,2,3,4,5,6,7],
             "className": "va-mid"
           },{
             "targets": [3,4,5],
@@ -115,6 +121,7 @@
           {data:'sub_total', name:'sub_total'},
           {data:'bayar', name:'bayar'},
           {data:'hutang', name:'hutang'},
+          {data:'keterangan', name:'keterangan'},
           {data:'action', name:'action', orderable: false, searchable: false},
         ],
       })
@@ -146,7 +153,7 @@
         },
         columns:[
           {data:'id_akun', name:'id_akun'},
-          {data:'nama_barang', name:'nama_barang'},
+          {data:'uraian', name:'uraian'},
           {data:'jumlah', name:'jumlah'},
           {data:'harga', name:'harga'},
           {data:'sub_total', name:'sub_total'},
