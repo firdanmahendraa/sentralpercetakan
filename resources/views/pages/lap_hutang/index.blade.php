@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Riwayat Transaksi Pembelian')
+@section('title', 'Hutang Usaha')
 
 @push('css')
   <style>
@@ -32,9 +32,6 @@
                 <div class="col-md-6">
                   <h5 class="mt-1"><i class="fas fa-list mr-1"></i>Daftar Transaksi</h5>
                 </div>
-                <div class="col-md-6 text-right">
-                  <button class="btn btn-sm btn-success" onclick="tambahPembelian('{{ route('transaksi_pembelian.generatepembelianform') }}')">Tambah Transaksi</button>
-                </div>
               </div>
             </div>
             <div class="card-body">
@@ -61,52 +58,24 @@
       <!-- /.row -->
     </div><!-- /.container-fluid -->
   </section>
-  @include('pages.pembelian.supplier_modal')
   @include('pages.pembelian.detail')
 @endsection
 
 @section('js')
   <script type="text/javascript">
-    $(document).ready(function () {
-      //get supplier
-      $('.get_supplier').select2({
-        placeholder: 'Cari Supplier',
-        ajax: {
-          url: "{{ route('transaksi_pembelian.getsupplier') }}",
-          dataType: 'json',
-          delay: 250,
-          processResults: function(data) {
-            return {
-              results: $.map(data, function(item) {
-                  return {
-                    text: item.nama_supplier,
-                    id: item.id
-                  }
-                })
-            };
-          },
-          cache: true
-        }
-      });      
-    })
-
     let table, tableDetail;
     $(function(){
       //TABEL PEMBELIAN
       table = $('.tbPembelian').DataTable({
         processing: true, 
         serverSide: true, 
-        ordering: false, 
         info: false,
-        ajax:"{{ route('transaksi_pembelian.index') }}",
+        ajax:"{{ route('laporan_hutang.index') }}",
         "language": {
-          "emptyTable": "Belum ada pembelian bulan ini"
+          "emptyTable": "Tidak ada Hutang"
         },
         columnDefs: [
           {
-            "targets": [0,1,2,3,4,5,6,7],
-            "className": "va-mid"
-          },{
             "targets": [3,4,5],
             "className": "dt-body-right"
           },{
@@ -127,15 +96,7 @@
       })
     });
 
-    // Tambah Pembelian => Pilih Supplier
-    function tambahPembelian(url){
-      $('#form_masuk').modal('show');
-      $('#modal-heading').html("Pilih Supplier");
-
-      $('#form_masuk form')[0].reset();
-      $('#form_masuk form').attr('action', url);
-    }
-
+    //TABEL PEMBELIAN DETAIL
     function detailPembelian(id){
       $('#form_detail').modal('show');
       $('#heading').html("Detail Pembelian");
@@ -144,7 +105,6 @@
         $('.tbDetail').DataTable().destroy();
       })
     }
-
     function loadDetail(id){
       var tableDetail = $('.tbDetail').DataTable({
         processing: true, serverSide: true,  paging: false, searching: false, ordering: false, info: false,
@@ -161,31 +121,5 @@
       });
     }
 
-    // Tambah Supplier Baru
-    $('#addSupplier').click(function() {
-      var type = $('#supplier_opsi').val();
-      if (type == 'old') {
-          $(this).html('<i class="fa fa-minus"></i>');
-          $('.get_supplier').attr('disabled', 'true');
-          $('#form_masuk [name=_method]').val('post');
-          $('#form-supplier').show('fade');
-          $('#supplier_opsi').val('new');
-          $('#nama_supplier').attr('required', 'true');
-          $('#nama_supplier').removeAttr('disabled');
-          $('#telepon_supplier').removeAttr('disabled');
-          $('#alamat_supplier').removeAttr('disabled');
-      } else {
-          $(this).html('<i class="fa fa-plus"></i>');
-          $('.get_supplier').removeAttr('disabled');
-          $('#form_masuk [name=_method]').val('put');
-          $('#nama_supplier').removeAttr('required');
-          $('#nama_supplier').attr("disabled", "disabled");
-          $('#telepon_supplier').attr("disabled", "disabled");
-          $('#alamat_supplier').attr("disabled", "disabled");
-          $('#form-supplier').hide('fade');
-          $('#supplier_opsi').val('old');
-          $('#nama_supplier').removeAttr('required');
-      }
-    })
   </script>
 @endsection

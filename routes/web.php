@@ -145,6 +145,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('laporan-hutang')->group(function () {
         Route::get('/', [LapHutangController::class, 'index'])->name('laporan_hutang.index');
+        Route::get('/pelunasan/{id}', [LapHutangController::class, 'pelunasan'])->name('laporan_hutang.pelunasan');
+        Route::post('/repayment', [LapHutangController::class, 'repayment'])->name('laporan_hutang.repayment');
+        Route::post('/processing', [LapHutangController::class, 'processRepayment'])->name('laporan_hutang.process_repayment');
     });
 
     Route::prefix('laporan-piutang')->group(function () {
@@ -154,8 +157,10 @@ Route::middleware(['auth'])->group(function () {
     //SETTING
     Route::resource('users', UsersController::class);
 
-    Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-    Route::get('setting/show', [SettingController::class, 'show'])->name('setting.show');
-    Route::post('setting', [SettingController::class, 'update'])->name('setting.update');
+    Route::prefix('setting')->group(function () {
+        Route::get('/', [SettingController::class, 'index'])->name('setting.index');
+        Route::get('/show', [SettingController::class, 'show'])->name('setting.show');
+        Route::post('/update', [SettingController::class, 'update'])->name('setting.update'); 
+    });
 });
 

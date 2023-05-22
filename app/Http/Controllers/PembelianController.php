@@ -14,12 +14,12 @@ use DataTables, DB, Carbon\Carbon;
 class PembelianController extends Controller{
     // Pembelian Index
     public function index(Request $request){
-        $pembelian = Pembelian::with('supplier')->where('status', 'ok')->orderBy('updated_at', 'desc')->get();;
+        $pembelian = Pembelian::with('supplier')->where('status', 'ok')->orderBy('created_at', 'desc')->get();;
         if($request->ajax()){
             $data = DataTables::of($pembelian)
             ->addIndexColumn()
-            ->addColumn('updated_at', function($item) {
-                return $item->updated_at->translatedFormat('d F Y');
+            ->addColumn('created_at', function($item) {
+                return $item->created_at->translatedFormat('d F Y');
             })
             ->addColumn('nama_supplier', function($item) {
                 return $item->supplier['nama_supplier'];
