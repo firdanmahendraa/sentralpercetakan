@@ -18,7 +18,6 @@ class CreatePenjualanTable extends Migration
             $table->string('no_nota');
             $table->integer('id_pelanggan');
             $table->string('acc_desain');
-            $table->integer('total_item');
             $table->integer('total_harga');
             $table->tinyInteger('diskon')->nullable();
             $table->integer('diterima');
@@ -26,7 +25,7 @@ class CreatePenjualanTable extends Migration
             $table->integer('piutang');
             $table->integer('id_user');
             $table->integer('id_akun');
-            $table->integer('id_bkm');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }
