@@ -11,8 +11,8 @@ use App\Http\Controllers\{
     PenjualanTransaksi,
     PenjualanDetailController,
     PembelianController,
-    PendapatanController,
     LapPendapatanController,
+    LapPembelianController,
     LapHutangController,
     LapPiutangController,
     UsersController,
@@ -141,6 +141,11 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('laporan-pendapatan')->group(function () {
         Route::get('/', [LapPendapatanController::class, 'index'])->name('laporan_pendapatan.index');
         Route::get('/data', [LapPendapatanController::class, 'data'])->name('laporan_pendapatan.data');
+    });
+    
+    Route::prefix('laporan-pembelian')->group(function () {
+        Route::get('/', [LapPembelianController::class, 'index'])->name('laporan_pembelian.index');
+        Route::get('/data', [LapPembelianController::class, 'data'])->name('laporan_pembelian.data');
     });
 
     Route::prefix('laporan-hutang')->group(function () {

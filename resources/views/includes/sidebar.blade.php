@@ -89,7 +89,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/laporan-pembelian" class="nav-link {{ request()->is('laporan-pembelian') ? 'active' : ''}}">
+            <a href="{{ route('laporan_pembelian.index') }}" class="nav-link {{ request()->is('laporan-pembelian') ? 'active' : ''}}">
               <i class="nav-icon fa fa-download"></i>
               <p>Pembelian</p>
             </a>

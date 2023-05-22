@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Laporan Pendapatan')
+@section('title', 'Laporan Pembelian')
 @push('css')
 <style>
   .va-mid{
@@ -33,24 +33,20 @@
               </div>
             </div>     
             <div class="card-body">
-              <table class="table tablePendapatan">
+              <table class="table tablePembelian">
                 <thead>
                   <tr>
-                    <th class="text-center va-mid" rowspan="2" width="10%">TANGGAL</th>
-                    <th class="text-center va-mid" rowspan="2" width="10%">PERKIRAAN</th>
-                    <th class="text-center" colspan="2" width="60%">URAIAN</th>
-                    <th class="text-center va-mid" rowspan="2">JUMLAH</th>
-                  </tr>
-                  <tr>
-                    <td>Keterangan</td>
-                    <td class="text-right">No Invoice</td>
+                    <th class="text-center va-mid" width="10%">TANGGAL</th>
+                    <th class="text-center va-mid" width="10%">PERKIRAAN</th>
+                    <th class="text-center"  width="60%">URAIAN</th>
+                    <th class="text-center va-mid">JUMLAH</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
                 <tfoot>
                   <tr>
-                    <td colspan="4" class="text-right"><b>Total</b></td>
-                    <td class="text-right pr-2"><b>Rp. {{ format_uang($bkm) }}</b></td>
+                    <td colspan="3" class="text-right"><b>Total</b></td>
+                    <td class="text-right pr-2"><b>Rp. {{ format_uang($bkk) }}</b></td>
                   </tr>
                 </tfoot>
               </table>
@@ -73,17 +69,17 @@
     $(function(){
       $('#reservation').daterangepicker({},
         function() {
-          $('.tablePendapatan').DataTable().destroy();
+          $('.tablePembelian').DataTable().destroy();
           loadData();  
       })
       loadData();
     })
 
     function loadData() {
-      table = $('.tablePendapatan').DataTable({
+      table = $('.tablePembelian').DataTable({
         processing: true, serverSide: true, ordering: false, info: false,
         ajax:{
-          "url": "{{ route('laporan_pendapatan.data') }}",
+          "url": "{{ route('laporan_pembelian.data') }}",
           "data": {
             date :  $('.drp-selected').text()
           }
@@ -93,7 +89,7 @@
         },
         columnDefs: [
           {
-            "targets": [3,4],
+            "targets": [3],
             "className": "dt-body-right"
           },{
             "targets": [0,1],
@@ -104,8 +100,7 @@
           {data:'created_at', name:'created_at'},
           {data:'id_akun', name:'id_akun'},
           {data:'uraian', name:'uraian'},
-          {data:'no_nota', name:'no_nota'},
-          {data:'debet', name:'debet'},
+          {data:'sub_total', name:'sub_total'},
         ],
       });
     }
