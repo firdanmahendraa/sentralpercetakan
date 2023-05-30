@@ -53,40 +53,4 @@ class CustomerController extends Controller{
         $customer->delete();
         return response(null, 204);
     }
-
-    public function trash(Request $request){
-        $customer = Customer::onlyTrashed()->get();
-        if ($request->ajax()) {
-            $allData = DataTables::of($customer)
-            ->addIndexColumn()
-            ->addColumn('selectAll', function($data){
-                return '
-                    <input type="checkbox" name="ids" class="selectOne" id="checkbox_ids'. $data->id .'" value="'. $data->id .'">
-                ';
-            })
-            ->addColumn('deleted_at', function($data){
-                return '
-                    Dihapus pada '. $data->deleted_at->translatedFormat('d F Y') .'
-                ';
-            })
-            ->rawColumns(['deleted_at', 'selectAll'])
-            ->make(true);
-            return $allData;
-        }
-        return view('pages.customer.trash');
-    }
-
-    public function restore(Request $request){
-        $ids = $request->ids;
-        Customer::onlyTrashed()->whereIn('id', $ids)->restore();
-        
-        return response()->json(["success" => "Data berhasil di restore!"]);
-    }
-
-    public function delete(Request $request){
-        $ids = $request->ids;
-        Customer::onlyTrashed()->whereIn('id', $ids)->forceDelete();
-        
-        return response()->json(["success" => "Data berhasil di hapus!"]);
-    }
 }

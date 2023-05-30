@@ -15,9 +15,7 @@ class UsersController extends Controller
             $allData = DataTables::of($users)
             ->addIndexColumn()
             ->addColumn('action', function($row){
-                $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.
-                $row->id.'" data-original-title="Edit" class="edit btn btn-success btn-sm mr-2 editUser">Edit</a>';
-                $btn.= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.
+                $btn= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.
                 $row->id.'" data-original-title="Delete" class="delete btn btn-danger btn-sm deleteUser">Delete</a>';
                 return $btn;
             })
@@ -35,7 +33,7 @@ class UsersController extends Controller
     public function store(Request $request) {
         User::updateOrCreate(
             ['id' =>$request->id],
-            ['nama'=>$request->nama,
+            ['name'=>$request->name,
              'username'=>$request->username,
              'password'=>$request->password,
              'levels'=>$request->levels]

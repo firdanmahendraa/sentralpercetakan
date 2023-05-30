@@ -44,7 +44,10 @@ class PembelianController extends Controller{
             ->make(true);
             return $data;
         }
-        return view('pages.pembelian.index', compact('pembelian'));
+        $sub_total = Pembelian  ::sum('sub_total');
+        $bayar    = Pembelian   ::sum('bayar');
+        $hutang    = Pembelian  ::sum('hutang');
+        return view('pages.pembelian.index', compact('pembelian', 'sub_total', 'bayar', 'hutang'));
     }
 
     public function getSupplier(){
@@ -105,7 +108,7 @@ class PembelianController extends Controller{
             $detail->save();
 
             DB::commit(); 
-            return response()->json('Transaksi Berhasil', 200); 
+            return response()->json('Barang berhasil disimpan!', 200); 
         } catch (Exception $e) {
             DB::rollback();
             $response =array(

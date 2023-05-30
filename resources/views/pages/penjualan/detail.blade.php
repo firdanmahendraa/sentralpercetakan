@@ -149,7 +149,7 @@
                 <div class="col-lg-6">
                     <div class="text-right">
                       @if ($penjualan->piutang < 0)
-                      <a href="{{url('/transaksi-penjualan/pelunasan/'. $penjualan->id_penjualan, $penjualan->no_nota)}}" class="btn btn-default"><i class="fas fa-check"></i>&nbsp;&nbsp;Lunasi</a>&nbsp;&nbsp;
+                      <a href="{{url('/laporan-piutang/bayar/'. $penjualan->id_penjualan, $penjualan->no_nota)}}" class="btn btn-default"><i class="fas fa-check"></i>&nbsp;&nbsp;Lunasi</a>&nbsp;&nbsp;
                       @endif
                       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-print"></i>&nbsp;&nbsp;Cetak</button>
                       <div class="dropdown-menu dropdown-menu-right" style="">

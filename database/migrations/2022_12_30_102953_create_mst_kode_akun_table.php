@@ -17,7 +17,6 @@ class CreateMstKodeAkunTable extends Migration
             $table->string('id');
             $table->string('nama_akun');
             $table->unique('id');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

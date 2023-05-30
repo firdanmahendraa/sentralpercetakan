@@ -20,7 +20,6 @@ class CreateMstProdukTable extends Migration
             $table->string('ukuran_produk');
             $table->integer('harga_produk');
             $table->enum('type_produk', ['qty', 'meter']);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

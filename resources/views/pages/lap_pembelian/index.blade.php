@@ -46,7 +46,7 @@
                 <tfoot>
                   <tr>
                     <td colspan="3" class="text-right"><b>Total</b></td>
-                    <td class="text-right pr-2"><b>Rp. {{ format_uang($bkk) }}</b></td>
+                    <td class="text-right pr-2 total"><b>Rp. {{ format_uang($bkk) }}</b></td>
                   </tr>
                 </tfoot>
               </table>
@@ -104,6 +104,5 @@
         ],
       });
     }
-
  </script>
 @endsection

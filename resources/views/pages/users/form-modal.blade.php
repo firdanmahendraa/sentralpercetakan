@@ -24,7 +24,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Levels</label>
-                <select class="form-control">
+                <select class="form-control" name="levels">
                   <option value="Owner">Owner</option>
                   <option value="Admin">Admin</option>
                 </select>

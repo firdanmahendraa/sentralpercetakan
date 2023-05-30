@@ -14,9 +14,6 @@
                   <button class="btn btn-primary btn-sm" onclick="addForm('{{ route('opsi-pembayaran.store') }}')">
                     <i class="fa fa-plus"> Tambah Opsi</i>
                   </button>
-                  <a href="{{ route('opsi-pembayaran.trash') }}" class="btn btn-danger btn-sm float-right">
-                    <i class="fa fa-trash"> Trash</i>
-                  </a>
                 </div>
                 <table class="table table-head-fixed text-nowrap data-table" style="width: 100%">
                   <thead>

@@ -18,7 +18,6 @@ class CreateMstSupplierTable extends Migration
             $table->string('nama_supplier');
             $table->text('alamat_supplier');
             $table->string('telepon_supplier');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

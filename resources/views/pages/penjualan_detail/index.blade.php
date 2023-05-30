@@ -86,7 +86,7 @@
                         <label for="" class="col-form-label" style="text-align:right">Qty *</label>
                       </div>
                       <div class="col-md-4">
-                        <input type="text" name="jumlah" id="jumlah" class="form-control" style="border-radius: 0" placeholder="Masukan quantity" required>
+                        <input type="number" name="jumlah" id="jumlah" class="form-control" style="border-radius: 0" placeholder="Masukan quantity" required>
                       </div>
                       <div class="col-md-2 text-right">
                         <label for="" class="col-form-label" style="text-align:right">Satuan *</label>
@@ -132,11 +132,11 @@
                         <label for="" class="col-form-label" style="text-align:right">Ukuran *</label>
                       </div>
                       <div class="col-md-4">
-                        <input type="text" name="ukuran_p" id="ukuran_p" class="form-control" style="border-radius: 0" placeholder="panjang" required>
+                        <input type="number" name="ukuran_p" id="ukuran_p" class="form-control" style="border-radius: 0" placeholder="panjang" required>
                       </div>
                       <div class="col-md-1 text-center"> <label for="" class="col-form-label">x</label> </div>
                       <div class="col-md-4">
-                        <input type="text" name="ukuran_l" id="ukuran_l" class="form-control" style="border-radius: 0" placeholder="lebar" required>
+                        <input type="number" name="ukuran_l" id="ukuran_l" class="form-control" style="border-radius: 0" placeholder="lebar" required>
                       </div>
                       <div class="col-md-2 offset-3 mt-3">
                         <div class="form-check">
@@ -148,13 +148,13 @@
                         <label for="" class="col-form-label">Jumlah</label>
                       </div>
                       <div class="col-md-4 mt-2">
-                        <input type="text" name="finishing_plong_qty" id="plongQty" class="form-control" style="border-radius: 0" placeholder="jumlah" disabled required>
+                        <input type="number" name="finishing_plong_qty" id="plongQty" class="form-control" style="border-radius: 0" placeholder="jumlah" disabled required>
                       </div>
                       <div class="col-md-3 offset-5 mt-2 text-right">
                         <label for="" class="col-form-label">Harga Plong</label>
                       </div>
                       <div class="col-md-4 mt-2">
-                        <input type="text" name="finishing_plong_harga" id="plongPrice" class="form-control" style="border-radius: 0" placeholder="Rp" disabled required>
+                        <input type="number" name="finishing_plong_harga" id="plongPrice" class="form-control" style="border-radius: 0" placeholder="Rp" disabled required>
                       </div>
                     </div>
                     <div class="row">
@@ -162,7 +162,7 @@
                         <label for="" class="col-form-label" style="text-align:right">Harga *</label>
                       </div>
                       <div class="col-md-9">
-                        <input type="text" name="harga" id="harga_produk" class="form-control" style="border-radius: 0" placeholder="Masukan harga" required>
+                        <input type="number" name="harga" id="harga_produk" class="form-control" style="border-radius: 0" placeholder="Masukan harga" required>
                       </div>
                     </div>
                   </div>
@@ -391,11 +391,13 @@
     $("#checkPlong").click(function () {
       if ($(this).is(":checked")) {
         $("#checkPlong").val("yes");
+        $("#det_pesanan").attr("required", "required");
         $("#plongQty").removeAttr("disabled");
         $("#plongPrice").removeAttr("disabled");
         $("#plongQty").focus();
       } else {
         $("#checkPlong").val("no");
+        $("#det_pesanan").removeAttr("required");
         $("#plongQty").attr("disabled", "disabled");
         $("#plongPrice").attr("disabled", "disabled");
       }

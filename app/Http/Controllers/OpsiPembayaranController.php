@@ -53,40 +53,4 @@ class OpsiPembayaranController extends Controller{
         $opsi_bayar->delete();
         return response(null, 204);
     }
-
-    public function trash(Request $request){
-        $opsi_bayar = OpsiPembayaran::onlyTrashed()->get();
-        if ($request->ajax()) {
-            $allData = DataTables::of($opsi_bayar)
-            ->addIndexColumn()
-            ->addColumn('selectAll', function($data){
-                return '
-                    <input type="checkbox" name="ids" class="selectOne" id="checkbox_ids'. $data->id .'" value="'. $data->id .'">
-                ';
-            })
-            ->addColumn('deleted_at', function($data){
-                return '
-                    Dihapus pada '. $data->deleted_at->translatedFormat('d F Y') .'
-                ';
-            })
-            ->rawColumns(['selectAll', 'deleted_at'])
-            ->make(true);
-            return $allData;
-        }
-        return view('pages.opsi-pembayaran.trash');
-    }
-
-    public function restore(Request $request){
-        $ids = $request->ids;
-        OpsiPembayaran::onlyTrashed()->whereIn('id', $ids)->restore();
-        
-        return response()->json(["success" => "Data berhasil di restore!"]);
-    }
-
-    public function delete(Request $request){
-        $ids = $request->ids;
-        OpsiPembayaran::onlyTrashed()->whereIn('id', $ids)->forceDelete();
-        
-        return response()->json(["success" => "Data berhasil di hapus!"]);
-    }
 }

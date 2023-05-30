@@ -14,9 +14,6 @@
                   <button class="btn btn-primary btn-sm" onclick="addForm('{{ route('data-akun.store') }}')">
                     <i class="fa fa-plus"> Tambah Kode Akun</i>
                   </button>
-                  <a href="{{ route('data-akun.trash') }}" class="btn btn-danger btn-sm float-right">
-                    <i class="fa fa-trash"> Trash</i>
-                  </a>
                 </div>
                 <table class="table table-head-fixed text-nowrap data-table" style="width: 100%" id="tabelKategori">
                   <thead>
@@ -120,41 +117,5 @@
         }
       });
     });
-
-    //DELETE DATA
-    function deleteData(url) {
-      Swal.fire({
-        title: 'Apakah anda yakin?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#28a745',
-        cancelButtonColor: '#dc3545',
-        confirmButtonText: 'Ya!',
-        cancelButtonText: 'Tidak'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          $.post(url,{
-            '_token': $('[name=csrf-token]').attr('content'),
-            '_method': 'delete'
-          })
-          .done((response) => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Data berhasil dihapus!',
-              showConfirmButton: true,
-              timer: 1500
-            }) 
-            table.ajax.reload();
-          })
-          .fail((errors) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Data tidak dapat dihapus!',
-            }) 
-            return;
-          })
-        }
-      })
-    }
   </script>
 @endsection

@@ -33,7 +33,7 @@
               </div>
             </div>     
             <div class="card-body">
-              <table class="table tablePendapatan">
+              <table class="table tablePendapatan" id="tables" width="100%">
                 <thead>
                   <tr>
                     <th class="text-center va-mid" rowspan="2" width="10%">TANGGAL</th>
@@ -50,7 +50,7 @@
                 <tfoot>
                   <tr>
                     <td colspan="4" class="text-right"><b>Total</b></td>
-                    <td class="text-right pr-2"><b>Rp. {{ format_uang($bkm) }}</b></td>
+                    <td class="text-right pr-2"><b id="total">Rp. {{ format_uang($bkm)}}</b></td>
                   </tr>
                 </tfoot>
               </table>
@@ -67,14 +67,13 @@
 
 @section('js')
   <script type="text/javascript">
-    let table, tableDetail;
+    let table;
     //TAMPIL DATA
-    
     $(function(){
       $('#reservation').daterangepicker({},
         function() {
           $('.tablePendapatan').DataTable().destroy();
-          loadData();  
+          loadData();
       })
       loadData();
     })

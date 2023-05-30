@@ -17,7 +17,6 @@ class KodeAkunController extends Controller{
             ->addColumn('action', function($kategori){
                 return '
                     <button class="btn btn-success btn-sm editData" data-id="'.$kategori->id.'">Edit</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteData(`'. route('data-akun.destroy', $kategori->id) .'`)">Hapus </button>
                 ';
             })
             ->rawColumns(['action'])
@@ -39,7 +38,6 @@ class KodeAkunController extends Controller{
         return response()->json($kategori);
     }
 
-
     public function update(Request $request, $id){
         $kodeAkun = KodeAkun::find($id);
         $kodeAkun->id = $request->id;
@@ -49,45 +47,4 @@ class KodeAkunController extends Controller{
         return response()->json('Data berhasil Disimpan', 200);
     }
 
-    public function destroy($id){
-        $kodeAkun = KodeAkun::find($id);
-        $kodeAkun->delete();
-        return response(null, 204);
-    }
-
-    public function trash(Request $request){
-        $akun = KodeAkun::onlyTrashed()->get();
-        if ($request->ajax()) {
-            $allData = DataTables::of($akun)
-            ->addIndexColumn()
-            ->addColumn('selectAll', function($data){
-                return '
-                    <input type="checkbox" name="ids" class="selectOne" id="checkbox_ids'. $data->id .'" value="'. $data->id .'">
-                ';
-            })
-            ->addColumn('deleted_at', function($data){
-                return '
-                    Dihapus pada '. $data->deleted_at->translatedFormat('d F Y') .'
-                ';
-            })
-            ->rawColumns(['deleted_at', 'selectAll'])
-            ->make(true);
-            return $allData;
-        }
-        return view('pages.kode-akun.trash');
-    }
-
-    public function restore(Request $request){
-        $ids = $request->ids;
-        KodeAkun::onlyTrashed()->whereIn('id', $ids)->restore();
-        
-        return response()->json(["success" => "Data berhasil di restore!"]);
-    }
-
-    public function delete(Request $request){
-        $ids = $request->ids;
-        KodeAkun::onlyTrashed()->whereIn('id', $ids)->forceDelete();
-        
-        return response()->json(["success" => "Data berhasil di hapus!"]);
-    }
 }

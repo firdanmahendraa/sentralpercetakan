@@ -21,7 +21,6 @@
                       <th style="width: 5%">No</th>
                       <th>Nama</th>
                       <th>Username</th>
-                      <th>Password</th>
                       <th>Level</th>
                       <th>Aksi</th>
                     </tr>
@@ -58,7 +57,6 @@
               {data:'DT_RowIndex', name:'DT_RowIndex'},
               {data:'name', name:'name'},
               {data:'username', name:'username'},
-              {data:'password', name:'password'},
               {data:'levels', name:'levels'},
               {data:'action', name:'action'},
             ],

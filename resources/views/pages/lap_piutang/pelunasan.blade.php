@@ -122,7 +122,7 @@
                 </tbody>
               </table>
 
-              <form action="{{ route('transaksi-penjualan.process_repayment') }}" class="form-transaksi" method="POST" id="simpanTransaksi">
+              <form action="{{ route('laporan_piutang.process_repayment') }}" class="form-transaksi" method="POST" id="simpanTransaksi">
                 @csrf
                 <input type="hidden" name="id_penjualan" value="{{ $pelunasan->id_penjualan }}">
                 <input type="hidden" name="uraian" value="{{$pelunasan->customer['nama_pelanggan']}}">

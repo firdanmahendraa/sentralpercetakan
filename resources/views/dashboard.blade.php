@@ -14,243 +14,289 @@
   <section class="content">
     <div class="container-fluid">
       <!-- Small boxes (Stat box) -->
-      @if (!isset($_SESSION['admin']))
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-6">
-                    <p class="mt-1 mb-3">Sistem info: {{$now}}</p>
-                  </div>
-                  <div class="col-lg-6 text-right">
-                    <button class="btn btn-sm btn-primary">Buat Laporan Harian</button>
-                  </div>
-                  
-                  <div class="col-lg-4">
-                    <div class="info-box" data-toggle="tooltip">
-                      <span class="info-box-icon bg-blue"><i class="fa fa-arrow-circle-down"></i></span>
-                      <div class="info-box-content">
-                        <span class="info-box-text">Pemasukan Hari Ini</span>
-                        <span class="info-box-number"><small>Rp</small> {{ format_uang($bkm) }}</span>
-                        <span class="info-box-text"><small>Bulan Ini</small></span>
-                        <span class="info-box-number"><small>Rp</small> {{ format_uang($bkm_month) }}</span>
-                        <input type="hidden" id="pemasukan_bln_ini" value="252000">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="info-box">
-                      <span class="info-box-icon bg-red"><i class="fa fa-arrow-circle-up"></i></span>
-                      <div class="info-box-content">
-                        <span class="info-box-text">Pengeluaran hari ini</span>
-                        <span class="info-box-number"><span data-toggle="tooltip"><small>Rp</small>{{ format_uang($bkk_tot) }}</span> / 
-                        <span data-toggle="tooltip" title="" data-original-title="Pengeluaran yang Terbayar+Pelunasan hari ini."><small>Rp</small>{{ format_uang($bkk) }}</span></span>
-                        <span class="info-box-text"><small>Bulan Ini</small></span>
-                        <span class="info-box-number">
-                          <span data-toggle="tooltip" title="" data-original-title="Total Pengeluaran dalam satu bulan."><small>Rp</small>{{ format_uang($bkk_month_tot) }}</span> /
-                          <span data-toggle="tooltip" title="" data-original-title="Pengeluaran Terbayar dalam satu bulan."><small>Rp</small>{{ format_uang($bkk_month) }}</span>
-                        </span>
-                        <input type="hidden" id="pengeluaran_bln_ini" value="0">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="info-box" data-toggle="tooltip">
-                      <span class="info-box-icon bg-yellow"><i class="fa fa-balance-scale"></i></span>
-                      <div class="info-box-content">
-                        <span class="info-box-text">Piutang Customer Hari Ini</span>
-                        <span class="info-box-number"><small>Rp</small> 112.500</span>
-                        <span class="info-box-text"><small>Bulan Ini / Total Piutang</small></span>
-                        <span class="info-box-number"><small>Rp</small> 112.500 / <small>Rp</small> 96.019.035</span>
-                        <input type="hidden" id="piutang_bln_ini" value="112500">
-                      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card card-primary card-outline">
+            <div class="card-body pt-2">
+              <div class="row">
+                <div class="col-lg-12">
+                  <p class="mt-1 mb-3">Sistem info: {{$now}}</p>
+                </div>
+                
+                <div class="col-lg-4">
+                  <div class="info-box" data-toggle="tooltip">
+                    <span class="info-box-icon bg-blue"><i class="fa fa-arrow-circle-down"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Pemasukan Hari Ini</span>
+                      <span class="info-box-number"><small>Rp</small> {{ format_uang($bkm) }}</span>
+                      <span class="info-box-text"><small>Bulan Ini</small></span>
+                      <span class="info-box-number"><small>Rp</small> {{ format_uang($bkm_month) }}</span>
+                      <input type="hidden" id="pemasukan_bln_ini" value="252000">
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-      
-        </div>
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="card card-primary card-outline">       
-              <div class="card-header">
-                <div class="row">
-                  <div class="col-md-6">
-                    <h5 class="mt-1"><i class="fas fa-download mr-2"></i>Bukti Kas Masuk</h5>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="text-right">
-                      <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#form_masuk">Tambah Transaksi</button>
+                <div class="col-lg-4">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="fa fa-arrow-circle-up"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Pengeluaran hari ini</span>
+                      <span class="info-box-number"><span data-toggle="tooltip"><small>Rp</small>{{ format_uang($bkk) }}</span> 
+                      <span class="info-box-text"><small>Bulan Ini</small></span>
+                      <span class="info-box-number">
+                        <span data-toggle="tooltip" title="" data-original-title="Total Pengeluaran dalam satu bulan."><small>Rp</small>{{ format_uang($bkk_month) }}</span>
+                      </span>
+                      <input type="hidden" id="pengeluaran_bln_ini" value="0">
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="card-body px-0 pt-0">
-                <table class="table table-sm kasmasuk">
-                  <thead>
-                    <tr>
-                      <th class="text-center va-mid" rowspan="2" width="20%">PERKIRAAN</th>
-                      <th class="text-center" colspan="2" width="60%">URAIAN</th>
-                      <th class="text-center va-mid" rowspan="2">JUMLAH</th>
-                    </tr>
-                    <tr>
-                      <td>Keterangan</td>
-                      <td class="text-right">No Invoice</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @if ($bkm == null)
-                      <tr>
-                        <td class="text-center" colspan="4">Tidak ada transaksi hari ini</td>
-                      </tr>
-                    @else
-                      @foreach ($bkm as $key => $item)
-                      <tr>
-                        <td class="text-center">{{ $key+1 }}</td>
-                        <td>
-                          @if ($item->id_penjualan == null)
-                            {{ $item->id_kas_masuk }}
-                          @else
-                            {{ $item->penjualan->customer['nama_pelanggan'] }} 
-                          @endif
-                        </td>
-                        <td class="text-right">{{ $item->penjualan['no_nota'] }}</td>
-                        <td class="text-right pr-2">Rp. {{ format_uang($item->debet) }}</td>
-                      </tr>
-                      @endforeach
-                    @endif
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td colspan="3" class="text-right"><b>Total</b></td>
-                      <td class="text-right pr-2"><b>Rp. {{ format_uang($bkm) }}</b></td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <div class="col-lg-6">
-            <div class="card card-primary card-outline">       
-              <div class="card-header">
-                <div class="row">
-                  <div class="col-md-6">
-                    <h5 class="mt-1"><i class="fas fa-upload mr-2"></i> Bukti Kas Keluar</h5>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="text-right">
-                      <button class="btn btn-sm btn-success">Tambah Transaksi</button>
+                <div class="col-lg-4">
+                  <div class="info-box" data-toggle="tooltip">
+                    <span class="info-box-icon bg-green"><i class="fas fa-thumbs-up"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Income Hari Ini</span>
+                      <span class="info-box-number"><small>Rp</small> {{ format_uang($income )}}</span>
+                      <span class="info-box-text"><small>Income Bulan Ini</small></span>
+                      <span class="info-box-number"><small>Rp</small> {{ format_uang($income_month )}}</span>
+                      <input type="hidden" id="keuntungan" value="252000">
                     </div>
                   </div>
                 </div>
-              </div> 
-              <div class="card-body px-0 pt-0" style="">
-                <table class="table table-sm">
-                  <thead>
-                    <tr>
-                      <th class="text-center" rowspan="2" width="20%">PERKIRAAN</th>
-                      <th class="text-center"width="60%">URAIAN</th>
-                      <th class="text-center" rowspan="2">JUMLAH</th>
-                    </tr>
-                  </thead>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-        </div>
-      @else
-        <div class="row">
-          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box" data-toggle="tooltip">
-              <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">Transaksi Hari Ini</span>
-                <span class="info-box-number"><small>Rp</small> 184.500</span>
-                <span class="info-box-text"><small>Bulan Ini</small></span>
-                <span class="info-box-number"><small>Rp</small> 364.500</span>
-                <input type="hidden" id="transaksi_bln_ini" value="364500">
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box">
-              <span class="info-box-icon bg-red"><i class="fa fa-arrow-circle-up"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">Pengeluaran hari ini</span>
-                <span class="info-box-number"><span data-toggle="tooltip">
-                  <small>Rp</small> 0</span> / <span data-toggle="tooltip" title="" data-original-title="Pengeluaran yang Terbayar+Pelunasan hari ini."><small>Rp</small> 0</span></span>
-                <span class="info-box-text"><small>Bulan Ini</small></span>
-                <span class="info-box-number">
-                  <span data-toggle="tooltip" title="" data-original-title="Total Pengeluaran dalam satu bulan."><small>Rp</small> 0</span> /
-                  <span data-toggle="tooltip" title="" data-original-title="Pengeluaran Terbayar dalam satu bulan."><small>Rp</small> 0</span>
-                </span>
-                <input type="hidden" id="pengeluaran_bln_ini" value="0">
-              </div>
-            </div>
-          </div>
-      
-          <div class="clearfix visible-sm-block"></div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box" data-toggle="tooltip">
-              <span class="info-box-icon bg-yellow"><i class="fa fa-balance-scale"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">Piutang Customer Hari Ini</span>
-                <span class="info-box-number"><small>Rp</small> 112.500</span>
-                <span class="info-box-text"><small>Bulan Ini / Total Piutang</small></span>
-                <span class="info-box-number"><small>Rp</small> 112.500 / <small>Rp</small> 96.019.035</span>
-                <input type="hidden" id="piutang_bln_ini" value="112500">
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box" data-toggle="tooltip">
-              <span class="info-box-icon bg-blue"><i class="fa fa-arrow-circle-down"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">Pemasukan Hari Ini</span>
-                <span class="info-box-number"><small>Rp</small> {{ format_uang($bkm) }}</span>
-                <span class="info-box-text"><small>Bulan Ini</small></span>
-                <span class="info-box-number"><small>Rp</small> {{ format_uang($bkm_month) }}</span>
-                <input type="hidden" id="pemasukan_bln_ini" value="252000">
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box" data-toggle="tooltip">
-              <span class="info-box-icon bg-info"><i class="fas fa-check"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">Pelunasan Hari Ini</span>
-                <span class="info-box-number"><small>Rp</small> 0</span>
-                <span class="info-box-text"><small>Dari Bulan Sebelumnya</small></span>
-                <span class="info-box-number"><small>Rp</small> 0</span>
-                <input type="hidden" id="pelunasan_bln_ini" value="0">
-              </div>
-            </div>
-          </div>
-      
-          <div class="clearfix visible-sm-block"></div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box" data-toggle="tooltip">
-              <span class="info-box-icon bg-green"><i class="fas fa-thumbs-up"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">Income Hari Ini</span>
-                <span class="info-box-number"><small>Rp</small> 72.000</span>
-                <span class="info-box-text"><small>Income Bulan Ini</small></span>
-                <span class="info-box-number"><small>Rp</small> 252.000</span>
-                <input type="hidden" id="keuntungan" value="252000">
+
+                
               </div>
             </div>
           </div>
         </div>
 
-      @endif
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="d-flex justify-content-between">
+              </div>
+              <div class="row">
+                <div class="col-3">
+                  <h3 class="card-title">Sales Report</h3>
+                </div>
+                <div class="col-md-4 text-right text-bold mt-1">Pilih Periode : </div>
+                <div class="col-5">
+                  <div class="input-group">
+                    <input type="text" name="from-to" class="form-control text-right" id="sales_report" value="{{date('m/d/Y')}} - {{date('m/d/Y')}}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="position-relative mb-4">
+                <canvas id="sales-chart" height="200"></canvas>
+              </div>
+
+              <div class="d-flex flex-row justify-content-end">
+                <span class="mr-2">
+                  <i class="fas fa-square text-primary"></i> Penjualan
+                </span>
+                <span class="mr-2">
+                  <i class="fas fa-square text-red"></i> Pembelian
+                </span>
+                <span>
+                  <i class="fas fa-square text-green"></i> Income
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- /.card -->
+
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Laporan Hutang Piutang</h3>
+  
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="chart-responsive">
+                    <canvas id="pieChart" height="140"></canvas>
+                  </div>
+                  <!-- ./chart-responsive -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-12">
+                  <div class="d-flex flex-row mt-2" style="justify-content: center">
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-danger"></i> Hutang
+                    </span>
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-success"></i> Piutang
+                    </span>
+                  </div>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+          </div>
+        </div>
+    
+      </div>
       <!-- /.row -->
     </div><!-- /.container-fluid -->
   </section>
+@endsection
+
+@section('js')
+  <script src="{{asset('AdminLTE/plugins/chart.js/Chart.min.js')}}"></script>
+  <script>
+    'use strict'
+    var ticksStyle = {
+      fontColor: '#495057',
+      fontStyle: 'bold'
+    }
+    var mode = 'index'
+    var intersect = true
+
+    var $salesChart = $('#sales-chart')
+    let salesChart;
+
+    //Date Range Picker
+    $(function () {
+      $('#sales_report').daterangepicker({},
+      function() {
+        salesChart.destroy(); 
+        fetch_sales(); //Load ulang Data dari database
+      });
+      fetch_sales(); //Load Data dari database
+    });
+
+    //Load Data dari database
+    function fetch_sales() {
+      $.ajax({
+        url: "{{route('load_sales')}}",
+        method: 'get',
+        datatype: 'json',
+        data: {
+          date :  $('.drp-selected').text()
+        }
+      })
+      .done((response) => {
+        salesChart = new Chart($salesChart, {
+          type: 'bar',
+          data: {
+            labels: ['Sales Report'],
+            datasets: [
+              {
+                backgroundColor: '#007bff',
+                data: [response[0]]
+              },
+              {
+                backgroundColor: '#dc3545',
+                data: [response[1]]
+              },
+              {
+                backgroundColor: '#28a745',
+                data: [response[2]]
+              }
+            ]
+          },
+          options: {
+            maintainAspectRatio: false,
+            tooltips: {
+              mode: mode,
+              intersect: intersect
+            },
+            hover: {
+              mode: mode,
+              intersect: intersect
+            },
+            legend: {
+              display: false
+            },
+            scales: {
+              yAxes: [{
+                // display: false,
+                gridLines: {
+                  display: true,
+                  lineWidth: '4px',
+                  color: 'rgba(0, 0, 0, .2)',
+                  zeroLineColor: 'transparent'
+                },
+                ticks: $.extend({
+                  beginAtZero: true,
+
+                  // Include a dollar sign in the ticks
+                  callback: function (value) {
+                    if (value >= 1000000) {
+                      value /= 1000000
+                      value += 'jt'
+                    }
+                    else if (value >= 1000) {
+                      value /= 1000
+                      value += 'k'
+                    }else {
+                      value
+                    }
+
+                    return 'Rp. ' + value
+                  }
+                }, ticksStyle)
+              }],
+              xAxes: [{
+                display: true,
+                gridLines: {
+                  display: false
+                },
+                ticks: ticksStyle
+              }]
+            }
+          }
+        })
+      })
+      .fail((response) => {
+        Swal.fire({
+          icon: 'error',
+          title: response.responseJSON.message,
+          showConfirmButton: false,
+        })
+        return;
+      })
+    }
+
+    // Hutang Piutang Chart
+    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+    var pieData = {
+      labels: [
+        'Hutang',
+        'Piutang',
+      ],
+      datasets: [
+        {
+          data: [@json($countPiutang), @json($countHutang)],
+          backgroundColor: ['#f56954', '#00a65a']
+        }
+      ]
+    }
+    var pieOptions = {
+      legend: {
+        display: false
+      }
+    }
+    var pieChart = new Chart(pieChartCanvas, {
+      type: 'doughnut',
+      data: pieData,
+      options: pieOptions
+    })
+
+  </script>
 @endsection

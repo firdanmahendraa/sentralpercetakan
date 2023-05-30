@@ -25,6 +25,7 @@
               <p>Dashboard</p>
             </a>
           </li>
+          @if ( @auth()->user()->levels == 'admin')
           <li class="nav-header">TRANSAKSI</li>
           <li class="nav-item {{request()->segment(1) == 'transaksi-baru' || 
                                 request()->segment(1) == 'transaksi-penjualan' || 
@@ -117,6 +118,8 @@
             </ul>
           </li>
           </li>
+
+          @else
           <li class="nav-header">SYSTEM</li>
           <li class="nav-item">
             <a href="/users" class="nav-link {{ request()->is('users') ? 'active' : ''}}">
@@ -130,13 +133,8 @@
               <p>Pengaturan</p>
             </a>
           </li>
-          <li class="nav-header">AdminLTE</li>
-          <li class="nav-item">
-            <a href="https://adminlte.io/themes/v3/" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>Template</p>
-            </a>
-          </li>
+
+          @endif
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

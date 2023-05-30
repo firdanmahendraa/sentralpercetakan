@@ -73,12 +73,6 @@
               </div>
               <div class="row">
                 <div class="col-md-5 offset-md-3">
-                  <div class="form-check">
-                      <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                      <label class="form-check-label" for="remember">
-                          {{ __('Remember Me') }}
-                      </label>
-                  </div>
                 </div>
                 <div class="col-md-4">
                   <button type="submit" class="btn btn-primary btn-block">Login</button>

@@ -18,7 +18,6 @@ class CreateMstOpsiPembayaranTable extends Migration
             $table->string('opsi_pembayaran');
             $table->string('nomor_rekening')->nullable();
             $table->string('atas_nama')->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

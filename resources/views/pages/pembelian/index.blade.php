@@ -51,6 +51,14 @@
                     <th class="text-center"><i class="fa fa-cog"></i></th>
                   </tr>
                 </thead>
+                <tfoot>
+                  <tr>
+                    <th class="text-right" colspan="4">Rp. {{ format_uang($sub_total) }}</th>
+                    <th class="text-right">Rp. {{ format_uang($bayar) }}</th>
+                    <th class="text-right">Rp. {{ format_uang($hutang) }}</th>
+                    <th colspan="2"></th>
+                  </tr>
+                </tfoot>
               </table>
             </div>
             <!-- /.card-body -->
@@ -177,7 +185,7 @@
       } else {
           $(this).html('<i class="fa fa-plus"></i>');
           $('.get_supplier').removeAttr('disabled');
-          $('#form_masuk [name=_method]').val('put');
+          $('#form_masuk [name=_method]').val('post');
           $('#nama_supplier').removeAttr('required');
           $('#nama_supplier').attr("disabled", "disabled");
           $('#telepon_supplier').attr("disabled", "disabled");

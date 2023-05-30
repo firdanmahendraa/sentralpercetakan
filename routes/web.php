@@ -39,6 +39,7 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/load-sales', [DashboardController::class, 'LoadSales'])->name('load_sales');
 
     //TRANSAKSI
     Route::prefix('transaksi-penjualan')->group(function () {
@@ -48,9 +49,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/detail/{id}/{no_nota}', [PenjualanController::class, 'show'])->name('transaksi-penjualan.show');
         Route::get('/invoice/{id}/{no_nota}', [PenjualanController::class, 'cetakInvoice'])->name('transaksi-penjualan.invoice');
         Route::get('/kwitansi/{id}/{no_nota}', [PenjualanController::class, 'cetakKwitansi'])->name('transaksi-penjualan.kwitansi');
-        Route::get('/pelunasan/{id}/{no_nota}', [PenjualanController::class, 'pelunasan'])->name('transaksi-penjualan.pelunasan');
-        Route::post('/repayment', [PenjualanController::class, 'repayment'])->name('transaksi-penjualan.repayment');
-        Route::post('/processing', [PenjualanController::class, 'processRepayment'])->name('transaksi-penjualan.process_repayment');
     });
 
     Route::prefix('transaksi-baru')->group(function () {
@@ -87,10 +85,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store', [KodeAkunController::class, 'store'])->name('data-akun.store');
         Route::get('/show/{id}', [KodeAkunController::class, 'show'])->name('data-akun.show');
         Route::post('/update/{id}', [KodeAkunController::class, 'update'])->name('data-akun.update');
-        Route::delete('/destroy/{id}', [KodeAkunController::class, 'destroy'])->name('data-akun.destroy');
-        Route::get('/trash', [KodeAkunController::class, 'trash'])->name('data-akun.trash');
-        Route::get('/restore', [KodeAkunController::class, 'restore'])->name('data-akun.restore');
-        Route::delete('/delete', [KodeAkunController::class, 'delete'])->name('data-akun.delete');
     });
 
     Route::prefix('data-produk')->group(function () {
@@ -99,9 +93,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/show/{id}', [ProdukController::class, 'show'])->name('data-produk.show');
         Route::post('/update/{id}', [ProdukController::class, 'update'])->name('data-produk.update');
         Route::delete('/destroy/{id}', [ProdukController::class, 'destroy'])->name('data-produk.destroy');
-        Route::get('/trash', [ProdukController::class, 'trash'])->name('data-produk.trash');
-        Route::get('/restore', [ProdukController::class, 'restore'])->name('data-produk.restore');
-        Route::delete('/delete', [ProdukController::class, 'delete'])->name('data-produk.delete');
     });
     
     Route::prefix('opsi-pembayaran')->group(function () {
@@ -110,9 +101,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/show/{id}', [OpsiPembayaranController::class, 'show'])->name('opsi-pembayaran.show');
         Route::post('/update/{id}', [OpsiPembayaranController::class, 'update'])->name('opsi-pembayaran.update');
         Route::delete('/destroy/{id}', [OpsiPembayaranController::class, 'destroy'])->name('opsi-pembayaran.destroy');
-        Route::get('/trash', [OpsiPembayaranController::class, 'trash'])->name('opsi-pembayaran.trash');
-        Route::get('/restore', [OpsiPembayaranController::class, 'restore'])->name('opsi-pembayaran.restore');
-        Route::delete('/delete', [OpsiPembayaranController::class, 'delete'])->name('opsi-pembayaran.delete');
     });
     
     Route::prefix('data-pelanggan')->group(function () {
@@ -120,10 +108,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store', [CustomerController::class, 'store'])->name('data-pelanggan.store');
         Route::get('/show/{id}', [CustomerController::class, 'show'])->name('data-pelanggan.show');
         Route::post('/update/{id}', [CustomerController::class, 'update'])->name('data-pelanggan.update');
-        Route::delete('/destroy/{id}', [CustomerController::class, 'destroy'])->name('data-pelanggan.destroy');
-        Route::get('/trash', [CustomerController::class, 'trash'])->name('data-pelanggan.trash');
-        Route::get('/restore', [CustomerController::class, 'restore'])->name('data-pelanggan.restore');
-        Route::delete('/delete', [CustomerController::class, 'delete'])->name('data-pelanggan.delete');        
+        Route::delete('/destroy/{id}', [CustomerController::class, 'destroy'])->name('data-pelanggan.destroy');      
     });
 
     Route::prefix('data-supplier')->group(function () {
@@ -131,10 +116,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store', [SupplierController::class, 'store'])->name('data-supplier.store');
         Route::get('/show/{id}', [SupplierController::class, 'show'])->name('data-supplier.show');
         Route::post('/update/{id}', [SupplierController::class, 'update'])->name('data-supplier.update');
-        Route::delete('/destroy/{id}', [SupplierController::class, 'destroy'])->name('data-supplier.destroy');
-        Route::get('/trash', [SupplierController::class, 'trash'])->name('data-supplier.trash');
-        Route::get('/restore', [SupplierController::class, 'restore'])->name('data-supplier.restore');
-        Route::delete('/delete', [SupplierController::class, 'delete'])->name('data-supplier.delete');        
+        Route::delete('/destroy/{id}', [SupplierController::class, 'destroy'])->name('data-supplier.destroy');     
     });
 
     //LAPORAN
@@ -150,13 +132,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('laporan-hutang')->group(function () {
         Route::get('/', [LapHutangController::class, 'index'])->name('laporan_hutang.index');
-        Route::get('/pelunasan/{id}', [LapHutangController::class, 'pelunasan'])->name('laporan_hutang.pelunasan');
+        Route::get('/bayar/{id}', [LapHutangController::class, 'pelunasan'])->name('laporan_hutang.pelunasan');
         Route::post('/repayment', [LapHutangController::class, 'repayment'])->name('laporan_hutang.repayment');
         Route::post('/processing', [LapHutangController::class, 'processRepayment'])->name('laporan_hutang.process_repayment');
     });
 
     Route::prefix('laporan-piutang')->group(function () {
         Route::get('/', [LapPiutangController::class, 'index'])->name('laporan_piutang.index');
+        Route::get('/bayar/{id}/{no_nota}', [LapPiutangController::class, 'pelunasan'])->name('laporan_piutang.pelunasan');
+        Route::post('/repayment', [LapPiutangController::class, 'repayment'])->name('laporan_piutang.repayment');
+        Route::post('/processing', [LapPiutangController::class, 'processRepayment'])->name('laporan_piutang.process_repayment');
     });
 
     //SETTING

@@ -53,40 +53,4 @@ class SupplierController extends Controller{
         $supplier->delete();
         return response(null, 204);
     }
-
-    public function trash(Request $request){
-        $supplier = Supplier::onlyTrashed()->get();
-        if ($request->ajax()) {
-            $allData = DataTables::of($supplier)
-            ->addIndexColumn()
-            ->addColumn('selectAll', function($data){
-                return '
-                    <input type="checkbox" name="ids" class="selectOne" id="checkbox_ids'. $data->id .'" value="'. $data->id .'">
-                ';
-            })
-            ->addColumn('deleted_at', function($data){
-                return '
-                    Dihapus pada '. $data->deleted_at->translatedFormat('d F Y') .'
-                ';
-            })
-            ->rawColumns(['action', 'selectAll'])
-            ->make(true);
-            return $allData;
-        }
-        return view('pages.supplier.trash');
-    }
-
-    public function restore(Request $request){
-        $ids = $request->ids;
-        Supplier::onlyTrashed()->whereIn('id', $ids)->restore();
-        
-        return response()->json(["success" => "Data berhasil di restore!"]);
-    }
-
-    public function delete(Request $request){
-        $ids = $request->ids;
-        Supplier::onlyTrashed()->whereIn('id', $ids)->forceDelete();
-        
-        return response()->json(["success" => "Data berhasil di hapus!"]);
-    }
 }

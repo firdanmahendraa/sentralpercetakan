@@ -61,40 +61,4 @@ class ProdukController extends Controller{
         $produk->delete();
         return response(null, 204);
     }
-
-    public function trash(Request $request){
-        $produk = Produk::onlyTrashed()->get();
-        if ($request->ajax()) {
-            $allData = DataTables::of($produk)
-            ->addIndexColumn()
-            ->addColumn('selectAll', function($data){
-                return '
-                    <input type="checkbox" name="ids" class="selectOne" id="checkbox_ids'. $data->id_produk .'" value="'. $data->id_produk .'">
-                ';
-            })
-            ->addColumn('deleted_at', function($data){
-                return '
-                    Dihapus pada '. $data->deleted_at->translatedFormat('d F Y') .'
-                ';
-            })
-            ->rawColumns(['deleted_at', 'selectAll'])
-            ->make(true);
-            return $allData;
-        }
-        return view('pages.produk.trash');
-    }
-
-    public function restore(Request $request){
-        $ids = $request->ids;
-        Produk::onlyTrashed()->whereIn('id_produk', $ids)->restore();
-        
-        return response()->json(["success" => "Data berhasil di restore!"]);
-    }
-
-    public function delete(Request $request){
-        $ids = $request->ids;
-        Produk::onlyTrashed()->whereIn('id_produk', $ids)->forceDelete();
-        
-        return response()->json(["success" => "Data berhasil di hapus!"]);
-    }
 }

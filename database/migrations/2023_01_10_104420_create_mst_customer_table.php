@@ -18,7 +18,6 @@ class CreateMstCustomerTable extends Migration
             $table->string('nama_pelanggan');
             $table->text('alamat_pelanggan');
             $table->string('telepon_pelanggan');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

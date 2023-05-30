@@ -38,7 +38,7 @@ class LapHutangController extends Controller{
                           <button type="button" class="btn btn-default dropdown-toggle  dropdown-icon" data-toggle="dropdown">
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="'.url('laporan-hutang/pelunasan/'. $item->id).'">Bayar</a>
+                            <a class="dropdown-item" href="'.url('laporan-hutang/bayar/'. $item->id).'">Bayar</a>
                           </div>
                         </div>
                     </div>

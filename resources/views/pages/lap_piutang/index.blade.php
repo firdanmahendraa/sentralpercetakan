@@ -71,7 +71,7 @@
         processing: true, serverSide: true, ordering: false,info: false,
         ajax: "{{ route('laporan_piutang.index') }}",
         "language": {
-          "emptyTable": "Belum ada transaksi."
+          "emptyTable": "Semua transaksi LUNAS"
         },
         columnDefs: [
           {
