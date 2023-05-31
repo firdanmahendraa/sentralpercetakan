@@ -101,7 +101,7 @@
                         <label for="" class="col-form-label" style="text-align:right">Det. Pesanan</label>
                       </div>
                       <div class="col-md-9">
-                        <input type="text" name="det_pesanan" id="det_pesanan" class="form-control" style="border-radius: 0" placeholder="Cth: Finishing doff/glossy/lem tepi/dll">
+                        <input type="text" name="det_pesanan" id="det_pesanan" class="form-control" style="border-radius: 0" placeholder="Cth: Finishing doff/glossy/lem tepi/dll" required>
                       </div>
                     </div>
                   </div>

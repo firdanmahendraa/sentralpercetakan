@@ -16,12 +16,15 @@
             <div class="card card-primary card-outline">       
               <div class="card-header">
                 <div class="row">
-                  <div class="col-md-6">
-                    <h5 class="mt-1"><i class="fas fa-list"></i> Daftar Transaksi</h5>
+                  <div class="col-md-8"><a href="{{ route('transaksi-baru.index') }}" class="btn btn-sm btn-success">Tambah Transaksi</a>
                   </div>
-                  <div class="col-md-6">
-                    <div class="text-right">
-                      <a href="{{ route('transaksi-baru.index') }}" class="btn btn-sm btn-success">Tambah Transaksi</a>
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <label class="mt-1 mr-2">Pilih Periode : </label>
+                      <input type="text" class="form-control text-right" id="reservation" value="{{date('m/1/Y')}} - {{date('m/d/Y')}}">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -67,11 +70,26 @@
     let table;
     //TAMPIL DATA
     $(function(){
+      $('#reservation').daterangepicker({},
+        function() {
+          $('.tablePenjualan').DataTable().destroy();
+          loadData();
+      })
+      loadData();
+    })
+
+    //TAMPIL DATA
+    function loadData(){
       table = $('.tablePenjualan').DataTable({
         processing: true, serverSide: true, ordering: false,info: false,
-        ajax: "{{ route('transaksi-penjualan.index') }}",
+        ajax: {
+          "url" : "{{ route('transaksi-penjualan.index') }}",
+          "data": {
+            date :  $('.drp-selected').text()
+          }
+        },
         "language": {
-          "emptyTable": "Belum ada transaksi."
+          "emptyTable": "Tidak ada transaksi."
         },
         columnDefs: [
           {
@@ -97,34 +115,7 @@
           {data:'action', name:'action'},
         ],
       });
-    });
-
-    function cetakInvoice(url, title) {
-      popupCenter(url, title, 720, 675)
     }
-
-    function popupCenter(url, title, w, h){
-      const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
-      const dualScreenTop  = window.screenTop  !==  undefined ? window.screenTop  : window.screenY;
-
-      const width  = window.innerWidth  ? window.innerWidth  : document.documentElement.clientWidth  ? document.documentElement.clientWidth  : screen.width;
-      const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-
-      const systemZoom = width / window.screen.availWidth;
-      const left       = (width - w) / 2 / systemZoom + dualScreenLeft
-      const top        = (height - h) / 2 / systemZoom + dualScreenTop
-      const newWindow  = window.open(url, title, 
-        `
-          scrollbars=yes,
-          width  = ${w / systemZoom}, 
-          height = ${h / systemZoom}, 
-          top    = ${top}, 
-          left   = ${left}
-        `
-      );
-
-      if (window.focus) newWindow.focus();
-  }
 
   </script>
 @endsection

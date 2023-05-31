@@ -100,15 +100,9 @@ class PenjualanTransaksi extends Controller{
             return DataTables::of($detail)
                 ->addIndexColumn()
                 ->addColumn('nama_pesanan', function($item) {
-                    if ($item->finishing_plong_qty == null & $item->det_pesanan == null) {
-                        return $item->nama_pesanan .'<br><small class="text-muted">'.
-                               $item->produk['nama_produk'];
-                    }elseif ($item->finishing_plong_qty == null) {
+                    if ($item->finishing_plong_qty == null) {
                         return $item->nama_pesanan .'<br><small class="text-muted">'.
                                $item->produk['nama_produk']. ' / ' . $item->det_pesanan;
-                    }elseif ($item->det_pesanan == null) {
-                        return $item->nama_pesanan .'<br><small class="text-muted">'.
-                               $item->produk['nama_produk'];
                     }else {
                         return $item->nama_pesanan .'<br><small class="text-muted">'.
                                $item->produk['nama_produk']. ' / ' . $item->det_pesanan. ' / ' .$item->finishing_plong_qty;

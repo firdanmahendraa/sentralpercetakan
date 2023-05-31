@@ -15,9 +15,13 @@ class UsersController extends Controller
             $allData = DataTables::of($users)
             ->addIndexColumn()
             ->addColumn('action', function($row){
-                $btn= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.
-                $row->id.'" data-original-title="Delete" class="delete btn btn-danger btn-sm deleteUser">Delete</a>';
-                return $btn;
+                if ($row->levels == "admin") {
+                    return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$row->id.'" data-original-title="Delete" class="delete btn btn-danger btn-sm deleteUser">Delete</a>
+                    ';
+                }else{
+                    return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$row->id.'" data-original-title="Delete" class="delete btn btn-danger btn-sm deleteUser disabled">Delete</a>
+                    ';
+                }
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -26,36 +30,15 @@ class UsersController extends Controller
         return view('pages.users.index',compact('users'));
     }
 
-    public function create(){
-        //
-    }
-
     public function store(Request $request) {
-        User::updateOrCreate(
-            ['id' =>$request->id],
+        User::create(
             ['name'=>$request->name,
              'username'=>$request->username,
-             'password'=>$request->password,
+             'password'=>bcrypt($request->password),
              'levels'=>$request->levels]
         );
         return response()->json(['success' => 'User Berhasil Disimpan']);
     }
-
-
-    public function show($id) {
-        //
-    }
-
-
-    public function edit($id){
-        $user = User::find($id);
-        return response()->json($user);
-    }
-
-    public function update(Request $request, $id){
-        //  
-    }
-
 
     public function destroy($id){
         User::find($id)->delete();

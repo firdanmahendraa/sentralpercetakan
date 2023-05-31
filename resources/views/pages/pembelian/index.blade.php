@@ -29,11 +29,17 @@
           <div class="card card-primary card-outline">       
             <div class="card-header">
               <div class="row">
-                <div class="col-md-6">
-                  <h5 class="mt-1"><i class="fas fa-list mr-1"></i>Daftar Transaksi</h5>
-                </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-8">
                   <button class="btn btn-sm btn-success" onclick="tambahPembelian('{{ route('transaksi_pembelian.generatepembelianform') }}')">Tambah Transaksi</button>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <label class="mt-1 mr-2">Pilih Periode : </label>
+                    <input type="text" class="form-control text-right" id="reservation" value="{{date('m/1/Y')}} - {{date('m/d/Y')}}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -75,6 +81,17 @@
 
 @section('js')
   <script type="text/javascript">
+    let table, tableDetail;
+    //TAMPIL DATA
+    $(function(){
+      $('#reservation').daterangepicker({},
+        function() {
+          $('.tbPembelian').DataTable().destroy();
+          loadData();
+      })
+      loadData();
+    })
+
     $(document).ready(function () {
       //get supplier
       $('.get_supplier').select2({
@@ -98,15 +115,16 @@
       });      
     })
 
-    let table, tableDetail;
-    $(function(){
+    function loadData(){
       //TABEL PEMBELIAN
       table = $('.tbPembelian').DataTable({
-        processing: true, 
-        serverSide: true, 
-        ordering: false, 
-        info: false,
-        ajax:"{{ route('transaksi_pembelian.index') }}",
+        processing: true, serverSide: true, ordering: false, info: false,
+        ajax: {
+          "url" : "{{ route('transaksi_pembelian.index') }}",
+          "data": {
+            date :  $('.drp-selected').text()
+          }
+        },
         "language": {
           "emptyTable": "Belum ada pembelian bulan ini"
         },
@@ -133,7 +151,7 @@
           {data:'action', name:'action', orderable: false, searchable: false},
         ],
       })
-    });
+    };
 
     // Tambah Pembelian => Pilih Supplier
     function tambahPembelian(url){

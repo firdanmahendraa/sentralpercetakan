@@ -16,7 +16,19 @@ use DataTables, DB, Carbon\Carbon;
 
 class PenjualanController extends Controller{
     public function index(Request $request){
-        $penjualan = Penjualan::with('customer')->orderBy('created_at', 'desc')->get();
+        $date = explode('-', $request->date);
+      
+        $penjualan = Penjualan::with('customer')->orderBy('created_at', 'desc');
+        if (count($date) == 2) {
+            if ($date[0] != '') {
+                $penjualan = $penjualan->whereDate('created_at', '>=', date('Y-m-d', strtotime($date[0])));
+            }
+            if ($date[1] != '') {
+                $penjualan = $penjualan->whereDate('created_at', '<=', date('Y-m-d', strtotime($date[1])));
+            }
+        }
+        $penjualan = $penjualan->get();
+        
         if($request->ajax()){
             $data = DataTables::of($penjualan)
             ->addIndexColumn()

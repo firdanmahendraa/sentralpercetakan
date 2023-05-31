@@ -12,9 +12,21 @@ use Illuminate\Http\Request;
 use DataTables, DB, Carbon\Carbon;
 
 class PembelianController extends Controller{
-    // Pembelian Index
     public function index(Request $request){
-        $pembelian = Pembelian::with('supplier')->where('status', 'ok')->orderBy('created_at', 'desc')->get();;
+        $date = explode('-', $request->date);
+      
+        $pembelian = Pembelian::with('supplier')->where('status', 'ok')->orderBy('created_at', 'desc');
+        if (count($date) == 2) {
+            if ($date[0] != '') {
+                $pembelian = $pembelian->whereDate('created_at', '>=', date('Y-m-d', strtotime($date[0])));
+            }
+            if ($date[1] != '') {
+                $pembelian = $pembelian->whereDate('created_at', '<=', date('Y-m-d', strtotime($date[1])));
+            }
+        }
+        $pembelian = $pembelian->get();
+
+        // $pembelian = Pembelian::with('supplier')->where('status', 'ok')->orderBy('created_at', 'desc')->get();
         if($request->ajax()){
             $data = DataTables::of($pembelian)
             ->addIndexColumn()
