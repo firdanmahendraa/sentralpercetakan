@@ -307,6 +307,7 @@
                     </div>
                     <div class="col-md-9">
                       <select name="opsi_pembayaran" id="opsi_pembayaran" class="form-control">
+                          <option value="piutang">Piutang</option>
                           <option value="tunai">Tunai</option>
                         @foreach ($opsi_bayar as $item)
                           <option value="{{ $item->opsi_pembayaran }}">{{ $item->opsi_pembayaran }} - {{ $item->nomor_rekening }} A/n {{ $item->atas_nama }}</option>
@@ -319,7 +320,7 @@
                       <label for="" class="col-form-label" style="text-align:right">Jumlah Bayar *</label>
                     </div>
                     <div class="col-md-9">
-                      <input type="number" name="diterima" id="diterima" class="form-control" required>
+                      <input type="number" name="diterima" id="diterima" class="form-control" value="0" readonly required>
                     </div>
                   </div>
                   <div class="row">
@@ -649,6 +650,14 @@
       }
     })
 
+    //Enable Jumlah bayar
+    $("#opsi_pembayaran").change(function(){
+      if($(this).val() == "piutang") {
+        $('#diterima').prop('readonly', true)
+      } else {
+        $('#diterima').prop('readonly', false)
+      }
+    });
     
   </script>
 @endsection
