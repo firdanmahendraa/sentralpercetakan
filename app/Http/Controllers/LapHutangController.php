@@ -48,7 +48,7 @@ class LapHutangController extends Controller{
             ->make(true);
             return $data;
         }
-        return view('pages.lap_hutang.index', compact('pembelian'));
+        return view('pages.lap_hutang.index');
     }
 
     public function pelunasan($id){

@@ -30,7 +30,7 @@
                 </div>
               </div>     
               <div class="card-body">
-                <table class="table table-head-fixed text-nowrap data-table tablePenjualan" style="width: 100%">
+                <table class="table table-head-fixed text-nowrap data-table tablePenjualan" width="100%">
                   <thead>
                     <tr>
                       <th>Tanggal</th>
@@ -47,10 +47,10 @@
                   <tbody> </tbody>
                   <tfoot>
                     <tr>
-                      <th class="text-right" colspan="4">Rp. {{ format_uang($harga_akhir) }}</th>
-                      <th class="text-right">Rp. {{ format_uang($diterima) }}</th>
-                      <th class="text-right">Rp. {{ format_uang($diskon) }}</th>
-                      <th class="text-right">Rp. {{ format_uang($piutang) }}</th>
+                      <th class="text-right" colspan="4"><span id="harga_akhir"></span></th>
+                      <th class="text-right"><span class="uang_muka"></span></th>
+                      <th class="text-right"><span id="diskon"></span></th>
+                      <th class="text-right"><span id="piutang"></span></th>
                       <th colspan="2"></th>
                     </tr>
                   </tfoot>
@@ -82,13 +82,35 @@
     function loadData(){
       table = $('.tablePenjualan').DataTable({
         processing: true, serverSide: true, ordering: false,info: false,
+        footerCallback: function(row, data, start, end, display){
+          var api = this.api(), data, total = 0, total1 = 0;
+
+          var intVal = function(i){
+            return typeof i === 'string' ?
+                i.replace(/[\$,]/g, '')*1 :
+                typeof i === 'number' ?
+                    i : 0;
+          };
+
+          if (data.length > 0) {  
+            // console.log(api,data)          
+              total = api.column(3).data().reduce(function(a, b){
+                      return parseFloat(a) + parseFloat(b);
+                    });
+          }
+          // Update footer
+          var numFormat = $.fn.dataTable.render.number('.').display
+          $(api.column(0).footer()).find('#harga_akhir').html(
+            'Rp. ' + numFormat(total)
+          );
+        },
         ajax: {
           "url" : "{{ route('transaksi-penjualan.index') }}",
           "data": {
             date :  $('.drp-selected').text()
           }
         },
-        "language": {
+        language: {
           "emptyTable": "Tidak ada transaksi."
         },
         columnDefs: [
@@ -107,7 +129,10 @@
           {data:'created_at', name:'created_at'},
           {data:'no_nota', name:'no_nota'},
           {data:'nama_pelanggan', name:'nama_pelanggan'},
-          {data:'total_harga', name:'total_harga'},
+          {
+            data:'total_harga', 
+            name:'total_harga',
+            render: $.fn.dataTable.render.number('.', '.', 0, 'Rp. ' )},
           {data:'diterima', name:'diterima'},
           {data:'diskon', name:'diskon'},
           {data:'piutang', name:'piutang'},

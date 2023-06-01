@@ -42,15 +42,6 @@
                     </tr>
                   </thead>
                   <tbody> </tbody>
-                  <tfoot>
-                    <tr>
-                      <th class="text-right" colspan="4">Rp. {{ format_uang($harga_akhir) }}</th>
-                      <th class="text-right">Rp. {{ format_uang($diterima) }}</th>
-                      <th class="text-right">Rp. {{ format_uang($diskon) }}</th>
-                      <th class="text-right">Rp. {{ format_uang($piutang) }}</th>
-                      <th colspan="2"></th>
-                    </tr>
-                  </tfoot>
                 </table>
               </div>
               <!-- /.card-body -->
@@ -68,7 +59,7 @@
     //TAMPIL DATA
     $(function(){
       table = $('.tablePenjualan').DataTable({
-        processing: true, serverSide: true, ordering: false,info: false,
+        processing: true, serverSide: true, info: false,
         ajax: "{{ route('laporan_piutang.index') }}",
         "language": {
           "emptyTable": "Semua transaksi LUNAS"
@@ -94,7 +85,7 @@
           {data:'diskon', name:'diskon'},
           {data:'piutang', name:'piutang'},
           {data:'keterangan', name:'keterangan'},
-          {data:'action', name:'action'},
+          {data:'action', name:'action', orderable: false, searchable: false},
         ],
       });
     });

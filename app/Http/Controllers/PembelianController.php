@@ -26,7 +26,6 @@ class PembelianController extends Controller{
         }
         $pembelian = $pembelian->get();
 
-        // $pembelian = Pembelian::with('supplier')->where('status', 'ok')->orderBy('created_at', 'desc')->get();
         if($request->ajax()){
             $data = DataTables::of($pembelian)
             ->addIndexColumn()
@@ -36,14 +35,14 @@ class PembelianController extends Controller{
             ->addColumn('nama_supplier', function($item) {
                 return $item->supplier['nama_supplier'];
             })
-            ->addColumn('sub_total', function($item) {
-                return 'Rp. '. format_uang($item->sub_total);
+            ->addColumn('total', function($item) {
+                return $item->sub_total;
             })
             ->addColumn('bayar', function($item) {
-                return 'Rp. '. format_uang($item->bayar);
+                return $item->bayar;
             })
             ->addColumn('hutang', function($item) {
-                return 'Rp. '. format_uang($item->hutang);
+                return $item->hutang;
             })
             ->addColumn('action', function($item){
                 return '
@@ -56,10 +55,7 @@ class PembelianController extends Controller{
             ->make(true);
             return $data;
         }
-        $sub_total = Pembelian  ::sum('sub_total');
-        $bayar    = Pembelian   ::sum('bayar');
-        $hutang    = Pembelian  ::sum('hutang');
-        return view('pages.pembelian.index', compact('pembelian', 'sub_total', 'bayar', 'hutang'));
+        return view('pages.pembelian.index');
     }
 
     public function getSupplier(){

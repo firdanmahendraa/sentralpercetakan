@@ -13,8 +13,7 @@ use DataTables, DB, Carbon\Carbon;
 
 class LapPembelianController extends Controller{
     public function index(){
-        $bkk        = KasKeluar::sum('sub_total');
-        return view('pages.lap_pembelian.index', compact('bkk'));
+        return view('pages.lap_pembelian.index');
       }
       
       public function data(Request $request){
@@ -33,16 +32,12 @@ class LapPembelianController extends Controller{
         $pembelian = $pembelian->get();
 
         $data   = array();
-        $total_harga    = 0;
-        $total_diterima = 0;
-        $total_diskon   = 0;
-        $total_piutang  = 0;
         foreach ($pembelian as $item) {
           $row = array();
           $row['created_at']      = $item['created_at']->translatedFormat('d F Y');
           $row['id_akun']         = $item['id_akun'];
           $row['uraian']          = $item['uraian'];
-          $row['sub_total']       = 'Rp. '.format_uang($item->sub_total);
+          $row['sub_total']       = $item->sub_total;
           $data[] = $row;
         }
   

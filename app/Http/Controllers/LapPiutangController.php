@@ -53,12 +53,7 @@ class LapPiutangController extends Controller{
             return $data;
         }
 
-        $harga_akhir = Penjualan::where(['keterangan' => 'piutang'])->sum('harga_akhir');
-        // dd($harga_akhir);
-        $diterima    = Penjualan::where(['keterangan' => 'piutang'])->sum('diterima');
-        $diskon    = Penjualan::where(['keterangan' => 'piutang'])->sum('diskon');
-        $piutang    = Penjualan::where(['keterangan' => 'piutang'])->sum('piutang');
-        return view('pages.lap_piutang.index', compact('harga_akhir', 'diterima', 'diskon', 'piutang'));
+        return view('pages.lap_piutang.index');
     }
     
     public function pelunasan($id, $no_nota){

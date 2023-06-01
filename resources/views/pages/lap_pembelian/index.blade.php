@@ -21,10 +21,10 @@
                 <div class="col-md-5">
                   <h5 class="mt-1"><i class="fas fa-list"></i> Daftar Transaksi</h5>
                 </div>
-                <div class="col-md-3 text-right text-bold mt-1">Pilih Periode : </div>
-                <div class="col-4">
+                <div class="col-md-5 text-right text-bold mt-1">Pilih Periode : </div>
+                <div class="col-2">
                   <div class="input-group">
-                    <input type="text" class="form-control text-right" id="reservation" value="{{date('m/1/Y')}} - {{date('m/d/Y')}}">
+                    <input type="text" class="form-control text-right" id="reservation" value="{{date('m/d/Y')}}">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                     </div>
@@ -46,7 +46,7 @@
                 <tfoot>
                   <tr>
                     <td colspan="3" class="text-right"><b>Total</b></td>
-                    <td class="text-right pr-2 total"><b>Rp. {{ format_uang($bkk) }}</b></td>
+                    <td class="text-right pr-2"><b id="total_pembelian"></b></td>
                   </tr>
                 </tfoot>
               </table>
@@ -63,11 +63,16 @@
 
 @section('js')
   <script type="text/javascript">
-    let table, tableDetail;
+    let table;
     //TAMPIL DATA
     
     $(function(){
-      $('#reservation').daterangepicker({},
+      $('#reservation').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 2000,
+        maxYear: parseInt(moment().format('YYYY'),10)
+      },
         function() {
           $('.tablePembelian').DataTable().destroy();
           loadData();  
@@ -78,6 +83,27 @@
     function loadData() {
       table = $('.tablePembelian').DataTable({
         processing: true, serverSide: true, ordering: false, info: false,
+        footerCallback: function(row, data, start, end, display){
+          var api = this.api(), data, total = 0;
+
+          var intVal = function(i){
+            return typeof i === 'string' ?
+                i.replace(/[\$,]/g, '')*1 :
+                typeof i === 'number' ?
+                    i : 0;
+          };
+
+          if (data.length > 0) {          
+              total = api.column(3).data().reduce(function(a, b){
+                      return parseFloat(a) + parseFloat(b);
+                    });
+          }
+          // Update footer
+          var numFormat = $.fn.dataTable.render.number('.').display
+          $(api.column(3).footer()).find('#total_pembelian').html(
+            'Rp. ' + numFormat(total)
+          );
+        },
         ajax:{
           "url": "{{ route('laporan_pembelian.data') }}",
           "data": {
@@ -100,7 +126,7 @@
           {data:'created_at', name:'created_at'},
           {data:'id_akun', name:'id_akun'},
           {data:'uraian', name:'uraian'},
-          {data:'sub_total', name:'sub_total'},
+          {data:'sub_total', render: $.fn.dataTable.render.number('.', '.', 0, 'Rp. ' )},
         ],
       });
     }

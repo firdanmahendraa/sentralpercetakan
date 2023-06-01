@@ -80,7 +80,7 @@
                 <div class="col-md-4 text-right text-bold mt-1">Pilih Periode : </div>
                 <div class="col-5">
                   <div class="input-group">
-                    <input type="text" name="from-to" class="form-control text-right" id="sales_report" value="{{date('m/d/Y')}} - {{date('m/d/Y')}}">
+                    <input type="text" name="from-to" class="form-control text-right" id="sales_report" value="{{date('1/d/Y')}} - {{date('m/d/Y')}}">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                     </div>

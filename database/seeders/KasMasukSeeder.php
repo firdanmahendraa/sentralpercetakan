@@ -1,11 +1,11 @@
 <?php
 
 namespace Database\Seeders;
+use App\Models\KasMasuk;
 
 use Illuminate\Database\Seeder;
-use App\Models\OpsiPembayaran;
 
-class OpsiPembayaranSeeder extends Seeder
+class KasMasukSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class OpsiPembayaranSeeder extends Seeder
      */
     public function run()
     {
-        $option = [
+        $penjualan = [
             [
                 'opsi_pembayaran' => 'BCA',
                 'nomor_rekening' => '123456',
@@ -32,8 +32,8 @@ class OpsiPembayaranSeeder extends Seeder
             ],
         ];
 
-        foreach ($option as $key => $value){
-            OpsiPembayaran::create($value);
+        foreach ($penjualan as $key => $value){
+            KasMasuk::create($value);
         }
     }
 }

@@ -64,6 +64,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::prefix('transaksi-pembelian')->group(function () {
         Route::get('/', [PembelianController::class, 'index'])->name('transaksi_pembelian.index');  
+        Route::get('/getdata', [PembelianController::class, 'data'])->name('transaksi_pembelian.getdata');
         Route::get('/getsupplier', [PembelianController::class, 'getSupplier'])->name('transaksi_pembelian.getsupplier');   
         Route::get('/getakun', [PembelianController::class, 'getAkun'])->name('transaksi_pembelian.getakun');
         Route::post('/generate-pembelian-form', [PembelianController::class, 'generatePembelianForm'])->name('transaksi_pembelian.generatepembelianform');       

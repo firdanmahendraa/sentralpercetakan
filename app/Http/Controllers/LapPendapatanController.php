@@ -12,8 +12,7 @@ use DataTables, DB, Carbon\Carbon;
 
 class LapPendapatanController extends Controller{
     public function index(){
-      $bkm = KasMasuk::sum('debet');
-      return view('pages.lap_pendapatan.index', compact('bkm'));
+      return view('pages.lap_pendapatan.index');
     }
     
     public function data(Request $request){
@@ -38,7 +37,7 @@ class LapPendapatanController extends Controller{
         $row['id_akun']      = $item['id_akun'];
         $row['uraian']       = $item['uraian'];
         $row['no_nota']      = $item->det_bayar['no_nota'];
-        $row['debet']        = 'Rp. '.format_uang($item->debet);
+        $row['debet']        = $item->debet;
         $data[] = $row;
 
       }

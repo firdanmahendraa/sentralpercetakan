@@ -13,6 +13,9 @@
     .va-mid{
       vertical-align: middle!important;
     }
+    .tbPembelian tbody tr:last-child{
+      display: none;
+    }
   </style>
 
 @section('content')
@@ -47,21 +50,21 @@
               <table class="table tbPembelian" width="100%">
                 <thead>
                   <tr>
-                    <th class="text-center">TANGGAL</th>
-                    <th class="text-center">NAMA SUPPLIER</th>
+                    <th class="text-center" width="10%">TANGGAL</th>
+                    <th class="text-center" width="20%">NAMA SUPPLIER</th>
                     <th class="text-center">NO NOTA</th>
                     <th class="text-center">TOTAL</th>
                     <th class="text-center">BAYAR</th>
                     <th class="text-center">Hutang</th>
                     <th class="text-center">Keterangan</th>
-                    <th class="text-center"><i class="fa fa-cog"></i></th>
+                    <th class="text-center" width="10%"><i class="fa fa-cog"></i></th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th class="text-right" colspan="4">Rp. {{ format_uang($sub_total) }}</th>
-                    <th class="text-right">Rp. {{ format_uang($bayar) }}</th>
-                    <th class="text-right">Rp. {{ format_uang($hutang) }}</th>
+                    <th class="text-right" colspan="4"><span id="sub_total"></span></th>
+                    <th class="text-right" id="tot_bayar"></th>
+                    <th class="text-right" id="tot_hutang"></th>
                     <th colspan="2"></th>
                   </tr>
                 </tfoot>
@@ -88,8 +91,11 @@
         function() {
           $('.tbPembelian').DataTable().destroy();
           loadData();
+      $('#sub_total').val($('.total_harga').text());
       })
       loadData();
+      $('#sub_total').val($('.total_harga').text());
+      // document.getElementById("sub_total").innerHTML=;
     })
 
     $(document).ready(function () {
@@ -119,6 +125,27 @@
       //TABEL PEMBELIAN
       table = $('.tbPembelian').DataTable({
         processing: true, serverSide: true, ordering: false, info: false,
+        footerCallback: function(row, data, start, end, display){
+          var api = this.api(), data, total = 0;
+
+          var intVal = function(i){
+            return typeof i === 'string' ?
+                i.replace(/[\$,]/g, '')*1 :
+                typeof i === 'number' ?
+                    i : 0;
+          };
+
+          if (data.length > 0) {          
+              total = api.column(3).data().reduce(function(a, b){
+                      return parseFloat(a) + parseFloat(b);
+                    });
+          }
+          // Update footer
+          var numFormat = $.fn.dataTable.render.number('.').display
+          $(api.column(3).footer()).find('#sub_total').html(
+            'Rp. ' + numFormat(total)
+          );
+        },
         ajax: {
           "url" : "{{ route('transaksi_pembelian.index') }}",
           "data": {
@@ -127,6 +154,9 @@
         },
         "language": {
           "emptyTable": "Belum ada pembelian bulan ini"
+        },
+        drawCallback:function(setting){
+          $('#sub_total').html(setting.json.total_harga);
         },
         columnDefs: [
           {
@@ -144,9 +174,9 @@
           {data:'created_at', name:'created_at'},
           {data:'nama_supplier', name:'nama_supplier'},
           {data:'no_nota', name:'no_nota'},
-          {data:'sub_total', name:'sub_total'},
-          {data:'bayar', name:'bayar'},
-          {data:'hutang', name:'hutang'},
+          {data:'total', render: $.fn.dataTable.render.number('.', '.', 0, 'Rp. ' )},
+          {data:'bayar', render: $.fn.dataTable.render.number('.', '.', 0, 'Rp. ' )},
+          {data:'hutang', render: $.fn.dataTable.render.number('.', '.', 0, 'Rp. ' )},
           {data:'keterangan', name:'keterangan'},
           {data:'action', name:'action', orderable: false, searchable: false},
         ],

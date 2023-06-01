@@ -18,7 +18,7 @@ class CreatePembelianDetailTable extends Migration
             $table->integer('id_pembelian');
             $table->integer('id_akun');
             $table->string('uraian');
-            $table->integer('jumlah');
+            $table->double('jumlah');
             $table->string('satuan');
             $table->integer('harga');
             $table->integer('sub_total');

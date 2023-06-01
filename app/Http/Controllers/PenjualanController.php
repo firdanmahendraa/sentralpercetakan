@@ -39,7 +39,7 @@ class PenjualanController extends Controller{
                 return $item->customer['nama_pelanggan'];
             })
             ->addColumn('total_harga', function($item) {
-                return 'Rp. '. format_uang($item->total_harga);
+                return $item->total_harga;
             })
             ->addColumn('diterima', function($item) {
                 return 'Rp. '. format_uang($item->diterima);
@@ -61,7 +61,7 @@ class PenjualanController extends Controller{
             return $data;
         }
 
-        $harga_akhir = Penjualan::sum('harga_akhir');
+        $harga_akhir = $penjualan->sum('harga_akhir');
         $diterima    = Penjualan::sum('diterima');
         $diskon    = Penjualan::sum('diskon');
         $piutang    = Penjualan::sum('piutang');
