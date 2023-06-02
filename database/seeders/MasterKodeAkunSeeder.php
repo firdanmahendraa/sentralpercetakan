@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\KodeAkun;
 
-class KodeAkunSeeder extends Seeder
+class MasterKodeAkunSeeder extends Seeder
 {
     /**
      * Run the database seeds.
