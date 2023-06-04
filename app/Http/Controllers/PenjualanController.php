@@ -42,13 +42,13 @@ class PenjualanController extends Controller{
                 return $item->total_harga;
             })
             ->addColumn('diterima', function($item) {
-                return 'Rp. '. format_uang($item->diterima);
+                return $item->diterima;
             })
             ->addColumn('diskon', function($item) {
-                return 'Rp. '. format_uang($item->diskon);
+                return $item->diskon;
             })
             ->addColumn('piutang', function($item) {
-                return 'Rp. '. format_uang($item->piutang);
+                return $item->piutang;
             })
             ->addColumn('action', function($item){
                 return '<div class="btn-group">
@@ -60,12 +60,7 @@ class PenjualanController extends Controller{
             ->make(true);
             return $data;
         }
-
-        $harga_akhir = $penjualan->sum('harga_akhir');
-        $diterima    = Penjualan::sum('diterima');
-        $diskon    = Penjualan::sum('diskon');
-        $piutang    = Penjualan::sum('piutang');
-        return view('pages.penjualan.index', compact('harga_akhir', 'diterima', 'diskon', 'piutang'));
+        return view('pages.penjualan.index');
     }
 
     public function store(Request $request){

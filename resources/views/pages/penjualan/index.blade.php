@@ -48,7 +48,7 @@
                   <tfoot>
                     <tr>
                       <th class="text-right" colspan="4"><span id="harga_akhir"></span></th>
-                      <th class="text-right"><span class="uang_muka"></span></th>
+                      <th class="text-right"><span id="uang_muka"></span></th>
                       <th class="text-right"><span id="diskon"></span></th>
                       <th class="text-right"><span id="piutang"></span></th>
                       <th colspan="2"></th>
@@ -83,7 +83,7 @@
       table = $('.tablePenjualan').DataTable({
         processing: true, serverSide: true, ordering: false,info: false,
         footerCallback: function(row, data, start, end, display){
-          var api = this.api(), data, total = 0, total1 = 0;
+          var api = this.api(), data, totalJumlah = 0, totalDp = 0, totalDiskon = 0, totalPiutang = 0;
 
           var intVal = function(i){
             return typeof i === 'string' ?
@@ -94,14 +94,35 @@
 
           if (data.length > 0) {  
             // console.log(api,data)          
-              total = api.column(3).data().reduce(function(a, b){
-                      return parseFloat(a) + parseFloat(b);
-                    });
+            totalJumlah = api.column(3).data().reduce(function(a, b){
+              return parseFloat(a) + parseFloat(b);
+            });
+
+            totalDp = api.column(4).data().reduce(function(a, b){
+              return parseFloat(a) + parseFloat(b);
+            });
+
+            totalDiskon = api.column(5).data().reduce(function(a, b){
+              return parseFloat(a) + parseFloat(b);
+            });
+
+            totalPiutang = api.column(6).data().reduce(function(a, b){
+              return parseFloat(a) + parseFloat(b);
+            });
           }
           // Update footer
           var numFormat = $.fn.dataTable.render.number('.').display
-          $(api.column(0).footer()).find('#harga_akhir').html(
-            'Rp. ' + numFormat(total)
+          $(api.column(3).footer()).find('#harga_akhir').html(
+            'Rp. ' + numFormat(totalJumlah)
+          );
+          $(api.column(4).footer()).find('#uang_muka').html(
+            'Rp. ' + numFormat(totalDp)
+          );
+          $(api.column(5).footer()).find('#diskon').html(
+            'Rp. ' + numFormat(totalDiskon)
+          );
+          $(api.column(6).footer()).find('#piutang').html(
+            'Rp. ' + numFormat(totalPiutang)
           );
         },
         ajax: {
@@ -129,13 +150,14 @@
           {data:'created_at', name:'created_at'},
           {data:'no_nota', name:'no_nota'},
           {data:'nama_pelanggan', name:'nama_pelanggan'},
-          {
-            data:'total_harga', 
-            name:'total_harga',
+          {data:'total_harga', 
             render: $.fn.dataTable.render.number('.', '.', 0, 'Rp. ' )},
-          {data:'diterima', name:'diterima'},
-          {data:'diskon', name:'diskon'},
-          {data:'piutang', name:'piutang'},
+          {data:'diterima', 
+            render: $.fn.dataTable.render.number('.', '.', 0, 'Rp. ' )},
+          {data:'diskon', 
+            render: $.fn.dataTable.render.number('.', '.', 0, 'Rp. ' )},
+          {data:'piutang', 
+            render: $.fn.dataTable.render.number('.', '.', 0, 'Rp. ' )},
           {data:'keterangan', name:'keterangan'},
           {data:'action', name:'action'},
         ],

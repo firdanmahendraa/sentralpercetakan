@@ -13,9 +13,6 @@
     .va-mid{
       vertical-align: middle!important;
     }
-    .tbPembelian tbody tr:last-child{
-      display: none;
-    }
   </style>
 
 @section('content')
@@ -63,8 +60,8 @@
                 <tfoot>
                   <tr>
                     <th class="text-right" colspan="4"><span id="sub_total"></span></th>
-                    <th class="text-right" id="tot_bayar"></th>
-                    <th class="text-right" id="tot_hutang"></th>
+                    <th class="text-right"><span id="tot_bayar"></span></th>
+                    <th class="text-right"><span id="tot_hutang"></span></th>
                     <th colspan="2"></th>
                   </tr>
                 </tfoot>
@@ -126,7 +123,7 @@
       table = $('.tbPembelian').DataTable({
         processing: true, serverSide: true, ordering: false, info: false,
         footerCallback: function(row, data, start, end, display){
-          var api = this.api(), data, total = 0;
+          var api = this.api(), data, total = 0, totalBayar = 0, totalHutang = 0;
 
           var intVal = function(i){
             return typeof i === 'string' ?
@@ -136,14 +133,26 @@
           };
 
           if (data.length > 0) {          
-              total = api.column(3).data().reduce(function(a, b){
-                      return parseFloat(a) + parseFloat(b);
-                    });
+            total = api.column(3).data().reduce(function(a, b){
+              return parseFloat(a) + parseFloat(b);
+            });          
+            totalBayar = api.column(4).data().reduce(function(a, b){
+              return parseFloat(a) + parseFloat(b);
+            });          
+            totalHutang = api.column(5).data().reduce(function(a, b){
+              return parseFloat(a) + parseFloat(b);
+            });
           }
           // Update footer
           var numFormat = $.fn.dataTable.render.number('.').display
           $(api.column(3).footer()).find('#sub_total').html(
             'Rp. ' + numFormat(total)
+          );
+          $(api.column(4).footer()).find('#tot_bayar').html(
+            'Rp. ' + numFormat(totalBayar)
+          );
+          $(api.column(5).footer()).find('#tot_hutang').html(
+            'Rp. ' + numFormat(totalHutang)
           );
         },
         ajax: {
