@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <link rel="icon" type="image/x-icon" href="{{ $setting->logo_aplikasi }}" />
-  <title>{{ $setting->nama_perusahaan }} | Login</title>
+@extends('layouts.auth')
 
-  <!-- Google Font: Source Sans Pro -->
-  @include('includes.style')
+@section('title', 'Login')
+
+@push('css')
   <style>
     .o-hiden{
       overflow: hidden;
@@ -27,14 +21,10 @@
       align-items: center;
       margin-bottom: 10px;
     }
-    .bg-login-image {
-      background: url( {{ $setting->bg_login }} );
-      background-position: center;
-      background-size: cover;
-    }
   </style>
-</head>
-<body class="hold-transition login-page">
+@endpush
+
+@section('content')
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card border-0 o-hiden shadow-lg">
@@ -44,7 +34,7 @@
         <div class="col-lg-6">
           <div class="login-form">
             <div class="text-center">
-              <img class="company-logo" src="{{ url($setting->logo_login) }}" alt="">
+              <img class="company-logo">
             </div>
             <p class="login-box-msg">Silahkan masuk terlebih dahulu</p>
             <form method="POST" action="/">
@@ -73,6 +63,7 @@
               </div>
               <div class="row">
                 <div class="col-md-5 offset-md-3">
+                  <a href="{{route('login_identify')}}">Lupa Password?</a>
                 </div>
                 <div class="col-md-4">
                   <button type="submit" class="btn btn-primary btn-block">Login</button>
@@ -86,7 +77,7 @@
     <!-- /.login-card-body -->
   </div>
 </div>
-<!-- /.login-box -->
+@endsection
 
 @include('includes.script')
 </body>

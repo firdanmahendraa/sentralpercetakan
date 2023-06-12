@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
-{
-    public function index()
-    {
-        return view('login');
+class LoginController extends Controller{
+    public function index(){
+        return view('pages.auth.login');
     }
 
-    public function authenticate(Request $request)
-    {
+    public function authenticate(Request $request){
         $credentials = $request->validate([
             'username' => ['required'],
             'password' => ['required'],
@@ -29,8 +27,7 @@ class LoginController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
-    {
+    public function logout(Request $request){
         Auth::logout();
 
         $request->session()->invalidate();

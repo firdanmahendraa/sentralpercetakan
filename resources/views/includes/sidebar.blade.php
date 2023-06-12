@@ -25,7 +25,7 @@
               <p>Dashboard</p>
             </a>
           </li>
-          @if ( @auth()->user()->levels == 'admin')
+          @if ( @auth()->user()->levels == 'Admin')
           <li class="nav-header">TRANSAKSI</li>
           <li class="nav-item {{request()->segment(1) == 'transaksi-baru' || 
                                 request()->segment(1) == 'transaksi-penjualan' || 

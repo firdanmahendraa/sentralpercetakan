@@ -1,6 +1,10 @@
 <?php
-use App\Http\Controllers\{
+use App\Http\Controllers\Auth\{
     LoginController,
+    ForgotPasswordController,
+    ResetPasswordController
+};
+use App\Http\Controllers\{
     DashboardController,
     KodeAkunController,
     ProdukController,
@@ -17,7 +21,6 @@ use App\Http\Controllers\{
     LapPiutangController,
     UsersController,
     SettingController
-
 }; 
 
 use Illuminate\Support\Facades\Route;
@@ -32,9 +35,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', [LoginController::class, 'index'])->middleware('guest')->name('login');
 Route::post('/', [LoginController::class, 'authenticate']);
+
+Route::middleware(['guest'])->group(function () {
+    Route::prefix('login')->group(function () {
+        Route::get('/indentify', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('login_identify');
+        Route::post('/send-email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('send_email');
+    });
+    Route::prefix('recover')->group(function () {
+        Route::get('/password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password_recover');
+        Route::post('/password', [ResetPasswordController::class, 'reset'])->name('password_update');
+    });
+});
+
 Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::middleware(['auth'])->group(function () {

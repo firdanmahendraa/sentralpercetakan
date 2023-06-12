@@ -1,11 +1,8 @@
 <div class="modal fade" id="modalUsers" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="modal-heading"></h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="modal-header text-center">
+        <h4 class="modal-title text-bold text-center" id="modal-heading" style="margin:0 auto"></h4>
       </div>
       <div class="modal-body">
         <form id="addForm">
@@ -13,9 +10,11 @@
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="Name">Nama Pengguna</label>
+                <label for="Name">Nama Lengkap</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama">
               </div>
+            </div>
+            <div class="col-sm-6">
               <div class="form-group">
                 <label for="Username">Username</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username">
@@ -23,12 +22,11 @@
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label>Levels</label>
-                <select class="form-control" name="levels">
-                  <option value="owner">Owner</option>
-                  <option value="admin">Admin</option>
-                </select>
+                <label for="Username">Email</label>
+                <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan email">
               </div>
+            </div>
+            <div class="col-sm-6">
               <div class="form-group">
                 <label for="Password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password">

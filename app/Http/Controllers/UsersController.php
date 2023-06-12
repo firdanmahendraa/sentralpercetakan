@@ -15,7 +15,7 @@ class UsersController extends Controller
             $allData = DataTables::of($users)
             ->addIndexColumn()
             ->addColumn('action', function($row){
-                if ($row->levels == "admin") {
+                if ($row->levels == "Admin") {
                     return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$row->id.'" data-original-title="Delete" class="delete btn btn-danger btn-sm deleteUser">Delete</a>
                     ';
                 }else{
@@ -34,8 +34,8 @@ class UsersController extends Controller
         User::create(
             ['name'=>$request->name,
              'username'=>$request->username,
-             'password'=>bcrypt($request->password),
-             'levels'=>$request->levels]
+             'email'=>$request->email,
+             'password'=>bcrypt($request->password)]
         );
         return response()->json(['success' => 'User Berhasil Disimpan']);
     }
