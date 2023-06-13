@@ -55,7 +55,7 @@ class LapPiutangController extends Controller{
 
         return view('pages.lap_piutang.index');
     }
-    
+
     public function pelunasan($id, $no_nota){
         $pelunasan  = Penjualan::with('customer')->find($id);
         // Jika Piutang = 0, Kembali ke halaman index
@@ -75,18 +75,28 @@ class LapPiutangController extends Controller{
             $piutang->id_penjualan = $request->id_penjualan;
             $piutang->id_akun = 122;
             $piutang->uraian = $request->uraian;
-            $piutang->debet = $request->debet;
+            if ($request->sisa >= 0) {
+                $piutang->debet = abs($request->tot_sisa);
+            }
+            else {
+                $piutang->debet = $request->debet;
+            }
             $piutang->opsi_pembayaran = $request->opsi_pembayaran;
             $piutang->save();
 
-            
+
             $updateTrans = Penjualan::find($request->id_penjualan);
             $now = Carbon::now()->format('d/m/Y');
-            $updateTrans->piutang = $updateTrans->piutang + $request->debet;
-            $updateTrans->keterangan = "Lunas (". $now .")" ;
+            if ($request->sisa >= 0) {
+                $updateTrans->piutang = $updateTrans->piutang + abs($request->tot_sisa);
+                $updateTrans->keterangan = "Lunas (". $now .")" ;
+            }
+            else {
+                $updateTrans->piutang = $request->sisa;
+            }
             $updateTrans->update();
 
-            DB::commit(); 
+            DB::commit();
             return response()->json('Transaksi Berhasil', 200);
         } catch (Exception $e) {
             DB::rollback();
@@ -100,7 +110,10 @@ class LapPiutangController extends Controller{
 
     public function processRepayment(Request $request){
         $this->repayment($request);
-        
-        return redirect()->route('laporan_piutang.index')->with(['success' => 'Transaksi LUNAS']);
+        $trans = Penjualan::find($request->id_penjualan);
+        $id      = $trans->id_penjualan;
+        $no_nota = $trans->no_nota;
+
+        return redirect()->route('transaksi-penjualan.show', array('id' => $id, 'no_nota' => $no_nota))->with(['success' => 'Transaksi LUNAS']);
     }
 }

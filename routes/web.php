@@ -21,7 +21,7 @@ use App\Http\Controllers\{
     LapPiutangController,
     UsersController,
     SettingController
-}; 
+};
 
 use Illuminate\Support\Facades\Route;
 
@@ -73,24 +73,24 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/destroy/{id}', [PenjualanTransaksi::class, 'destroy'])->name('transaksi-baru.destroy');
         Route::get('/loadform/{diskon}/{total}/{diterima}', [PenjualanTransaksi::class, 'loadForm'])->name('transaksi-detail.load_form');
         Route::get('/getcustomer', [PenjualanTransaksi::class, 'getCustomer'])->name('transaksi-detail.get_customer');
-        Route::get('/cart', [PenjualanTransaksi::class, 'transactionCart'])->name('transaksi-baru.cart');        
+        Route::get('/cart', [PenjualanTransaksi::class, 'transactionCart'])->name('transaksi-baru.cart');
     });
-    
+
     Route::prefix('transaksi-pembelian')->group(function () {
-        Route::get('/', [PembelianController::class, 'index'])->name('transaksi_pembelian.index');  
+        Route::get('/', [PembelianController::class, 'index'])->name('transaksi_pembelian.index');
         Route::get('/getdata', [PembelianController::class, 'data'])->name('transaksi_pembelian.getdata');
-        Route::get('/getsupplier', [PembelianController::class, 'getSupplier'])->name('transaksi_pembelian.getsupplier');   
+        Route::get('/getsupplier', [PembelianController::class, 'getSupplier'])->name('transaksi_pembelian.getsupplier');
         Route::get('/getakun', [PembelianController::class, 'getAkun'])->name('transaksi_pembelian.getakun');
-        Route::post('/generate-pembelian-form', [PembelianController::class, 'generatePembelianForm'])->name('transaksi_pembelian.generatepembelianform');       
-        Route::get('/input/{id}', [PembelianController::class, 'inputPembelianForm'])->name('transaksi_pembelian.inputpembelianform');   
-        Route::post('/addproduct', [PembelianController::class, 'addProduct'])->name('transaksi_pembelian.addproduct');  
+        Route::post('/generate-pembelian-form', [PembelianController::class, 'generatePembelianForm'])->name('transaksi_pembelian.generatepembelianform');
+        Route::get('/input/{id}', [PembelianController::class, 'inputPembelianForm'])->name('transaksi_pembelian.inputpembelianform');
+        Route::post('/addproduct', [PembelianController::class, 'addProduct'])->name('transaksi_pembelian.addproduct');
         Route::get('/cart', [PembelianController::class, 'transactionCart'])->name('transaksi_pembelian.cart');
-        Route::get('/loadform/{total}/{diterima}', [PembelianController::class, 'loadForm'])->name('transaksi_pembelian.load_form');  
+        Route::get('/loadform/{total}/{diterima}', [PembelianController::class, 'loadForm'])->name('transaksi_pembelian.load_form');
         Route::get('/show/{id}', [PembelianController::class, 'show'])->name('transaksi_pembelian.show');
-        Route::post('/update/{id}', [PembelianController::class, 'update'])->name('transaksi_pembelian.update');       
-        Route::delete('/destroy/{id}', [PembelianController::class, 'destroy'])->name('transaksi_pembelian.destroy');    
+        Route::post('/update/{id}', [PembelianController::class, 'update'])->name('transaksi_pembelian.update');
+        Route::delete('/destroy/{id}', [PembelianController::class, 'destroy'])->name('transaksi_pembelian.destroy');
         Route::post('/store', [PembelianController::class, 'store'])->name('transaksi_pembelian.store');
-        Route::post('/processing', [PembelianController::class, 'transactionProcess'])->name('transaksi_pembelian.process_repayment');    
+        Route::post('/processing', [PembelianController::class, 'transactionProcess'])->name('transaksi_pembelian.process_repayment');
         Route::get('/detail/{id}', [PembelianController::class, 'detailPembelian'])->name('transaksi_pembelian.detail');
     });
 
@@ -109,7 +109,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/update/{id}', [ProdukController::class, 'update'])->name('data-produk.update');
         Route::delete('/destroy/{id}', [ProdukController::class, 'destroy'])->name('data-produk.destroy');
     });
-    
+
     Route::prefix('opsi-pembayaran')->group(function () {
         Route::get('/', [OpsiPembayaranController::class, 'index'])->name('opsi-pembayaran.index');
         Route::post('/store', [OpsiPembayaranController::class, 'store'])->name('opsi-pembayaran.store');
@@ -117,13 +117,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/update/{id}', [OpsiPembayaranController::class, 'update'])->name('opsi-pembayaran.update');
         Route::delete('/destroy/{id}', [OpsiPembayaranController::class, 'destroy'])->name('opsi-pembayaran.destroy');
     });
-    
+
     Route::prefix('data-pelanggan')->group(function () {
         Route::get('/', [CustomerController::class, 'index'])->name('data-pelanggan.index');
         Route::post('/store', [CustomerController::class, 'store'])->name('data-pelanggan.store');
         Route::get('/show/{id}', [CustomerController::class, 'show'])->name('data-pelanggan.show');
         Route::post('/update/{id}', [CustomerController::class, 'update'])->name('data-pelanggan.update');
-        Route::delete('/destroy/{id}', [CustomerController::class, 'destroy'])->name('data-pelanggan.destroy');      
+        Route::delete('/destroy/{id}', [CustomerController::class, 'destroy'])->name('data-pelanggan.destroy');
     });
 
     Route::prefix('data-supplier')->group(function () {
@@ -131,7 +131,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store', [SupplierController::class, 'store'])->name('data-supplier.store');
         Route::get('/show/{id}', [SupplierController::class, 'show'])->name('data-supplier.show');
         Route::post('/update/{id}', [SupplierController::class, 'update'])->name('data-supplier.update');
-        Route::delete('/destroy/{id}', [SupplierController::class, 'destroy'])->name('data-supplier.destroy');     
+        Route::delete('/destroy/{id}', [SupplierController::class, 'destroy'])->name('data-supplier.destroy');
     });
 
     //LAPORAN
@@ -139,7 +139,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [LapPendapatanController::class, 'index'])->name('laporan_pendapatan.index');
         Route::get('/data', [LapPendapatanController::class, 'data'])->name('laporan_pendapatan.data');
     });
-    
+
     Route::prefix('laporan-pembelian')->group(function () {
         Route::get('/', [LapPembelianController::class, 'index'])->name('laporan_pembelian.index');
         Route::get('/data', [LapPembelianController::class, 'data'])->name('laporan_pembelian.data');
@@ -165,7 +165,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('setting')->group(function () {
         Route::get('/', [SettingController::class, 'index'])->name('setting.index');
         Route::get('/show', [SettingController::class, 'show'])->name('setting.show');
-        Route::post('/update', [SettingController::class, 'update'])->name('setting.update'); 
+        Route::post('/update', [SettingController::class, 'update'])->name('setting.update');
     });
 });
 

@@ -72,17 +72,17 @@ class LapHutangController extends Controller{
                 $trans_det->setTable('tb_bkk');
                 $trans_det->save();
             });
-            
+
             $now = Carbon::now()->format('d/m/Y');
             PembelianDetail::where(['keterangan'=>'hutang','id_pembelian' => $request->id])->update(['keterangan'=>'lunas']);
-                
+
             $updateTrans = Pembelian::find($request->id);
             // dd($updateTrans->hutang);
             $updateTrans->hutang = $updateTrans->hutang + $request->debet;
-            $updateTrans->keterangan = "Lunas (".$request->opsi_pembayaran."-".$now.")" ;
+            $updateTrans->keterangan = "Lunas (".$request->opsi_pembayaran."/".$now.")" ;
             $updateTrans->update();
 
-            DB::commit(); 
+            DB::commit();
             return response()->json('Transaksi Berhasil', 200);
         } catch (Exception $e) {
             DB::rollback();
@@ -96,7 +96,7 @@ class LapHutangController extends Controller{
 
     public function processRepayment(Request $request){
         $this->repayment($request);
-        
+
         return redirect()->route('laporan_hutang.index')->with(['success' => 'Transaksi LUNAS']);
     }
 }

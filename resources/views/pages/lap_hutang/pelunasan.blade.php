@@ -13,7 +13,7 @@
   #tableDetail tbody tr:last-child{
     display: none;
   }
-  
+
   @media(max-width: 768px){
     .tampil-bayar{
       font-size: 3em;
@@ -37,7 +37,7 @@
   .form-payment::selection {
     color: yellow;
   }
-  
+
   .form-payment2 {
     font-size: 26px;
     font-weight: 700;
@@ -139,7 +139,7 @@
                     </div>
                     <div class="col-md-9">
                       <select name="opsi_pembayaran" class="form-control">
-                          <option value="tunai">Tunai</option>
+                          <option value="Tunai">Tunai</option>
                         @foreach ($opsi_pembayaran as $item)
                           <option value="{{ $item->opsi_pembayaran }}">{{ $item->opsi_pembayaran }} - {{ $item->nomor_rekening }} A/n {{ $item->atas_nama }}</option>
                         @endforeach
@@ -158,7 +158,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="card-footer text-right" style="background-color: #fff">
               <button class="btn btn-sm btn-simpan" type="submit"><i class="fa fa-shopping-cart"></i> Lunasi</button>
             </div>

@@ -120,8 +120,8 @@
                           @endif
                           <b>Rp. {{ format_uang($penjualan->harga_akhir) }}</b> <br>
                           @if ($total_bayar < $penjualan->harga_akhir)
-                          Rp. {{ format_uang($bayar_awal) }} <br>
-                          Rp. {{ format_uang($penjualan->kembali) }}
+                          Rp. {{ format_uang($total_bayar) }} <br>
+                          Rp. {{ format_uang($total_bayar - $penjualan->harga_akhir) }}
                           @else
                           <h2><b>LUNAS</b></h2>
                           @endif

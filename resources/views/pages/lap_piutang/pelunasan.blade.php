@@ -13,7 +13,7 @@
   #tableDetail tbody tr:last-child{
     display: none;
   }
-  
+
   @media(max-width: 768px){
     .tampil-bayar{
       font-size: 3em;
@@ -37,7 +37,7 @@
   .form-payment::selection {
     color: yellow;
   }
-  
+
   .form-payment2 {
     font-size: 26px;
     font-weight: 700;
@@ -134,7 +134,9 @@
                       <label for="" class="col-form-label " style="text-align:right">Sisa Tagihan</label>
                     </div>
                     <div class="col-md-9">
-                      <input type="text" class="form-control form-payment" value="Rp. {{ format_uang($pelunasan->kembali) }}" readonly>
+                      <input type="text" class="form-control form-payment" value="Rp. {{ format_uang($pelunasan->piutang) }}" readonly>
+                      <input type="hidden" id="tot_sisa" name="tot_sisa" value="{{$pelunasan->piutang}}">
+                      <input type="hidden" id="sisa" name="sisa">
                     </div>
                   </div>
                   <div class="row mb-2">
@@ -155,16 +157,23 @@
                       <label for="" class="col-form-label" style="text-align:right">Jumlah Bayar *</label>
                     </div>
                     <div class="col-md-9">
-                      <input type="text" id="sisa" class="form-control form-payment2" value="Rp. {{format_uang($sisa_tagihan)}}" readonly>
-                      <input type="hidden" class="form-control" name="debet" value="{{ $sisa_tagihan }}">
+                      <input type="text" name="debet" class="form-control mb-2" onkeyup="calculate(this.value);">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3 text-right">
+                      <label for="" class="col-form-label" style="text-align:right">Kembali *</label>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="text" id="sisa-tagihan" class="form-control form-payment2" value="Rp. {{format_uang($sisa_tagihan)}}" readonly>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <div class="card-footer text-right" style="background-color: #fff">
-              <button class="btn btn-sm btn-simpan" type="submit"><i class="fa fa-shopping-cart"></i> Lunasi</button>
+              <button class="btn btn-sm btn-simpan" type="submit"><i class="fa fa-shopping-cart"></i> Bayar</button>
             </div>
             </form>
           </div>
@@ -172,4 +181,22 @@
       </div>
     </div>
   </section>
+@endsection
+
+@section('js')
+<script>
+
+    function calculate(value) {
+        var set_sisa = value - Math.abs(document.getElementById('tot_sisa').value);
+
+        var	reverse = set_sisa.toString().split('').reverse().join(''),
+            ribuan 	= reverse.match(/\d{1,3}/g);
+            ribuan	= ribuan.join('.').split('').reverse().join('');
+
+        // Cetak hasil
+        document.getElementById('sisa-tagihan').value = 'Rp. ' + ribuan;
+        document.getElementById('sisa').value = set_sisa;
+
+    }
+</script>
 @endsection
