@@ -162,7 +162,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-3 text-right">
-                      <label for="" class="col-form-label" style="text-align:right">Kembali *</label>
+                      <label for="" class="col-form-label" style="text-align:right">Sisa *</label>
                     </div>
                     <div class="col-md-9">
                       <input type="text" id="sisa-tagihan" class="form-control form-payment2" value="Rp. {{format_uang($sisa_tagihan)}}" readonly>

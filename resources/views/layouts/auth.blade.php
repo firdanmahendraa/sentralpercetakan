@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <link rel="icon" type="image/x-icon" href="{{ $setting->logo_aplikasi }}" />
+  <link rel="icon" type="image/x-icon" href="{{ url("/").$setting->logo_aplikasi }}" />
   <title>{{ $setting->nama_perusahaan }} | @yield('title')</title>
 
   <!-- Google Font: Source Sans Pro -->

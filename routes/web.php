@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [LoginController::class, 'index'])->middleware('guest')->name('login');
-Route::post('/', [LoginController::class, 'authenticate']);
+Route::post('/login', [LoginController::class, 'authenticate'])->name('auth');
 
 Route::middleware(['guest'])->group(function () {
     Route::prefix('login')->group(function () {

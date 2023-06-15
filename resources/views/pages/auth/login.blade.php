@@ -37,7 +37,7 @@
               <img class="company-logo">
             </div>
             <p class="login-box-msg">Silahkan masuk terlebih dahulu</p>
-            <form method="POST" action="/">
+            <form method="POST" action="{{route('auth')}}">
             @csrf
               <div class="row mb-3">
                 <label for="username" class="col-md-3 col-form-label text-md-end">Username</label>
@@ -75,6 +75,20 @@
       </div>
     </div>
     <!-- /.login-card-body -->
+  </div>
+
+  <div class="card mt-2">
+    <div class="card-header">
+      <h3 class="card-title">Semoga Bermanfaat</h3>
+    </div>
+    <div class="card-body">
+      <p class="mb-0">Admin</p>
+      <small>Username: admin <br>
+            Password: admin1 </small>
+            <p class="mb-0">Manager</p>
+      <small>Username: owner <br>
+            Password: owner </small>
+    </div>
   </div>
 </div>
 @endsection
