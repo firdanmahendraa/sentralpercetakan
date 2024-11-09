@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call([
             SettingTableSeeder::class,
-            Users::class,
+            UsersSeeder::class,
             MasterKodeAkunSeeder::class,
+            MasterProdukSeeder::class,
             MasterOpsiPembayaranSeeder::class,
             MasterCustomerSeeder::class,
             MasterSupplierSeeder::class,
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
             PenjualanSeeder::class,
             PenjualanDetailSeeder::class,
             KasMasukSeeder::class,
+            KasKeluarSeeder::class,
         ]);
 
     }

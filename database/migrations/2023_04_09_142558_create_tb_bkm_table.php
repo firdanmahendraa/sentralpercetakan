@@ -17,6 +17,8 @@ class CreateTbBkmTable extends Migration
             $table->id();
             $table->integer('id_penjualan')->nullable();
             $table->integer('id_kas_masuk')->nullable();
+            $table->integer('id_akun');
+            $table->string('uraian');
             $table->integer('debet');
             $table->string('opsi_pembayaran');
             $table->timestamps();

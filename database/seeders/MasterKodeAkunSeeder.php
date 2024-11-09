@@ -16,107 +16,107 @@ class MasterKodeAkunSeeder extends Seeder
     {
         $akun = [
             [
-                'kode_kategori' => '100',
-                'nama_kategori' => 'KAS',
+                'id' => '100',
+                'nama_akun' => 'KAS',
             ],[
-                'kode_kategori' => '101',
-                'nama_kategori' => 'KSA',
+                'id' => '101',
+                'nama_akun' => 'KSA',
             ],[
-                'kode_kategori' => '102',
-                'nama_kategori' => 'Bank Jatim',
+                'id' => '102',
+                'nama_akun' => 'Bank Jatim',
             ],[
-                'kode_kategori' => '103',
-                'nama_kategori' => 'BCA',
+                'id' => '103',
+                'nama_akun' => 'BCA',
             ],[
-                'kode_kategori' => '104',
-                'nama_kategori' => 'Hutang Tunai',
+                'id' => '104',
+                'nama_akun' => 'Hutang Tunai',
             ],[
-                'kode_kategori' => '105',
-                'nama_kategori' => 'Hutang Usaha',
+                'id' => '105',
+                'nama_akun' => 'Hutang Usaha',
             ],[
-                'kode_kategori' => '106',
-                'nama_kategori' => 'Hutang Lain-Lain',
+                'id' => '106',
+                'nama_akun' => 'Hutang Lain-Lain',
             ],[
-                'kode_kategori' => '107',
-                'nama_kategori' => 'Hutang Saham',
+                'id' => '107',
+                'nama_akun' => 'Hutang Saham',
             ],[
-                'kode_kategori' => '250',
-                'nama_kategori' => 'Uang Muka',
+                'id' => '250',
+                'nama_akun' => 'Uang Muka',
             ],[
-                'kode_kategori' => '122',
-                'nama_kategori' => 'Piutang Usaha',
+                'id' => '122',
+                'nama_akun' => 'Piutang Usaha',
             ],[
-                'kode_kategori' => '125',
-                'nama_kategori' => 'Piutang Karyawan',
+                'id' => '125',
+                'nama_akun' => 'Piutang Karyawan',
             ],[
-                'kode_kategori' => '126',
-                'nama_kategori' => 'Piutang Lain-Lain',
+                'id' => '126',
+                'nama_akun' => 'Piutang Lain-Lain',
             ],[
-                'kode_kategori' => '140',
-                'nama_kategori' => 'Inventaris',
+                'id' => '140',
+                'nama_akun' => 'Inventaris',
             ],[
-                'kode_kategori' => '151',
-                'nama_kategori' => 'Bahan Baku',
+                'id' => '151',
+                'nama_akun' => 'Bahan Baku',
             ],[
-                'kode_kategori' => '152',
-                'nama_kategori' => 'Bahan Penolong',
+                'id' => '152',
+                'nama_akun' => 'Bahan Penolong',
             ],[
-                'kode_kategori' => '153',
-                'nama_kategori' => 'Bahan Pembersih',
+                'id' => '153',
+                'nama_akun' => 'Bahan Pembersih',
             ],[
-                'kode_kategori' => '620',
-                'nama_kategori' => 'Biaya Komisi',
+                'id' => '620',
+                'nama_akun' => 'Biaya Komisi',
             ],[
-                'kode_kategori' => '640',
-                'nama_kategori' => 'Biaya Promosi',
+                'id' => '640',
+                'nama_akun' => 'Biaya Promosi',
             ],[
-                'kode_kategori' => '700',
-                'nama_kategori' => 'Biaya Lembur',
+                'id' => '700',
+                'nama_akun' => 'Biaya Lembur',
             ],[
-                'kode_kategori' => '701',
-                'nama_kategori' => 'Biaya Gaji',
+                'id' => '701',
+                'nama_akun' => 'Biaya Gaji',
             ],[
-                'kode_kategori' => '702',
-                'nama_kategori' => 'Biaya Konsumsi',
+                'id' => '702',
+                'nama_akun' => 'Biaya Konsumsi',
             ],[
-                'kode_kategori' => '703',
-                'nama_kategori' => 'Biaya Perbaikan Kendaraan',
+                'id' => '703',
+                'nama_akun' => 'Biaya Perbaikan Kendaraan',
             ],[
-                'kode_kategori' => '703.1',
-                'nama_kategori' => 'Biaya Perbaikan Mesin',
+                'id' => '703.1',
+                'nama_akun' => 'Biaya Perbaikan Mesin',
             ],[
-                'kode_kategori' => '703.2',
-                'nama_kategori' => 'Biaya Perbaikan Bangunan',
+                'id' => '703.2',
+                'nama_akun' => 'Biaya Perbaikan Bangunan',
             ],[
-                'kode_kategori' => '704',
-                'nama_kategori' => 'Biaya Transportasi',
+                'id' => '704',
+                'nama_akun' => 'Biaya Transportasi',
             ],[
-                'kode_kategori' => '705',
-                'nama_kategori' => 'Biaya L.A.T',
+                'id' => '705',
+                'nama_akun' => 'Biaya L.A.T',
             ],[
-                'kode_kategori' => '707',
-                'nama_kategori' => 'Biaya Kantor',
+                'id' => '707',
+                'nama_akun' => 'Biaya Kantor',
             ],[
-                'kode_kategori' => '709',
-                'nama_kategori' => 'Biaya Produksi',
+                'id' => '709',
+                'nama_akun' => 'Biaya Produksi',
             ],[
-                'kode_kategori' => '710',
-                'nama_kategori' => 'Biaya Kirim',
+                'id' => '710',
+                'nama_akun' => 'Biaya Kirim',
             ],[
-                'kode_kategori' => '712',
-                'nama_kategori' => 'Biaya Lain-Lain',
+                'id' => '712',
+                'nama_akun' => 'Biaya Lain-Lain',
             ],[
-                'kode_kategori' => '713',
-                'nama_kategori' => 'Solar Pajak',
+                'id' => '713',
+                'nama_akun' => 'Solar Pajak',
             ],[
-                'kode_kategori' => '715',
-                'nama_kategori' => 'Pendapatan Peralatan',
+                'id' => '715',
+                'nama_akun' => 'Pendapatan Peralatan',
             ],[
-                'kode_kategori' => '716',
-                'nama_kategori' => 'Solar Genset',
+                'id' => '716',
+                'nama_akun' => 'Solar Genset',
             ],[
-                'kode_kategori' => '717',
-                'nama_kategori' => 'Pendapatan Lain-Lain',
+                'id' => '717',
+                'nama_akun' => 'Pendapatan Lain-Lain',
             ],
         ];
         foreach ($akun as $key => $value){

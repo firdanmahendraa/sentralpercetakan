@@ -169,3 +169,8 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
+Route::get('/route-cache', function() {
+    \Artisan::call('cache:clear');
+    \Artisan::call('route:cache');
+    return 'Routes cache cleared';
+});

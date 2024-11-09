@@ -19,7 +19,8 @@ class CreatePenjualanTable extends Migration
             $table->integer('id_pelanggan');
             $table->string('acc_desain');
             $table->integer('total_harga');
-            $table->tinyInteger('diskon')->nullable();
+            $table->integer('diskon')->nullable();
+            $table->integer('harga_akhir');
             $table->integer('diterima');
             $table->integer('kembali');
             $table->integer('piutang');
